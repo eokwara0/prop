@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from '../../../lib/services/user/user.service';
-import { IUser } from '@repo/api/index';
+import { IRole, ISession, IUser, IUserWithRoles } from '@repo/api/index';
 import { SignInData, SignupDto } from 'lib/types/auth.types';
 import { UserPassService } from 'lib/services/userpass/userpass.service';
 import bcrypt from 'bcrypt';
@@ -14,6 +14,8 @@ import { AccountService } from 'lib/services/account/account.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserType } from 'lib/types/app.types';
 import { UserTypeService } from 'lib/services/usertype/usertype.service';
+import { UserTypeActivityService } from 'lib/services/usertypeactivity/usertypeactivity.service';
+import { RoleService } from 'lib/services/role/role.service';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +23,9 @@ export class AuthService {
     private userService: UserService,
     private userPass: UserPassService,
     private accountService: AccountService,
-    private ut : UserTypeService,
+    private uta: UserTypeActivityService,
+    private ut: UserTypeService,
+    private ro: RoleService,
     private jwt: JwtService,
   ) {}
 
@@ -42,6 +46,33 @@ export class AuthService {
     return user;
   }
 
+  async getSessionAndUser(userId: string): Promise<IUserWithRoles> {
+    const u = await this.userService.getUserById(userId);
+    if (!u) {
+      throw new HttpException('user does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    const up = await this.userPass.getUserPass(u.id);
+    if (!up) {
+      throw new HttpException('user password not found', HttpStatus.NOT_FOUND);
+    }
+
+    const ut = await this.uta.getWithRelations(up.userTypeId);
+    if (!ut) {
+      throw new NotFoundException();
+    }
+
+    const rIds = JSON.parse(ut.roleIds.toString()) as number[];
+
+    // ✅ Wait for all roles to resolve
+    const rs = await Promise.all(rIds.map((x) => this.ro.getRoleById(x)));
+
+    return {
+      ...u,
+      roles: rs.filter(Boolean), // remove nulls if any role not found
+    } as IUserWithRoles;
+  }
+
   async signup(data: SignupDto): Promise<{ access_token: string }> | null {
     const u = await this.userService.getUserByEmail(data.email);
     if (u) {
@@ -58,13 +89,15 @@ export class AuthService {
       throw new HttpException('Internal Server Error', HttpStatus.BAD_GATEWAY);
     }
 
-    const us = (await this.ut.getAllUserTypes()).filter(x => x.name === UserType.Admin);
-    
+    const us = (await this.ut.getAllUserTypes()).filter(
+      (x) => x.name === UserType.Admin,
+    );
+
     const up = await this.userPass.createUserPass({
       userId: nu.id,
       isActive: true,
       passwordHash: hash,
-      userTypeId  : us[0].id,
+      userTypeId: us[0].id,
       passwordSalt: slt,
     });
     if (!up) {

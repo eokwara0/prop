@@ -1,8 +1,9 @@
 import { Model, RelationMappings } from "objection";
 import UserTypeModel from "./user.type.model";
-import RoleModel from "./role.model";
+import { IUserTypeActivity } from "@repo/api/index";
 
 class UserTypeActivityModel extends Model {
+
   static override get tableName(): string {
     return "user_type_activity";
   }
@@ -14,14 +15,17 @@ class UserTypeActivityModel extends Model {
   static override get jsonSchema() {
     return {
       type: "object",
-      required: ["userTypeId"],
+      required: ["userTypeId", "roleIds"],
       properties: {
         id: { type: "integer" },
         userTypeId: { type: "integer" },
+        roleIds: { type: "string" }, // JSON string
         createdAt: { type: "string", format: "date-time" },
       },
     };
   }
+
+  // Parse roleIds as JSON automatically
 
   static override get relationMappings(): RelationMappings {
     return {
@@ -31,18 +35,6 @@ class UserTypeActivityModel extends Model {
         join: {
           from: "user_type_activity.userTypeId",
           to: "user_type.id",
-        },
-      },
-      roles: {
-        relation: Model.ManyToManyRelation,
-        modelClass: RoleModel,
-        join: {
-          from: "user_type_activity.id",
-          through: {
-            from: "user_type_activity_role.user_type_activity_id",
-            to: "user_type_activity_role.role_id",
-          },
-          to: "role.id",
         },
       },
     };

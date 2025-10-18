@@ -6,6 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 import type {
+  AuthToken,
+  GetSessionAndUserResult,
   SignInData,
   SignupDto
 } from './domio.schemas';
@@ -27,7 +29,7 @@ const authControllerGetUsers = (
 const authControllerLogin = (
     signInData: SignInData,
  ) => {
-      return customInstanceMutator<void>(
+      return customInstanceMutator<AuthToken>(
       {url: `/auth/login`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: signInData
@@ -38,7 +40,7 @@ const authControllerLogin = (
 const authControllerSignup = (
     signupDto: SignupDto,
  ) => {
-      return customInstanceMutator<void>(
+      return customInstanceMutator<AuthToken>(
       {url: `/auth/signup`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: signupDto
@@ -49,7 +51,7 @@ const authControllerSignup = (
 const authControllerGetProfile = (
     
  ) => {
-      return customInstanceMutator<void>(
+      return customInstanceMutator<GetSessionAndUserResult>(
       {url: `/auth/profile`, method: 'GET'
     },
       );

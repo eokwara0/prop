@@ -65,12 +65,12 @@ export class UserTypeActivityService {
   }
 
   /** Optional: fetch activity with related roles and userType */
-  async getWithRelations(id: number) {
+  async getWithRelations(id: number) : Promise<IUserTypeActivity> {
     const record = await this.model.query()
-      .findById(id)
-      .withGraphFetched('[userType, roles]');
+      .findById(id);
 
     if (!record) throw new NotFoundException('UserTypeActivity not found');
-    return record.toJSON();
+    return record.toJSON() as IUserTypeActivity;
+
   }
 }

@@ -31,7 +31,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthToken"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -55,7 +62,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthToken"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -69,7 +83,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSessionAndUserResult"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -108,9 +129,112 @@
           "password"
         ]
       },
+      "AuthToken": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "access_token"
+        ]
+      },
       "SignupDto": {
         "type": "object",
         "properties": {}
+      },
+      "IGetSession": {
+        "type": "object",
+        "properties": {
+          "sessionToken": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "expires": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sessionToken",
+          "userId",
+          "expires"
+        ]
+      },
+      "GetSessionRole": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "id",
+          "createdAt"
+        ]
+      },
+      "GetSessionUserWithRoles": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "emailVerified": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetSessionRole"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "emailVerified",
+          "name",
+          "image",
+          "roles"
+        ]
+      },
+      "GetSessionAndUserResult": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "$ref": "#/components/schemas/IGetSession"
+          },
+          "user": {
+            "$ref": "#/components/schemas/GetSessionUserWithRoles"
+          }
+        },
+        "required": [
+          "session",
+          "user"
+        ]
       }
     }
   }

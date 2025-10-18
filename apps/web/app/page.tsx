@@ -1,36 +1,32 @@
+'use client'
 import Image, { type ImageProps } from 'next/image';
 import { Button } from '@repo/ui/button';
 import styles from './page.module.css';
+import { useEffect } from 'react';
+import { getDomio } from '../../../packages/ui/src/sdk';
 
 type Props = Omit<ImageProps, 'src'> & {
   srcLight: string;
   srcDark: string;
 };
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
 
 export default function Home() {
+  // useEffect(() => {
+  //   const call = async () => {
+  //      const ab = await getDomio().authControllerLogin({ email : 'favourprogrammer@gmail.com' ,password : '29uflkdajfkdja'});
+  //      console.log(ab.data);
+
+  //      const cb = await getDomio().authControllerGetProfile()
+  //      console.log(cb)
+  //   }
+
+  //   call()
+    
+  // },[])
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
         <ol>
           <li>
             Get started by editing <code>apps/web/app/page.tsx</code>

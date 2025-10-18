@@ -1,52 +1,34 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-// ✅ Create your custom axios instance
+// ✅ Client-side axios instance
 const customInstance: AxiosInstance = axios.create({
-  baseURL: process.env.NEST_DEV_API_URL || 'https://api.example.com',
+  baseURL: 'http://localhost:3002/',
+  'withCredentials' : true,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// ✅ Request interceptor — inject authorization token
+// ✅ Request interceptor (client-side)
 customInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const token = localStorage.getItem('access_token');
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+   return config
   },
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
-// ✅ Response interceptor — handle errors globally
 customInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error) => {
     const status = error.response?.status;
-
-    if (status === 401) {
-      // Optional: trigger logout or token refresh
-      console.warn('Unauthorized, redirecting to login...');
-      // e.g., window.location.href = '/login';
-    } else if (status >= 500) {
-      console.error('Server error:', error.response?.data || error.message);
-    }
-
+    if (status === 401) console.warn('Unauthorized, redirecting...');
     return Promise.reject(error);
   },
 );
 
-// ✅ Export a mutator function for Orval
 export const customInstanceMutator = async <T = unknown>(
   config: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> => {
-  return customInstance.request<T>(config);
-};
+): Promise<AxiosResponse<T>> => customInstance.request<T>(config);
 
-// ✅ Default export (for flexibility if needed)
 export default customInstance;
