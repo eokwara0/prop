@@ -11,5 +11,5 @@ export async function getProfileFromServer(): Promise<GetSessionAndUserResult | 
       Authorization: `Bearer ${token}`,
     },
   });
-  return (await res.json()) as GetSessionAndUserResult;
+  return (await res.json()) as GetSessionAndUserResult | null;
 }
