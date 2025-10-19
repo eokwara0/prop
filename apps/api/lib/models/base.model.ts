@@ -1,3 +1,3 @@
-import { Model } from "objection";
+import { Model } from 'objection';
 
-export class BaseModel extends Model{}
+export class BaseModel extends Model {}

@@ -3,7 +3,6 @@ import SessionModel from 'lib/models/session.model';
 import { KnexService } from '../knex/knex.service';
 import type { ISession } from '@repo/api/index';
 
-
 @Injectable()
 export class SessionService {
   private sessionModel: typeof SessionModel;
@@ -27,12 +26,16 @@ export class SessionService {
   /** Get all sessions for a user */
   async getSessionsByUserId(userId: string): Promise<ISession[]> {
     const sessions = await this.sessionModel.query().where('userId', userId);
-    return sessions.map(s => s.toJSON() as ISession);
+    return sessions.map((s) => s.toJSON() as ISession);
   }
 
   /** Update a session (e.g., extend expiration) */
-  async updateSession(sessionToken: string, data: Partial<ISession>): Promise<ISession> {
-    const updated = await this.sessionModel.query()
+  async updateSession(
+    sessionToken: string,
+    data: Partial<ISession>,
+  ): Promise<ISession> {
+    const updated = await this.sessionModel
+      .query()
       .patch(data)
       .where('sessionToken', sessionToken)
       .returning('*');
@@ -43,7 +46,8 @@ export class SessionService {
 
   /** Delete a session by sessionToken */
   async deleteSession(sessionToken: string): Promise<ISession> {
-    const deleted = await this.sessionModel.query()
+    const deleted = await this.sessionModel
+      .query()
       .delete()
       .where('sessionToken', sessionToken)
       .returning('*');
@@ -58,6 +62,6 @@ export class SessionService {
     if (!sessions.length) return [];
 
     await this.sessionModel.query().delete().where('userId', userId);
-    return sessions.map(s => s.toJSON() as ISession);
+    return sessions.map((s) => s.toJSON() as ISession);
   }
 }

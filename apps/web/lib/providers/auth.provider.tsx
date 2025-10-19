@@ -30,16 +30,16 @@ export function SessionProvider({
   const auth = useCallback(() => data, [data]);
 
   return (
-    <sessionProviderContext.Provider value={{ auth , data }}>
+    <sessionProviderContext.Provider value={{ auth, data }}>
       {children}
     </sessionProviderContext.Provider>
   );
 }
 
-export function auth()  {
-    const sessionContextData = useContext(sessionProviderContext);
-    if(!sessionContextData){
-        return undefined
-    }
-    return sessionContextData.data;
+export function auth() {
+  const sessionContextData = useContext(sessionProviderContext);
+  if (!sessionContextData) {
+    return undefined;
+  }
+  return sessionContextData.data;
 }

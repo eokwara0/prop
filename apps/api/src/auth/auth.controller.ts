@@ -54,7 +54,7 @@ export class AuthController {
     const token = await this.jwt.signAsync(payload);
     res.cookie('access_token', btoa(token), {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
     });
 

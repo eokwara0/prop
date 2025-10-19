@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { RoleSchema } from "./role.schema";
+import { z } from 'zod';
+import { RoleSchema } from './role.schema';
 
 export const IUserSchema = z.object({
   id: z.string(),
@@ -9,10 +9,9 @@ export const IUserSchema = z.object({
   image: z.string().url().nullable().optional(),
 });
 
-
-export const UserWithRoles  = IUserSchema.extend({
+export const UserWithRoles = IUserSchema.extend({
   roles: z.array(RoleSchema).nullable().optional(),
-})
+});
 // Type inference
 export type IUser = z.infer<typeof IUserSchema>;
 export type IUserWithRoles = z.infer<typeof UserWithRoles>;

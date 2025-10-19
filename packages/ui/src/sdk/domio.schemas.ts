@@ -14,7 +14,9 @@ export interface AuthToken {
   access_token: string;
 }
 
-export interface SignupDto { [key: string]: unknown }
+export interface SignupDto {
+  [key: string]: unknown;
+}
 
 export interface IGetSession {
   sessionToken: string;
@@ -42,4 +44,3 @@ export interface GetSessionAndUserResult {
   session: IGetSession;
   user: GetSessionUserWithRoles;
 }
-

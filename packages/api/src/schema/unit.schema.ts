@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const UnitSchema = z.object({
   id: z.string().uuid().optional(), // DB-generated
@@ -12,13 +12,16 @@ export const UnitSchema = z.object({
   petFriendly: z.boolean().default(false),
   hasBalcony: z.boolean().default(false),
   rentAmount: z.number().nonnegative(),
-  currency: z.string().default("ZAR"),
-  status: z.enum(["vacant", "occupied", "maintenance"]).default("vacant"),
-  availableFrom: z.string()
-    .refine((val) => !val || !isNaN(Date.parse(val)), { message: "Invalid date" })
+  currency: z.string().default('ZAR'),
+  status: z.enum(['vacant', 'occupied', 'maintenance']).default('vacant'),
+  availableFrom: z
+    .string()
+    .refine((val) => !val || !isNaN(Date.parse(val)), {
+      message: 'Invalid date',
+    })
     .nullable()
     .optional(),
-  
+
   // Tenants array (UUIDs)
   tenants: z.array(z.string().uuid()).default([]),
 

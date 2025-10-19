@@ -1,2 +1,2 @@
-export * from './domio'
-export * from './domio.schemas'
+export * from './domio';
+export * from './domio.schemas';

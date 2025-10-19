@@ -4,11 +4,9 @@ import { AppModule } from './app/app.module';
 import { writeFileSync } from 'fs';
 import cookieParser from 'cookie-parser';
 
-
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: process.env.NEXT_DEV_URL, credentials: true ,  });
+  app.enableCors({ origin: process.env.NEXT_DEV_URL, credentials: true });
 
   const config = new DocumentBuilder()
     .setTitle('Domio')
@@ -22,7 +20,7 @@ async function bootstrap() {
   // 👇 Export the spec as a JSON file
   writeFileSync('./openapi.json', JSON.stringify(documentFactory(), null, 2));
 
-  app.use(cookieParser())
+  app.use(cookieParser());
   await app.listen(process.env.NEST_API_PORT);
 }
 bootstrap();

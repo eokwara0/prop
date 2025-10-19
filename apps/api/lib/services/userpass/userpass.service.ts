@@ -5,7 +5,7 @@ import { IUserPass } from '@repo/api/index';
 
 export interface UserPassCreateDto {
   userId: string;
-  userTypeId : number;
+  userTypeId: number;
   passwordHash: string;
   passwordSalt?: string | null;
   isActive?: boolean;
@@ -16,7 +16,7 @@ export interface UserPassUpdateDto {
   passwordSalt?: string | null;
   isActive?: boolean;
   lastUsedAt?: string | null;
-  userTypeId : number
+  userTypeId: number;
 }
 
 @Injectable()
@@ -44,8 +44,12 @@ export class UserPassService {
   }
 
   /** Update a password record */
-  async updateUserPass(userId: string, data: UserPassUpdateDto): Promise<IUserPass> {
-    const updated = await this.userPassModel.query()
+  async updateUserPass(
+    userId: string,
+    data: UserPassUpdateDto,
+  ): Promise<IUserPass> {
+    const updated = await this.userPassModel
+      .query()
       .patch(data)
       .where('userId', userId)
       .returning('*');
@@ -56,7 +60,8 @@ export class UserPassService {
 
   /** Delete a password record */
   async deleteUserPass(userId: string): Promise<IUserPass> {
-    const deleted = await this.userPassModel.query()
+    const deleted = await this.userPassModel
+      .query()
       .delete()
       .where('userId', userId)
       .returning('*');

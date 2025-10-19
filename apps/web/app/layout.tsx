@@ -1,8 +1,9 @@
+import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import './globals.css';
 import { getProfileFromServer } from '../lib/auth/getserverprofile';
 import { SessionProvider } from '../lib/providers/auth.provider';
+import BannerProvider from '../../../packages/ui/src/components/banner/banner';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -26,8 +27,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <SessionProvider session={(await getProfileFromServer())}>
-        {children}
+        <SessionProvider session={await getProfileFromServer()}>
+          <BannerProvider>{children}</BannerProvider>
         </SessionProvider>
       </body>
     </html>

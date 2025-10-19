@@ -1,24 +1,24 @@
-import { Model, RelationMappings } from "objection";
-import UserTypeActivityModel from "./user.type.activity.model";
+import { Model, RelationMappings } from 'objection';
+import UserTypeActivityModel from './user.type.activity.model';
 
 class RoleModel extends Model {
   static override get tableName(): string {
-    return "role";
+    return 'role';
   }
 
   static override get idColumn(): string {
-    return "id";
+    return 'id';
   }
 
   static override get jsonSchema() {
     return {
-      type: "object",
-      required: ["name", "description"],
+      type: 'object',
+      required: ['name', 'description'],
       properties: {
-        id: { type: "integer" },
-        name: { type: "string", minLength: 1, maxLength: 255 },
-        description: { type: "string", minLength: 1, maxLength: 255 },
-        createdAt: { type: "string", format: "date-time" },
+        id: { type: 'integer' },
+        name: { type: 'string', minLength: 1, maxLength: 255 },
+        description: { type: 'string', minLength: 1, maxLength: 255 },
+        createdAt: { type: 'string', format: 'date-time' },
       },
     };
   }
@@ -30,8 +30,8 @@ class RoleModel extends Model {
         relation: Model.HasManyRelation,
         modelClass: UserTypeActivityModel,
         join: {
-          from: "role.id",
-          to: "user_type_activity.roleIds", // note: if using integer array
+          from: 'role.id',
+          to: 'user_type_activity.roleIds', // note: if using integer array
         },
       },
     };

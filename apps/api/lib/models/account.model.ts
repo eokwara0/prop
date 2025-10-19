@@ -15,7 +15,6 @@ class AccountModel extends Model implements IAccount {
   id_token?: string;
   session_state?: string;
 
-  
   static get tableName() {
     return 'account';
   }

@@ -1,23 +1,22 @@
-import { Model } from "objection";
+import { Model } from 'objection';
 
 class UserTypeModel extends Model {
-
   static override get tableName(): string {
-    return "user_type";
+    return 'user_type';
   }
 
   static override get idColumn(): string {
-    return "id";
+    return 'id';
   }
 
   static override get jsonSchema() {
     return {
-      type: "object",
-      required: ["name"],
+      type: 'object',
+      required: ['name'],
       properties: {
-        id: { type: "integer" },
-        name: { type: "string", minLength: 1, maxLength: 255 },
-        createdAt: { type: "string", format: "date-time" },
+        id: { type: 'integer' },
+        name: { type: 'string', minLength: 1, maxLength: 255 },
+        createdAt: { type: 'string', format: 'date-time' },
       },
     };
   }

@@ -4,10 +4,8 @@ import { AuthController } from './auth.controller';
 import { SServiceModule } from 'lib/services';
 
 @Module({
-  imports : [
-    SServiceModule
-  ],
-  controllers : [AuthController],
-  providers: [AuthService ],
+  imports: [SServiceModule],
+  controllers: [AuthController],
+  providers: [AuthService],
 })
 export class AuthModule {}

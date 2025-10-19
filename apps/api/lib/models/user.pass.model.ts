@@ -1,29 +1,28 @@
-import { Model } from "objection";
-import { UserModel } from "./user.model";
+import { Model } from 'objection';
+import { UserModel } from './user.model';
 // assuming you have a User model
 
 export default class UserPassModel extends Model {
-
   static get tableName() {
-    return "user_pass";
+    return 'user_pass';
   }
 
   static get idColumn() {
-    return "userId"; // since your migration sets userId as primary key
+    return 'userId'; // since your migration sets userId as primary key
   }
 
   static get jsonSchema() {
     return {
-      type: "object",
-      required: ["userId", "passwordHash", "passwordSalt"],
+      type: 'object',
+      required: ['userId', 'passwordHash', 'passwordSalt'],
       properties: {
-        userId: { type: "string" },
-        userTypeId : {type :["integer", "null"]},
-        passwordHash: { type: "string" },
-        passwordSalt: { type: ["string", "null"] },
-        isActive: { type: "boolean" },
-        createdAt: { type: "string", format: "date-time" },
-        lastUsedAt: { type: ["string", "null"], format: "date-time" },
+        userId: { type: 'string' },
+        userTypeId: { type: ['integer', 'null'] },
+        passwordHash: { type: 'string' },
+        passwordSalt: { type: ['string', 'null'] },
+        isActive: { type: 'boolean' },
+        createdAt: { type: 'string', format: 'date-time' },
+        lastUsedAt: { type: ['string', 'null'], format: 'date-time' },
       },
     };
   }
@@ -34,8 +33,8 @@ export default class UserPassModel extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: UserModel,
         join: {
-          from: "user_pass.userId",
-          to: "users.id",
+          from: 'user_pass.userId',
+          to: 'users.id',
         },
       },
     };

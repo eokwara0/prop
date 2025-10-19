@@ -38,12 +38,16 @@ export class UserTypeService {
   /** Get all user types */
   async getAllUserTypes(): Promise<IUserType[]> {
     const records = await this.userTypeModel.query();
-    return records.map(r => r.toJSON() as IUserType);
+    return records.map((r) => r.toJSON() as IUserType);
   }
 
   /** Update a user type */
-  async updateUserType(id: number, data: UserTypeUpdateDto): Promise<IUserType> {
-    const updated = await this.userTypeModel.query()
+  async updateUserType(
+    id: number,
+    data: UserTypeUpdateDto,
+  ): Promise<IUserType> {
+    const updated = await this.userTypeModel
+      .query()
       .patch(data)
       .where('id', id)
       .returning('*');
@@ -54,7 +58,8 @@ export class UserTypeService {
 
   /** Delete a user type */
   async deleteUserType(id: number): Promise<IUserType> {
-    const deleted = await this.userTypeModel.query()
+    const deleted = await this.userTypeModel
+      .query()
       .delete()
       .where('id', id)
       .returning('*');

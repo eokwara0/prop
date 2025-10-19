@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { UserTypeActivitySchema } from "./user.type.activity.schema";
+import { z } from 'zod';
+import { UserTypeActivitySchema } from './user.type.activity.schema';
 
 export const RoleSchema = z.object({
   id: z.number().int().optional(),

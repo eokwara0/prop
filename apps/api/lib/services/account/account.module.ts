@@ -3,7 +3,7 @@ import { AccountService } from './account.service';
 import { KnexService } from '../knex/knex.service';
 
 @Module({
-    providers : [AccountService , KnexService],
-    exports : [AccountService]
+  providers: [AccountService, KnexService],
+  exports: [AccountService],
 })
 export class AccountModule {}

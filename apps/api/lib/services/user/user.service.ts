@@ -47,12 +47,13 @@ export class UserService {
   /** Get all users */
   async getAllUsers(): Promise<IUser[]> {
     const users = await this.userModel.query();
-    return users.map(u => u.toJSON() as IUser);
+    return users.map((u) => u.toJSON() as IUser);
   }
 
   /** Update a user */
   async updateUser(id: string, data: UserUpdateDto): Promise<IUser> {
-    const updated = await this.userModel.query()
+    const updated = await this.userModel
+      .query()
       .patch(data)
       .where('id', id)
       .returning('*');
@@ -63,7 +64,8 @@ export class UserService {
 
   /** Delete a user */
   async deleteUser(id: string): Promise<IUser> {
-    const deleted = await this.userModel.query()
+    const deleted = await this.userModel
+      .query()
       .delete()
       .where('id', id)
       .returning('*');
@@ -73,7 +75,8 @@ export class UserService {
 
   /** Get a user with related roles */
   async getUserWithRoles(id: string): Promise<IUserWithRoles> {
-    const user = await this.userModel.query()
+    const user = await this.userModel
+      .query()
       .findById(id)
       .withGraphFetched('roles'); // Make sure relationMappings exists for roles
 
@@ -83,7 +86,8 @@ export class UserService {
 
   /** Optional: fetch all relations (accounts, sessions, authenticators) */
   async getUserWithRelations(id: string) {
-    const user = await this.userModel.query()
+    const user = await this.userModel
+      .query()
       .findById(id)
       .withGraphFetched('[accounts, sessions, authenticators]');
 

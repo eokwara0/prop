@@ -3,7 +3,7 @@ import { AuthenticatorService } from './authenticator.service';
 import { KnexService } from '../knex/knex.service';
 
 @Module({
-    exports : [AuthenticatorService,],
-    providers : [AuthenticatorService,KnexService]
+  exports: [AuthenticatorService],
+  providers: [AuthenticatorService, KnexService],
 })
 export class AuthenticatorModule {}

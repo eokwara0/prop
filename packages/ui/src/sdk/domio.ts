@@ -9,56 +9,57 @@ import type {
   AuthToken,
   GetSessionAndUserResult,
   SignInData,
-  SignupDto
+  SignupDto,
 } from './domio.schemas';
 
 import { customInstanceMutator } from '../httpclient';
 
+export const getDomio = () => {
+  const authControllerGetUsers = () => {
+    return customInstanceMutator<void>({ url: `/auth`, method: 'GET' });
+  };
 
+  const authControllerLogin = (signInData: SignInData) => {
+    return customInstanceMutator<AuthToken>({
+      url: `/auth/login`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: signInData,
+    });
+  };
 
-  export const getDomio = () => {
-const authControllerGetUsers = (
-    
- ) => {
-      return customInstanceMutator<void>(
-      {url: `/auth`, method: 'GET'
-    },
-      );
-    }
-  
-const authControllerLogin = (
-    signInData: SignInData,
- ) => {
-      return customInstanceMutator<AuthToken>(
-      {url: `/auth/login`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: signInData
-    },
-      );
-    }
-  
-const authControllerSignup = (
-    signupDto: SignupDto,
- ) => {
-      return customInstanceMutator<AuthToken>(
-      {url: `/auth/signup`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: signupDto
-    },
-      );
-    }
-  
-const authControllerGetProfile = (
-    
- ) => {
-      return customInstanceMutator<GetSessionAndUserResult>(
-      {url: `/auth/profile`, method: 'GET'
-    },
-      );
-    }
-  
-return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile}};
-export type AuthControllerGetUsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUsers']>>>
-export type AuthControllerLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerLogin']>>>
-export type AuthControllerSignupResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerSignup']>>>
-export type AuthControllerGetProfileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetProfile']>>>
+  const authControllerSignup = (signupDto: SignupDto) => {
+    return customInstanceMutator<AuthToken>({
+      url: `/auth/signup`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: signupDto,
+    });
+  };
+
+  const authControllerGetProfile = () => {
+    return customInstanceMutator<GetSessionAndUserResult>({
+      url: `/auth/profile`,
+      method: 'GET',
+    });
+  };
+
+  return {
+    authControllerGetUsers,
+    authControllerLogin,
+    authControllerSignup,
+    authControllerGetProfile,
+  };
+};
+export type AuthControllerGetUsersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUsers']>>
+>;
+export type AuthControllerLoginResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerLogin']>>
+>;
+export type AuthControllerSignupResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerSignup']>>
+>;
+export type AuthControllerGetProfileResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetProfile']>>
+>;

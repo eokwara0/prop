@@ -24,7 +24,7 @@ export class KnexService {
     });
   }
 
-  get instance():Knex{
+  get instance(): Knex {
     return this.knex;
   }
 }

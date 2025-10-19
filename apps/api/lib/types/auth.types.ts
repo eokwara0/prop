@@ -1,4 +1,4 @@
-import { ApiProperty, } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IRole, ISession, IUserWithRoles } from '@repo/api/index';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
 
@@ -24,8 +24,6 @@ export class AuthToken {
   @ApiProperty()
   access_token: string;
 }
-
-
 
 export class IGetSession implements ISession {
   @ApiProperty()
@@ -56,12 +54,9 @@ export class GetSessionUserWithRoles implements IUserWithRoles {
   name?: string;
   @ApiProperty()
   image?: string;
-  @ApiProperty({type : [GetSessionRole]})
-  roles?: Array<GetSessionRole>
+  @ApiProperty({ type: [GetSessionRole] })
+  roles?: Array<GetSessionRole>;
 }
-
-
-
 
 export class GetSessionAndUserResult {
   @ApiProperty()

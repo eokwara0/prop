@@ -5,14 +5,14 @@ import { KnexModule } from 'lib/services/knex/knex.module';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-    imports : [
-        AuthModule,
-        ConfigModule.forRoot(),
-        JwtModule.register({
-            global : true ,
-            secret : process.env.JWT,
-            signOptions : {expiresIn : '2d'}
-        })
-    ]
+  imports: [
+    AuthModule,
+    ConfigModule.forRoot(),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT,
+      signOptions: { expiresIn: '2d' },
+    }),
+  ],
 })
 export class AppModule {}

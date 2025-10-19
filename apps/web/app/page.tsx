@@ -1,6 +1,5 @@
-'use client'
+'use client';
 import Image, { type ImageProps } from 'next/image';
-import { Button } from '@repo/ui/button';
 import styles from './page.module.css';
 import { useEffect } from 'react';
 import { getDomio } from '../../../packages/ui/src/sdk';
@@ -9,7 +8,6 @@ type Props = Omit<ImageProps, 'src'> & {
   srcLight: string;
   srcDark: string;
 };
-
 
 export default function Home() {
   // useEffect(() => {
@@ -22,7 +20,7 @@ export default function Home() {
   //   }
 
   //   call()
-    
+
   // },[])
   return (
     <div className={styles.page}>
@@ -59,9 +57,7 @@ export default function Home() {
             Read our docs
           </a>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
+        <button className={styles.secondary}>Open alert</button>
       </main>
       <footer className={styles.footer}>
         <a

@@ -1,7 +1,5 @@
 import { cookies } from 'next/headers';
-import {
-  GetSessionAndUserResult,
-} from '../../../../packages/ui/src/sdk';
+import { GetSessionAndUserResult } from '../../../../packages/ui/src/sdk';
 
 export async function getProfileFromServer(): Promise<GetSessionAndUserResult | null> {
   const cookieStore = await cookies();

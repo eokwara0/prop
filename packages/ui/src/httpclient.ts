@@ -1,9 +1,14 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
 
 // ✅ Client-side axios instance
 const customInstance: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3002/',
-  'withCredentials' : true,
+  withCredentials: true,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -12,8 +17,8 @@ const customInstance: AxiosInstance = axios.create({
 
 // ✅ Request interceptor (client-side)
 customInstance.interceptors.request.use(
-   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-   return config
+  (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+    return config;
   },
   (error) => Promise.reject(error),
 );

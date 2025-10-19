@@ -18,7 +18,10 @@ export class VerificationTokenService {
   }
 
   /** Get a token by identifier and token value */
-  async getToken(identifier: string, token: string): Promise<IVerificationToken> {
+  async getToken(
+    identifier: string,
+    token: string,
+  ): Promise<IVerificationToken> {
     const record = await this.model.query().findOne({ identifier, token });
     if (!record) throw new NotFoundException('Verification token not found');
     return record.toJSON() as IVerificationToken;
@@ -27,7 +30,7 @@ export class VerificationTokenService {
   /** Find all tokens (optional, mostly for admin/debug) */
   async getAll(): Promise<IVerificationToken[]> {
     const records = await this.model.query();
-    return records.map(r => r.toJSON() as IVerificationToken);
+    return records.map((r) => r.toJSON() as IVerificationToken);
   }
 
   /** Delete a token after use */
@@ -38,7 +41,8 @@ export class VerificationTokenService {
       .where({ identifier, token })
       .returning('*');
 
-    if (!deleted.length) throw new NotFoundException('Verification token not found');
+    if (!deleted.length)
+      throw new NotFoundException('Verification token not found');
     return deleted[0].toJSON() as IVerificationToken;
   }
 

@@ -14,7 +14,7 @@ export class RoleService {
   /** Get all roles */
   async getAllRoles(): Promise<IRole[]> {
     const roles = await this.roleModel.query();
-    return roles.map(r => r.toJSON() as IRole);
+    return roles.map((r) => r.toJSON() as IRole);
   }
 
   /** Get a role by ID */
@@ -31,8 +31,12 @@ export class RoleService {
   }
 
   /** Update a role by ID */
-  async updateRole(id: number, data: Partial<Omit<IRole, 'id' | 'createdAt'>>): Promise<IRole> {
-    const updated = await this.roleModel.query()
+  async updateRole(
+    id: number,
+    data: Partial<Omit<IRole, 'id' | 'createdAt'>>,
+  ): Promise<IRole> {
+    const updated = await this.roleModel
+      .query()
       .patch(data)
       .where('id', id)
       .returning('*');
@@ -43,7 +47,8 @@ export class RoleService {
 
   /** Delete a role by ID */
   async deleteRole(id: number): Promise<IRole> {
-    const deleted = await this.roleModel.query()
+    const deleted = await this.roleModel
+      .query()
       .delete()
       .where('id', id)
       .returning('*');
@@ -54,7 +59,8 @@ export class RoleService {
 
   /** Get all user type activities associated with a role */
   async getRoleWithRelations(id: number): Promise<IRoleWithRelationsSchema> {
-    const role = await this.roleModel.query()
+    const role = await this.roleModel
+      .query()
       .findById(id)
       .withGraphFetched('userTypeActivities');
 

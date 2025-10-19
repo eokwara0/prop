@@ -4,7 +4,7 @@ import { KnexService } from 'lib/services/knex/knex.service';
 import { KnexModule } from 'lib/services/knex/knex.module';
 
 @Module({
-  providers: [UserService , KnexService]
-  ,exports : [UserService]
+  providers: [UserService, KnexService],
+  exports: [UserService],
 })
 export class UserModule {}

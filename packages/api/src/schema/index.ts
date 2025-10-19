@@ -1,5 +1,5 @@
-export * from  "./Iuser.schema";
-export * from "./account.schema";
+export * from './Iuser.schema';
+export * from './account.schema';
 export * from './authenticator.schema';
 export * from './lease.schema';
 export * from './property.schema';
