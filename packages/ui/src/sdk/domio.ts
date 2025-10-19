@@ -5,14 +5,46 @@
  * The domio property application
  * OpenAPI spec version: 1.0
  */
-import type {
-  AuthToken,
-  GetSessionAndUserResult,
-  SignInData,
-  SignupDto,
-} from './domio.schemas';
-
 import { customInstanceMutator } from '../httpclient';
+export interface SignInData {
+  email: string;
+  password: string;
+}
+
+export interface AuthToken {
+  access_token: string;
+}
+
+export interface SignupDto {
+  [key: string]: unknown;
+}
+
+export interface IGetSession {
+  sessionToken: string;
+  userId: string;
+  expires: string;
+}
+
+export interface GetSessionRole {
+  name: string;
+  description: string;
+  id: number;
+  createdAt: string;
+}
+
+export interface GetSessionUserWithRoles {
+  id: string;
+  email: string;
+  emailVerified: string;
+  name: string;
+  image: string;
+  roles: GetSessionRole[];
+}
+
+export interface GetSessionAndUserResult {
+  session: IGetSession;
+  user: GetSessionUserWithRoles;
+}
 
 export const getDomio = () => {
   const authControllerGetUsers = () => {

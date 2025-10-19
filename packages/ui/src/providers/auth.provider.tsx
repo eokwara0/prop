@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useState } from 'react';
-import { GetSessionAndUserResult } from '../../../../packages/ui/src/sdk';
+import { GetSessionAndUserResult } from '../sdk';
 
 export type SessionProviderContext = {
   data: GetSessionAndUserResult | null;

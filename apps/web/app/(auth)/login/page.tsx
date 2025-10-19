@@ -1,9 +1,9 @@
 'use client';
 import AppLogo from '../../../assets/logo/icon2.png';
 import Image from 'next/image';
-import { getDomio } from '../../../../../packages/ui/src';
 import { FormEvent, startTransition, useTransition } from 'react';
 import Loader from '@repo/ui/components/loader/loader';
+import { login } from '../../../../../packages/ui/src';
 
 export default function SignInPage({
   searchParams,
@@ -15,7 +15,7 @@ export default function SignInPage({
     e.preventDefault();
     startTransition(async () => {
       const formdata = new FormData(e.currentTarget);
-      const cc = await getDomio().authControllerLogin({
+      const cc = await login({
         email: formdata.get('email') as string,
         password: formdata.get('password') as string,
       });

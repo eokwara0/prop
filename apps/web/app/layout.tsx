@@ -2,17 +2,14 @@ import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { getProfileFromServer } from '../lib/auth/getserverprofile';
-import { SessionProvider } from '../lib/providers/auth.provider';
+import { SessionProvider } from '../../../packages/ui/src/providers/auth.provider';
 import BannerProvider from '../../../packages/ui/src/components/banner/banner';
+import {Inter} from 'next/font/google'
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-});
+const mono = Inter({
+  weight : "400",
+  subsets : ['latin']
+})
 
 export const metadata: Metadata = {
   title: 'Domio',
@@ -26,7 +23,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${mono.className}`}>
         <SessionProvider session={await getProfileFromServer()}>
           <BannerProvider>{children}</BannerProvider>
         </SessionProvider>
