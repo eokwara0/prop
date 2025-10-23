@@ -2,7 +2,7 @@
 import AppLogo from '../../../assets/logo/icon2.png';
 import Image from 'next/image';
 import { FormEvent, useCallback, useTransition } from 'react';
-import { getDomio, login } from '../../../../../packages/ui/src';
+import { getDomio, getUserId, login } from '../../../../../packages/ui/src';
 import { useRouter } from 'next/navigation';
 import { useBanner } from '../../../lib/components/banner/banner';
 import Modal from '../../../lib/components/banner/modal';
@@ -10,11 +10,7 @@ import Loader from '../../../lib/components/loader/loader';
 import { InfoComponent } from '../../../lib/components/banner/info';
 
 
-export default function SignInPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
+export default function SignInPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const { show } = useBanner();
@@ -31,7 +27,6 @@ export default function SignInPage({
             password: pd,
           });
 
-          const cc = 
           show(
             <Modal
               firstMessage="Login Successful"
@@ -39,7 +34,7 @@ export default function SignInPage({
             />,
             'success',
           );
-          router.push(`/app/${(await getDomio().authControllerGetUserId()).data}`);
+          router.push(`/app/${(await getUserId()).data}`);
         } catch (error) {
           show(
             <Modal
@@ -51,7 +46,7 @@ export default function SignInPage({
         }
       });
     },
-    [startTransition],
+    [router, show],
   );
 
   return (

@@ -11,3 +11,4 @@ export * from './user.type.activity.schema';
 export * from './verficiation.token.schema';
 export * from './userpaass.schema';
 export * from './user.type.schema';
+export * from './response'

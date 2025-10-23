@@ -44,6 +44,46 @@ export interface GetSessionAndUserResult {
   user: GetSessionUserWithRoles;
 }
 
+export type CreatePropertyDtoType = typeof CreatePropertyDtoType[keyof typeof CreatePropertyDtoType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreatePropertyDtoType = {
+  house: 'house',
+  apartment: 'apartment',
+  townhouse: 'townhouse',
+  condo: 'condo',
+  duplex: 'duplex',
+  commercial: 'commercial',
+  land: 'land',
+} as const;
+
+export interface CreatePropertyDto {
+  type: CreatePropertyDtoType;
+  name: string;
+  streetName: string;
+  streetNumber: number;
+  suburb: string;
+  country: string;
+  bedrooms: number;
+  bathrooms: number;
+  hasParking: boolean;
+  isFurnished: boolean;
+  ownerId: string;
+  isForRent: boolean;
+  isForSale: boolean;
+  images: string[];
+  isActive: boolean;
+  description?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  squareFeet?: number;
+  price?: number;
+  mainImage?: string;
+}
+
 export const getDomio = () => {
 const authControllerGetUsers = (
     
@@ -94,9 +134,41 @@ const authControllerGetUserId = (
       );
     }
   
-return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile,authControllerGetUserId}};
+const propertyControllerCreate = (
+    createPropertyDto: CreatePropertyDto,
+ ) => {
+      return customInstanceMutator<CreatePropertyDto[]>(
+      {url: `/property`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createPropertyDto
+    },
+      );
+    }
+  
+const propertyControllerGet = (
+    id: string,
+ ) => {
+      return customInstanceMutator<void>(
+      {url: `/property/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+const propertyControllerGetByOwner = (
+    ownerId: string,
+ ) => {
+      return customInstanceMutator<void>(
+      {url: `/property/owner/${ownerId}`, method: 'GET'
+    },
+      );
+    }
+  
+return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile,authControllerGetUserId,propertyControllerCreate,propertyControllerGet,propertyControllerGetByOwner}};
 export type AuthControllerGetUsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUsers']>>>
 export type AuthControllerLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerLogin']>>>
 export type AuthControllerSignupResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerSignup']>>>
 export type AuthControllerGetProfileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetProfile']>>>
 export type AuthControllerGetUserIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUserId']>>>
+export type PropertyControllerCreateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerCreate']>>>
+export type PropertyControllerGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGet']>>>
+export type PropertyControllerGetByOwnerResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGetByOwner']>>>

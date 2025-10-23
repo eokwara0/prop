@@ -118,6 +118,83 @@
           "Auth"
         ]
       }
+    },
+    "/property": {
+      "post": {
+        "operationId": "PropertyController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePropertyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePropertyDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Property"
+        ]
+      }
+    },
+    "/property/{id}": {
+      "get": {
+        "operationId": "PropertyController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Property"
+        ]
+      }
+    },
+    "/property/owner/{ownerId}": {
+      "get": {
+        "operationId": "PropertyController_getByOwner",
+        "parameters": [
+          {
+            "name": "ownerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Property"
+        ]
+      }
     }
   },
   "info": {
@@ -255,6 +332,109 @@
         "required": [
           "session",
           "user"
+        ]
+      },
+      "CreatePropertyDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "house",
+              "apartment",
+              "townhouse",
+              "condo",
+              "duplex",
+              "commercial",
+              "land"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "number"
+          },
+          "suburb": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "bedrooms": {
+            "type": "number"
+          },
+          "bathrooms": {
+            "type": "number"
+          },
+          "hasParking": {
+            "type": "boolean"
+          },
+          "isFurnished": {
+            "type": "boolean"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "isForRent": {
+            "type": "boolean"
+          },
+          "isForSale": {
+            "type": "boolean"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "squareFeet": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "mainImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "streetName",
+          "streetNumber",
+          "suburb",
+          "country",
+          "bedrooms",
+          "bathrooms",
+          "hasParking",
+          "isFurnished",
+          "ownerId",
+          "isForRent",
+          "isForSale",
+          "images",
+          "isActive"
         ]
       }
     }
