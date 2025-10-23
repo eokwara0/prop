@@ -4,6 +4,7 @@ const {
   authControllerGetUsers,
   authControllerLogin,
   authControllerSignup,
+  authControllerGetUserId
 } = getDomio();
 
 export {
@@ -11,5 +12,6 @@ export {
   authControllerGetUsers as getUser,
   authControllerLogin as login,
   authControllerSignup as signup,
+  authControllerGetUserId as getUserId
 };
 export * from './domio';

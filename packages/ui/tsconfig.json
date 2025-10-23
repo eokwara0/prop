@@ -7,6 +7,6 @@
       "@/*" : ["./*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../../apps/web/lib/components/loader", "../../apps/web/lib/components/dialog", "../../apps/web/lib/components/banner", "../../apps/web/lib/components/animated", "../../apps/web/lib/components/map", "../../apps/web/lib/components/signup", "../../apps/web/lib/providers"],
   "exclude": ["node_modules", "dist"]
 }
