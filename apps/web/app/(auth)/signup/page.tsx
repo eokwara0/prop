@@ -4,15 +4,15 @@ import { useRouter } from 'next/navigation';
 import AppLogo from '../../../assets/logo/icon2.png';
 import Image from 'next/image';
 import { UserType } from '../../../lib/types/types';
-import { useBanner } from '../../../../../packages/ui/src/components/banner/banner';
+import { useBanner } from '../../../lib/components/banner/banner';
 import SignupValidation, {
   PasswordField,
   SignupPasswordValidationProvider,
   SignupProvider,
   SignupStatus,
-} from '../../../../../packages/ui/src/components/signup/provider';
-import Modal from '../../../../../packages/ui/src/components/banner/modal';
-import Loader from '../../../../../packages/ui/src/components/loader/loader';
+} from '../../../lib/components/signup/provider';
+import Modal from '../../../lib/components/banner/modal';
+import Loader from '../../../lib/components/loader/loader';
 
 const strongPasswordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
 

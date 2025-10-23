@@ -6,7 +6,8 @@ export class KnexService {
   private knex: Knex;
 
   constructor() {
-    this.knex = knex({
+    try {
+        this.knex = knex({
       client: 'mssql',
       connection: {
         database: 'domio',
@@ -22,9 +23,18 @@ export class KnexService {
       },
       pool: { min: 10, max: 20 },
     });
+      
+    } catch (error) {
+      console.log('Knex initialization error:', error); 
+    }
+    
   }
 
   get instance(): Knex {
     return this.knex;
+  }
+
+  get transact(): Promise<Knex.Transaction> {
+    return this.knex.transaction();
   }
 }

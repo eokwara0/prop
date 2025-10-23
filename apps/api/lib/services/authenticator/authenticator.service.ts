@@ -2,21 +2,33 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import AuthenticatorModel from 'lib/models/authenticator.model';
 import { KnexService } from '../knex/knex.service';
 import { IAuthenticator } from '@repo/api/index';
+import { Knex } from 'knex';
 
 @Injectable()
 export class AuthenticatorService {
   private authenticatorModel: typeof AuthenticatorModel;
+  private transaction: Knex.Transaction;
 
   constructor(private knex: KnexService) {
     this.authenticatorModel = AuthenticatorModel.bindKnex(knex.instance);
+    this.setTranscation();
+  }
+
+  async setTranscation() {
+    this.transaction = await this.knex.transact;
   }
 
   /** Create a new authenticator credential */
   async createCredential(data: IAuthenticator): Promise<IAuthenticator | null> {
-    const cred = this.authenticatorModel.query().insert(data);
+    const cred = this.authenticatorModel
+      .query()
+      .insert(data)
+      .transacting(this.transaction);
     if (!cred) {
+      this.transaction.rollback();
       return null;
     }
+    this.transaction.commit();
     return (await cred).toJSON() as IAuthenticator;
   }
 
@@ -58,12 +70,15 @@ export class AuthenticatorService {
       .query()
       .patch({ counter })
       .where({ userId, credentialID })
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
     if (!updated.length) {
+      this.transaction.rollback();
       throw new NotFoundException('Credential not found');
     }
 
+    this.transaction.commit();
     return updated[0].toJSON() as IAuthenticator;
   }
 
@@ -76,12 +91,15 @@ export class AuthenticatorService {
       .query()
       .delete()
       .where({ userId, credentialID })
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
     if (!deleted.length) {
+      this.transaction.rollback();
       throw new NotFoundException('Credential not foundd');
     }
 
+    this.transaction.commit();
     return deleted[0].toJSON() as IAuthenticator;
   }
 

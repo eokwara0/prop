@@ -1,7 +1,13 @@
 import UserPassModel from 'lib/models/user.pass.model';
 import { KnexService } from '../knex/knex.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { IUserPass } from '@repo/api/index';
+import { Knex } from 'knex';
 
 export interface UserPassCreateDto {
   userId: string;
@@ -22,18 +28,33 @@ export interface UserPassUpdateDto {
 @Injectable()
 export class UserPassService {
   private userPassModel: typeof UserPassModel;
-
+  private transaction: Knex.Transaction;
   constructor(private knex: KnexService) {
     this.userPassModel = UserPassModel.bindKnex(knex.instance);
+    this.setTransaction();
   }
 
+  private async setTransaction(): Promise<void> {
+    this.transaction = await this.knex.transact;
+  }
   /** Create a new password record */
   async createUserPass(data: UserPassCreateDto): Promise<IUserPass> {
-    const record = await this.userPassModel.query().insert({
-      ...data,
-      isActive: data.isActive ?? true,
-      createdAt: new Date().toISOString(),
-    });
+    const record = await this.userPassModel
+      .query()
+      .insert({
+        ...data,
+        isActive: data.isActive ?? true,
+        createdAt: new Date().toISOString(),
+      })
+      .transacting(this.transaction);
+    if (!record) {
+      this.transaction.rollback();
+      throw new HttpException(
+        'Unable to create user pass data',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    this.transaction.commit();
     return record.toJSON() as IUserPass;
   }
 
@@ -52,9 +73,14 @@ export class UserPassService {
       .query()
       .patch(data)
       .where('userId', userId)
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
-    if (!updated.length) throw new NotFoundException('UserPass not found');
+    if (!updated.length) {
+      this.transaction.rollback();
+      throw new NotFoundException('UserPass not found');
+    }
+    this.transaction.commit();
     return updated[0].toJSON() as IUserPass;
   }
 
@@ -64,9 +90,14 @@ export class UserPassService {
       .query()
       .delete()
       .where('userId', userId)
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
-    if (!deleted.length) throw new NotFoundException('UserPass not found');
+    if (!deleted.length) {
+      this.transaction.rollback();
+      throw new NotFoundException('UserPass not found');
+    }
+    this.transaction.commit();
     return deleted[0].toJSON() as IUserPass;
   }
 }

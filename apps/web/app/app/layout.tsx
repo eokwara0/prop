@@ -1,28 +1,23 @@
 import './index.css';
 import { redirect } from 'next/navigation';
 import { TooltipProvider } from '@repo/ui/components/shadcn/ui/tooltip';
-import { auth } from '@repo/ui/providers/auth.provider';
-import { AppAuthContextProvider } from '@repo/ui/providers/app.auth.provider';
-import {
-  SideBar,
-  SideBarInset,
-  SideBarProvider,
-} from '@repo/ui/components/sidebar/sidebar';
-import { BottomNav } from '@repo/ui/components/sidebar/bottom-nav';
-import { AppHeader } from '@repo/ui/components/sidebar/app-header';
-import AppLogo from '../../assets/logo/icon.png';
+import AppLogo from '../../assets/icon.png';
 import { getProfileFromServer } from '../../lib/auth/getserverprofile';
+import { AppAuthContextProvider } from '../../lib/providers/app.auth.provider';
+import { SideBar, SideBarInset, SideBarProvider } from '../../lib/components/sidebar/sidebar';
+import { AppHeader } from '../../lib/components/sidebar/app-header';
+import { BottomNav } from '../../lib/components/sidebar/bottom-nav';
 
 export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const userId = (await getProfileFromServer())?.user.id
-  if (userId) {
+  const session = await getProfileFromServer();
+  if (session != null) {
     return (
       <div className="min-h-dvh ">
-        <AppAuthContextProvider data={userId}>
+        <AppAuthContextProvider data={session.user.id}>
           <SideBarProvider>
             <TooltipProvider delayDuration={0} data-slot="tooltip-provider">
               <SideBar logo={AppLogo} />
@@ -39,5 +34,5 @@ export default async function AppLayout({
       </div>
     );
   }
-  redirect('/');
+  return redirect('/login');
 }

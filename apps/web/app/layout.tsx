@@ -1,15 +1,15 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import { getProfileFromServer } from '../lib/auth/getserverprofile';
-import { SessionProvider } from '../../../packages/ui/src/providers/auth.provider';
-import BannerProvider from '../../../packages/ui/src/components/banner/banner';
-import {Inter} from 'next/font/google'
+import { SessionProvider } from '../lib/providers/auth.provider';
+import BannerProvider from '../lib/components/banner/banner';
+import { Inter } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
 
 const mono = Inter({
-  weight : "400",
-  subsets : ['latin']
-})
+  weight: '400',
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
   title: 'Domio',
@@ -24,9 +24,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${mono.className}`}>
-        <SessionProvider session={await getProfileFromServer()}>
-          <BannerProvider>{children}</BannerProvider>
-        </SessionProvider>
+        <NextIntlClientProvider>
+          <SessionProvider session={await getProfileFromServer()}>
+            <BannerProvider>{children}</BannerProvider>
+          </SessionProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

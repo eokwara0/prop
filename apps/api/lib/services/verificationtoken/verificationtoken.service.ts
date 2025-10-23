@@ -1,19 +1,42 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { KnexService } from '../knex/knex.service';
 import VerificationTokenModel from 'lib/models/verificationtoken';
 import { IVerificationToken } from '@repo/api/index';
+import { Knex } from 'knex';
 
 @Injectable()
 export class VerificationTokenService {
   private model: typeof VerificationTokenModel;
+  private transaction: Knex.Transaction;
 
   constructor(private readonly knex: KnexService) {
     this.model = VerificationTokenModel.bindKnex(knex.instance);
+    this.setTransaction();
+  }
+
+  private async setTransaction(): Promise<void> {
+    this.transaction = await this.knex.transact;
   }
 
   /** Create a new verification token */
   async create(data: IVerificationToken): Promise<IVerificationToken> {
-    const record = await this.model.query().insert(data);
+    const record = await this.model
+      .query()
+      .insert(data)
+      .transacting(this.transaction);
+    if (!record) {
+      this.transaction.rollback();
+      throw new HttpException(
+        'Unable to create verification token',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    this.transaction.rollback();
     return record.toJSON() as IVerificationToken;
   }
 
@@ -39,10 +62,14 @@ export class VerificationTokenService {
       .query()
       .delete()
       .where({ identifier, token })
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
-    if (!deleted.length)
+    if (!deleted.length) {
+      this.transaction.rollback();
       throw new NotFoundException('Verification token not found');
+    }
+    this.transaction.commit();
     return deleted[0].toJSON() as IVerificationToken;
   }
 

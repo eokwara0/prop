@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { getProfileFromServer } from "../../lib/auth/getserverprofile";
+import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { getProfileFromServer } from '../../lib/auth/getserverprofile';
 export const metadata: Metadata = {
-  title: "Domio",
+  title: 'Domio',
   description: "A platform for managing your home's",
 };
 
@@ -11,6 +11,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const userId = (await getProfileFromServer())?.user?.id
-  return <>{ userId ? redirect(`/app/${userId}`) : children}</>;
+  const session = await getProfileFromServer();
+  console.log(session)
+  if(session != null){
+    return redirect('/app/'+session.user.id);
+  }
+  return <>
+    {children}
+  </>
 }

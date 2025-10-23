@@ -97,6 +97,27 @@
           "Auth"
         ]
       }
+    },
+    "/auth/get-id": {
+      "get": {
+        "operationId": "AuthController_getUserId",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
     }
   },
   "info": {

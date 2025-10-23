@@ -1,14 +1,26 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import RoleModel from 'lib/models/role.model';
 import { KnexService } from '../knex/knex.service';
 import { IRole, IRoleWithRelationsSchema } from '@repo/api/index';
+import { Knex } from 'knex';
 
 @Injectable()
 export class RoleService {
   private roleModel: typeof RoleModel;
+  private transaction: Knex.Transaction;
 
   constructor(private knex: KnexService) {
     this.roleModel = RoleModel.bindKnex(knex.instance);
+    this.setTransaction();
+  }
+
+  private async setTransaction(): Promise<void> {
+    this.transaction = await this.knex.transact;
   }
 
   /** Get all roles */
@@ -26,7 +38,18 @@ export class RoleService {
 
   /** Create a new role */
   async createRole(data: Omit<IRole, 'id' | 'createdAt'>): Promise<IRole> {
-    const role = await this.roleModel.query().insert(data);
+    const role = await this.roleModel
+      .query()
+      .insert(data)
+      .transacting(this.transaction);
+    if (!role) {
+      this.transaction.rollback();
+      throw new HttpException(
+        'unable to create role',
+        HttpStatus.EXPECTATION_FAILED,
+      );
+    }
+    this.transaction.commit();
     return role.toJSON() as IRole;
   }
 
@@ -39,9 +62,14 @@ export class RoleService {
       .query()
       .patch(data)
       .where('id', id)
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
-    if (!updated.length) throw new NotFoundException('Role not found');
+    if (!updated.length) {
+      this.transaction.rollback();
+      throw new NotFoundException('Role not found');
+    }
+    this.transaction.commit();
     return updated[0].toJSON() as IRole;
   }
 
@@ -51,9 +79,14 @@ export class RoleService {
       .query()
       .delete()
       .where('id', id)
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
-    if (!deleted.length) throw new NotFoundException('Role not found');
+    if (!deleted.length) {
+      this.transaction.rollback();
+      throw new NotFoundException('Role not found');
+    }
+    this.transaction.commit();
     return deleted[0].toJSON() as IRole;
   }
 

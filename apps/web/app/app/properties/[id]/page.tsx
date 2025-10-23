@@ -1,6 +1,6 @@
-import { AnimatedHeader } from '@repo/ui/components/animated/animated.header';
-import { DialogComponent } from '@repo/ui/components/dialog/dialog';
 import { getTranslations } from 'next-intl/server';
+import { AnimatedHeader } from '../../../../lib/components/animated/animated.header';
+import { DialogComponent } from '../../../../lib/components/dialog/dialog';
 
 export default async function Properties() {
   const t = await getTranslations('Property');

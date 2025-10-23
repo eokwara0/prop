@@ -2,13 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import AccountModel from 'lib/models/account.model';
 import { KnexService } from '../knex/knex.service';
 import { IAccount } from '@repo/api/index';
+import { Knex } from 'knex';
 
 @Injectable()
 export class AccountService {
   private accountModel: typeof AccountModel;
+  private transaction: Knex.Transaction;
 
   constructor(private knex: KnexService) {
     this.accountModel = AccountModel.bindKnex(knex.instance);
+    this.setTransaction();
+  }
+
+  private async setTransaction() {
+    this.transaction = await this.knex.transact;
   }
 
   /** Find account by provider + providerAccountId */
@@ -33,7 +40,15 @@ export class AccountService {
 
   /** Create a new account */
   async createAccount(data: IAccount): Promise<IAccount | null> {
-    const res = await this.accountModel.query().insert(data);
+    const res = await this.accountModel
+      .query()
+      .insert(data)
+      .transacting(this.transaction);
+    if (!res) {
+      this.transaction.rollback();
+      throw new Error('Internal Server error , unable to create account');
+    }
+    this.transaction.commit();
     return res.toJSON();
   }
 
@@ -58,12 +73,14 @@ export class AccountService {
       .query()
       .patch(tokens)
       .where({ provider, providerAccountId })
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
     if (!updated.length) {
+      this.transaction.rollback();
       throw new NotFoundException('Account not found');
     }
-
+    this.transaction.commit();
     return updated[0].toJSON() as IAccount;
   }
 
@@ -90,12 +107,14 @@ export class AccountService {
       .query()
       .delete()
       .where({ provider, providerAccountId })
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
     if (!deleted.length) {
+      this.transaction.rollback();
       throw new NotFoundException('Account not found');
     }
-
+    this.transaction.commit();
     return deleted[0].toJSON() as IAccount;
   }
 }

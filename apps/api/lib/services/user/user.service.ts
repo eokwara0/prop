@@ -1,7 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { KnexService } from '../knex/knex.service';
 import { UserModel } from 'lib/models/user.model';
 import { IUser, IUserWithRoles } from '@repo/api/index';
+import { Knex } from 'knex';
 
 export interface UserCreateDto {
   email: string;
@@ -20,14 +26,28 @@ export interface UserUpdateDto {
 @Injectable()
 export class UserService {
   private userModel: typeof UserModel;
+  private transaction: Knex.Transaction;
 
   constructor(private knex: KnexService) {
     this.userModel = UserModel.bindKnex(knex.instance);
+    this.setTransaction();
+  }
+
+  private async setTransaction(): Promise<void> {
+    this.transaction = await this.knex.transact;
   }
 
   /** Create a new user */
   async createUser(data: UserCreateDto): Promise<IUser> {
-    const user = await this.userModel.query().insert(data);
+    const user = await this.userModel
+      .query()
+      .insert(data)
+      .transacting(this.transaction);
+    if (!user) {
+      this.transaction.rollback();
+      throw new HttpException('Unable to create user', HttpStatus.BAD_REQUEST);
+    }
+    this.transaction.commit();
     return user.toJSON() as IUser;
   }
 
@@ -56,9 +76,14 @@ export class UserService {
       .query()
       .patch(data)
       .where('id', id)
-      .returning('*');
+      .returning('*')
+      .transacting(this.transaction);
 
-    if (!updated.length) throw new NotFoundException('User not found');
+    if (!updated.length) {
+      this.transaction.rollback();
+      throw new NotFoundException('User not found');
+    }
+    this.transaction.commit();
     return updated[0].toJSON() as IUser;
   }
 
@@ -68,8 +93,13 @@ export class UserService {
       .query()
       .delete()
       .where('id', id)
-      .returning('*');
-    if (!deleted.length) throw new NotFoundException('User not found');
+      .returning('*')
+      .transacting(this.transaction);
+    if (!deleted.length) {
+      this.transaction.rollback();
+      throw new NotFoundException('User not found');
+    }
+    this.transaction.commit();
     return deleted[0].toJSON() as IUser;
   }
 
