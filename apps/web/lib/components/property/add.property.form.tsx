@@ -6,23 +6,19 @@ import {
 } from "./property.form.provider";
 import React from "react";
 import "@/app/globals.css";
-import dynamic from "next/dynamic";
 import LocationStep from "./maps.form";
 import DetailsStep from "./property.detail.form";
 import ImageStep from "./image.form";
 import { Property } from "../../types/schemas";
-import { auth } from "../../providers/auth.provider";
-const LeafletMap = dynamic(() => import("../map/leaflet.map"), {
-  ssr: false,
-});
+import { auth, useAuthId } from "../../providers/auth.provider";
+
 
 export function PropertyFormProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
-  const clientID = auth()?.user.id || "";
+  const clientID = useAuthId() ;
   const [data, setData] = React.useState<Partial<Property> | null>({
     ownerId : clientID
   });

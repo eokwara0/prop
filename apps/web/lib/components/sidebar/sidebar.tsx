@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@radix-ui/react-tooltip';
-import { HousePlug, LogOut, LucideProps, Minus, PanelLeft, Settings } from 'lucide-react';
+import {  LogOut, LucideProps, PanelLeft, Settings } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import React, { useCallback, useEffect } from 'react';
 import { createContext, useContext, useState } from 'react';
@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useIsMobile } from './use-mobile';
 import { NavDrawer } from './nav.drawer';
 import { AuthProviderContext } from '../../providers/app.auth.provider';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@repo/ui/components/shadcn/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/lib/shadcn/components/ui/dropdown-menu';
 
 const SIDEBAR_WIDTH = '3rem';
 
@@ -97,6 +97,7 @@ export function SideBar({ logo }: { logo: StaticImageData }) {
   const appAuthData = useContext(AuthProviderContext);
 
   const [data, setData] = useState<SideBarDataType[]>(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     appAuthData?.sideBarData!,
   );
 

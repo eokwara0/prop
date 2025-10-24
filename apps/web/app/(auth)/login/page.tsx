@@ -2,7 +2,7 @@
 import AppLogo from '../../../assets/logo/icon2.png';
 import Image from 'next/image';
 import { FormEvent, useCallback, useTransition } from 'react';
-import { getDomio, getUserId, login } from '../../../../../packages/ui/src';
+import { getUserId, login } from '../../../../../packages/ui/src';
 import { useRouter } from 'next/navigation';
 import { useBanner } from '../../../lib/components/banner/banner';
 import Modal from '../../../lib/components/banner/modal';

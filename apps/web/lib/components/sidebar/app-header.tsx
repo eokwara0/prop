@@ -1,8 +1,8 @@
 'use client';
 import { Search } from 'lucide-react';
 import { SideBarTrigger } from './sidebar';
-import { Badge } from '@repo/ui/components/shadcn/ui/badge';
-import { Avatar, AvatarFallback } from '@repo/ui/components/shadcn/ui/avatar';
+import { Badge } from '@/lib/shadcn/components/ui/badge';
+import { Avatar, AvatarFallback } from '@/lib/shadcn/components/ui/avatar';
 
 export function AppHeader() {
   return (

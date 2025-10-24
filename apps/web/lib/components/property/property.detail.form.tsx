@@ -2,8 +2,8 @@ import { ChevronLeft } from "lucide-react";
 import { usePropertyFormContext } from "./property.form.provider";
 import { motion } from "framer-motion";
 import { PropertySchema } from "../../types/schemas";
-import {Switch} from '@repo/ui/components/shadcn/ui/switch'
-import {Select, SelectTrigger , SelectValue, SelectContent , SelectGroup , SelectLabel , SelectItem} from '@repo/ui/components/shadcn/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/lib/shadcn/components/ui/select";
+import { Switch } from "@/lib/shadcn/components/ui/switch";
 export default function DetailsStep() {
   const { updateData, data, nextStep, prevStep } = usePropertyFormContext();
 
@@ -35,7 +35,7 @@ export default function DetailsStep() {
                 name="prop-name"
                 id="prop-name"
                 placeholder="Property name"
-                className="h-8 ring  w-full p-2 rounded-md"
+                className=" h-7 ring  w-full p-2 rounded-md"
                 value={data?.name ?? ""}
                 onChange={(e) =>
                   updateData!({ ...data, name: e.currentTarget.value })
@@ -49,7 +49,7 @@ export default function DetailsStep() {
                 name="prop-desc"
                 id="prop-desc"
                 placeholder="description"
-                className="h-8 ring w-full p-2 rounded-md"
+                className=" h-7 ring w-full p-2 rounded-md"
                 value={data?.description ?? ""}
                 onChange={(e) =>
                   updateData!({ ...data, description: e.currentTarget.value })

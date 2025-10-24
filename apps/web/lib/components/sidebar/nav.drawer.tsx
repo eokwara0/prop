@@ -1,5 +1,5 @@
 'use client';
-import { LogOut, LucideLogOut } from 'lucide-react';
+import {  LucideLogOut } from 'lucide-react';
 import { useCallback } from 'react';
 import React from 'react';
 import {
@@ -8,12 +8,12 @@ import {
   SideBarPanel,
   useSideBarContext,
 } from './sidebar';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@repo/ui/components/shadcn/ui/drawer';
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from '@repo/ui/components/shadcn/ui/sheet';
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from '@/lib/shadcn/components/ui/sheet';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/lib/shadcn/components/ui/drawer';
 
 
 export function NavDrawer({ sdata }: { sdata: SideBarDataType[] }) {
-  const { toggleSideBar, open } = useSideBarContext();
+  const { toggleSideBar } = useSideBarContext();
   const [ss_data, setData] = React.useState<SideBarDataType[]>(sdata);
   const onSideClick = useCallback(
     (sidebarcontext: SideBarDataType) => {
@@ -74,6 +74,7 @@ export function NavDrawer({ sdata }: { sdata: SideBarDataType[] }) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function MobileSideNav(
   open: boolean,
   toggleSideBar: () => void,

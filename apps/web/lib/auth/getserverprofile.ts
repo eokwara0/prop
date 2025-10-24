@@ -15,7 +15,7 @@ export async function getProfileFromServer(): Promise<GetSessionAndUserResult | 
     }
     throw new Error('Failed to fetch profile');
   } catch (error) {
+    console.error('Error fetching profile:', error);
     return null;
-    ``;
   }
 }

@@ -14,10 +14,9 @@ import {
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
 
-  @ApiOkResponse({ type: CreatePropertyDto })
+  @ApiOkResponse({ type: [CreatePropertyDto] })
   @Post()
   async create(@Body() dto: CreatePropertyDto): Promise<RResponse> {
-    console.log('DTO', dto);
     const res = await this.propertyService.create(dto);
     return {
       statusCode: 201,

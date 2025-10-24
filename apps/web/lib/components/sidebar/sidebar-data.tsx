@@ -1,5 +1,4 @@
 import {
-  LucideLayoutDashboard,
   Inbox,
   DraftingCompass,
   User,

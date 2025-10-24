@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from 'react';
 import {
@@ -20,7 +19,7 @@ const sessionProviderContext = createContext<SessionProviderContext | null>(
   null,
 );
 
-const useSession = () => {
+export const useSession = () => {
   const context = useContext(sessionProviderContext);
   if (!context) {
     throw new Error('please use inside of the valid provider');
@@ -34,7 +33,7 @@ export function SessionProvider({
   children: React.ReactNode;
   session: GetSessionAndUserResult | null;
 }) {
-  const [data, setData] = useState<GetSessionAndUserResult | null>(session);
+  const [data] = useState<GetSessionAndUserResult | null>(session);
   const auth = useCallback(() => data, [data]);
 
   return (
@@ -50,4 +49,12 @@ export function auth() {
     return undefined;
   }
   return sessionContextData.data;
+}
+
+export function useAuthId(){
+  const sessionContextData = useContext(sessionProviderContext);
+  if (!sessionContextData) {
+    return undefined;
+  }
+  return sessionContextData.data?.user.id;
 }

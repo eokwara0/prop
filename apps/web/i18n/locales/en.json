@@ -1,10 +1,11 @@
 {
-    "HomePage" : {
-        "title" : "Hello World!"
-    },
-    "Property" : {
-        "title" : "Property Management",
-        "description" : "Manage all your properties and their associated units from a single dashboard. Easily add new properties, update existing details, and organize units under each property."
-        ,"AddHeader": "Capture Property Details"
-    }
+  "HomePage": {
+    "title": "Hello World!"
+  },
+  "Property": {
+    "title": "Property Management",
+    "description": "Manage all your properties and their associated units from a single dashboard. Easily add new properties, update existing details, and organize units under each property.",
+    "AddHeader": "Capture Property Details",
+    "add_property": "Add Property"
+  }
 }

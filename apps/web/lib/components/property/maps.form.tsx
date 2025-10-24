@@ -1,12 +1,18 @@
-'use client'
-import { ChevronsRight } from "lucide-react";
-import { usePropertyFormContext } from "./property.form.provider";
-import dynamic from "next/dynamic";
-import { Badge } from "@repo/ui/components/shadcn/ui/badge";
+'use client';
+import { ChevronsRight } from 'lucide-react';
+import { usePropertyFormContext } from './property.form.provider';
+import dynamic from 'next/dynamic';
+import { CreatePropertyDto } from '../../../../../packages/ui/src';
+import { Controller, useForm } from 'react-hook-form';
 
 const LeafletMap = dynamic(() => import('../map/leaflet.map'), { ssr: false });
 export default function LocationStep() {
-  const { updateData, data, nextStep, prevStep } = usePropertyFormContext();
+  const { updateData, data, nextStep } = usePropertyFormContext();
+  const { handleSubmit, control, reset } = useForm<CreatePropertyDto>({});
+
+  const onsubmit = (e: CreatePropertyDto) => {
+    console.log(e);
+  };
   return (
     <div className="w-full flex flex-col gap-1">
       <div className="flex justify-between">
@@ -17,21 +23,20 @@ export default function LocationStep() {
       </p>
       <div className="">
         <LeafletMap />
-        <form action="" className="flex flex-col gap-1 px-5 py-2">
-          <div className="py-2">
-            <Badge className="bg-button">
-                       <h1 className="text-[0.8rem] font-extralight text-muted ">
-              Property Details
-            </h1>
-            </Badge>
-     
-          </div>
+        <form action="" className="flex flex-col gap-1 px-5 py-2" onSubmit={handleSubmit(onsubmit)}>
           <div className="flex gap-5 ">
-            <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/4">
+            <Controller
+              name='streetNumber'
+              control={control}
+              rules={{ required : true , min : 1 , max : 3 }}
+              render={({field}) => (
+
+                <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/4">
               <p className="text-muted">StreetNumber</p>
               <input
-                value={data?.streetNumber ?? 1}
+                value={field.value }
                 onChange={(e) => {
+                  field.onChange(e)
                   updateData!({
                     ...data,
                     streetNumber: Number(e.target.value),
@@ -40,13 +45,17 @@ export default function LocationStep() {
                 type="text"
                 name=""
                 id=""
-                className=" rounded-md ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                className=" rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
               />
             </label>
+              )}
+              
+            />
+            
             <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/2">
               <p className="text-muted">StreetName</p>
               <input
-                value={data?.streetName ?? ""}
+                value={data?.streetName ?? ''}
                 onChange={(e) => {
                   updateData!({
                     ...data,
@@ -56,13 +65,13 @@ export default function LocationStep() {
                 type="text"
                 name=""
                 id=""
-                className=" rounded-md ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                className=" rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
               />
             </label>
             <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/2">
               <p className="text-muted">Suburb</p>
               <input
-                value={data?.suburb ?? ""}
+                value={data?.suburb ?? ''}
                 onChange={(e) => {
                   updateData!({
                     ...data,
@@ -72,7 +81,7 @@ export default function LocationStep() {
                 type="text"
                 name=""
                 id=""
-                className=" rounded-md ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                className=" rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
               />
             </label>
           </div>
@@ -81,7 +90,7 @@ export default function LocationStep() {
               <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/2">
                 <p className="text-muted">Address</p>
                 <input
-                  value={data?.address ?? ""}
+                  value={data?.address ?? ''}
                   onChange={(e) => {
                     updateData!({
                       ...data,
@@ -91,14 +100,14 @@ export default function LocationStep() {
                   type="text"
                   name=""
                   id=""
-                  className=" rounded-md ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                  className=" rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
                 />
               </label>
 
               <label className="flex flex-col gap-2 text-muted w-full">
                 <p>City</p>
                 <input
-                  value={data?.city ?? ""}
+                  value={data?.city ?? ''}
                   onChange={(e) => {
                     updateData!({
                       ...data,
@@ -108,7 +117,7 @@ export default function LocationStep() {
                   type="text"
                   name=""
                   id=""
-                  className="rounded-md ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                  className="rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
                 />
               </label>
             </div>
@@ -116,7 +125,7 @@ export default function LocationStep() {
             <label className="flex flex-col gap-2 text-muted w-full">
               <p>Country</p>
               <input
-                value={data?.country ?? ""}
+                value={data?.country ?? ''}
                 onChange={(e) => {
                   updateData!({
                     ...data,
@@ -126,18 +135,17 @@ export default function LocationStep() {
                 type="text"
                 name=""
                 id=""
-                className="rounded-md ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                className="rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
               />
             </label>
           </div>
 
           <div>
-            {/* <p>Postal Details</p> */}
             <div className="flex gap-5">
               <label className="flex flex-col gap-2 text-muted w-full">
                 <p>State</p>
                 <input
-                  value={data?.state ?? ""}
+                  value={data?.state ?? ''}
                   onChange={(e) => {
                     updateData!({
                       ...data,
@@ -147,13 +155,13 @@ export default function LocationStep() {
                   type="text"
                   name=""
                   id=""
-                  className="rounded-md ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                  className="rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
                 />
               </label>
               <label className="flex flex-col gap-2 text-muted w-full">
                 <p>Postal Code</p>
                 <input
-                  value={data?.postalCode ?? ""}
+                  value={data?.postalCode ?? ''}
                   onChange={(e) => {
                     updateData!({
                       ...data,
@@ -163,7 +171,7 @@ export default function LocationStep() {
                   type="text"
                   name=""
                   id=""
-                  className="rounded-md  ring-[1px] ring-muted-foreground p-2 h-10 w-full"
+                  className="rounded-md  ring-[1px] ring-muted-foreground p-1 h-7 w-full"
                 />
               </label>
             </div>
@@ -174,11 +182,11 @@ export default function LocationStep() {
         <button
           onClick={nextStep}
           type="button"
-          className="flex cursor-pointer items-center justify-center w-full bg-button p-2 text-[0.9rem] rounded-lg inset-shadow-2xs inset-shadow-muted/50 shadow-2xs shadow-black"
+          className="flex cursor-pointer items-center justify-center w-full bg-button p-1 text-xs rounded-lg inset-shadow-2xs inset-shadow-muted/50 shadow-2xs shadow-black"
         >
-          Continue
+          Next Step
           <div className="flex gap-0">
-            <ChevronsRight />
+            <ChevronsRight size={20} />
           </div>
         </button>
       </div>

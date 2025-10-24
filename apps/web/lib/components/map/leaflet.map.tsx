@@ -177,7 +177,7 @@ export default function LeafletMap() {
       <div className="px-5">
         <label
           htmlFor="property-location-search"
-          className="shadow-xs shadow-black/90 inset-shadow-2xs inset-shadow-muted/20 flex gap-1 items-center rounded-md  px-2 mt-1"
+          className=" flex ring ring-white gap-1 items-center rounded-md  px-2 mt-1"
         >
           <IoSearch
             className="cursor-pointer"
@@ -193,7 +193,7 @@ export default function LeafletMap() {
             type="text"
             name="property-location-search"
             placeholder="Search for property"
-            className="p-2 autofill:bg-transparent w-full h-10 placeholder:text-sm text-xs rounded-md outline-none"
+            className="p-2 autofill:bg-transparent w-full  h-7 placeholder:text-xs text-xs rounded-md outline-none"
             id="property-location-search"
           />
           <div className="flex gap-1">

@@ -5,11 +5,13 @@ import { SessionProvider } from '../lib/providers/auth.provider';
 import BannerProvider from '../lib/components/banner/banner';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
+import { TooltipProvider } from '@/lib/shadcn/components/ui/tooltip';
 
 const mono = Inter({
   weight: '400',
   subsets: ['latin'],
 });
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Domio',
@@ -25,9 +27,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${mono.className}`}>
         <NextIntlClientProvider>
-          <SessionProvider session={await getProfileFromServer()}>
-            <BannerProvider>{children}</BannerProvider>
-          </SessionProvider>
+          <TooltipProvider delayDuration={0} data-slot="tooltip-provider">
+            <SessionProvider session={await getProfileFromServer()}>
+              <BannerProvider>{children}</BannerProvider>
+            </SessionProvider>
+          </TooltipProvider>
         </NextIntlClientProvider>
       </body>
     </html>
