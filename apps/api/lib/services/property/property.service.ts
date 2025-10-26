@@ -6,15 +6,29 @@ import {
 } from '@nestjs/common';
 import { KnexService } from '../knex/knex.service';
 import { Property } from 'lib/models/property.model';
-import { IProperty, IPropertyCreateDTO, IPropertyWithUnits } from '@repo/api/index';
+import { IProperty, IPropertyCreateDTO, IPropertyStats, IPropertyWithUnits } from '@repo/api/index';
+import { PropertyStats } from 'lib/models/views/property.stats.model';
 
 @Injectable()
 export class PropertyService {
   private propertyModel = Property;
+  private propertyStatModel = PropertyStats
 
 
   constructor(private readonly knexService: KnexService) {
     this.propertyModel = Property.bindKnex(this.knexService.instance);
+    this.propertyStatModel  = PropertyStats.bindKnex(this.knexService.instance);
+  }
+
+
+  async getOwnerPropertyStats(ownerId : string) : Promise<IPropertyStats>{
+
+    const result = await this.propertyStatModel.query().where('userId' , ownerId).first();
+    if(!result){
+      throw new HttpException('unable to get user\'s stats', HttpStatus.BAD_REQUEST);
+    }
+    return result.toJSON() as IPropertyStats;
+
   }
 
   /** ✅ Get all properties */

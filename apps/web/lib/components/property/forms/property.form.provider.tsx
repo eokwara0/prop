@@ -1,14 +1,15 @@
 import React from 'react';
 import { createContext } from 'react';
-import '../map/index.css';
-import { Property } from '../../types/schemas';
+import '../../map/index.css';
+import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 
 export type catpureStateType = 'location' | 'details' | 'images';
+
 export type PropertyFormContextType = {
   captureState: catpureStateType;
-  setData: (data: Partial<Property>) => void;
-  data: Partial<Property> | null;
-  updateData?: (data: Partial<Property>) => void;
+  setData: (data: CreatePropertyDto) => void;
+  data: CreatePropertyDto | null;
+  updateData?: (data: CreatePropertyDto) => void;
   nextStep: () => void;
   prevStep: () => void;
 };

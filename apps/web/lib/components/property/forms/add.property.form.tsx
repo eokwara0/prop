@@ -1,30 +1,29 @@
-"use client";
+'use client';
 import {
   catpureStateType,
   PropertyFormContext,
   usePropertyFormContext,
-} from "./property.form.provider";
-import React from "react";
-import "@/app/globals.css";
-import LocationStep from "./maps.form";
-import DetailsStep from "./property.detail.form";
-import ImageStep from "./image.form";
-import { Property } from "../../types/schemas";
-import { auth, useAuthId } from "../../providers/auth.provider";
-
+} from './property.form.provider';
+import React from 'react';
+import '@/app/globals.css';
+import LocationStep from './maps.form';
+import DetailsStep from './property.detail.form';
+import ImageStep from './image.form';
+import { useAuthId } from '../../../providers/auth.provider';
+import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 
 export function PropertyFormProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const clientID = useAuthId() ;
-  const [data, setData] = React.useState<Partial<Property> | null>({
-    ownerId : clientID
+  const clientID = useAuthId();
+  const [data, setData] = React.useState<CreatePropertyDto>(() => {
+    return { ownerId : clientID } as CreatePropertyDto
   });
   const [captureState, setCatpureState] =
-    React.useState<catpureStateType>("location");
-  const updateData = (newData: Partial<Property>) => {
+    React.useState<catpureStateType>('location');
+  const updateData = (newData: CreatePropertyDto) => {
     setData((prev) => ({
       ...prev,
       ...newData,
@@ -36,14 +35,14 @@ export function PropertyFormProvider({
   };
 
   const nextStep = () => {
-    if (captureState === "location") updateCaptureState("details");
-    else if (captureState === "details") updateCaptureState("images");
+    if (captureState === 'location') updateCaptureState('details');
+    else if (captureState === 'details') updateCaptureState('images');
   };
 
   const prevStep = () => {
-    if (captureState === "images") updateCaptureState("details");
-    else if (captureState === "details") updateCaptureState("location");
-    else if (captureState === "location") updateCaptureState("images");
+    if (captureState === 'images') updateCaptureState('details');
+    else if (captureState === 'details') updateCaptureState('location');
+    else if (captureState === 'location') updateCaptureState('images');
   };
 
   return (
@@ -75,15 +74,11 @@ export default function PropertyForm() {
 function PropertyFormData() {
   const { captureState } = usePropertyFormContext();
   switch (captureState) {
-    case "location":
+    case 'location':
       return <LocationStep />;
-    case "details":
+    case 'details':
       return <DetailsStep />;
-    case "images":
+    case 'images':
       return <ImageStep />;
   }
 }
-
-
-
-

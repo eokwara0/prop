@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IProperty, IPropertyCreateDTO, RProperty } from '@repo/api/index';
+import {
+  IProperty,
+  IPropertyCreateDTO,
+  IPropertyStats,
+  RProperty,
+} from '@repo/api/index';
 
 export class ResponseResult<T = any> {
   @ApiProperty({ type: String })
@@ -8,6 +13,21 @@ export class ResponseResult<T = any> {
   message: string;
   @ApiProperty({ type: [Object], required: false })
   data?: [any];
+}
+
+export class PropertyStatsResult implements IPropertyStats {
+  @ApiProperty({ type: String })
+  userId: string;
+  @ApiProperty({ type: String })
+  userName: string;
+  @ApiProperty({ type: Number })
+  totalProperties: number;
+  @ApiProperty({ type: Number })
+  propertiesAvailable: number;
+  @ApiProperty({ type: Number })
+  propertiesRented: number;
+  @ApiProperty({ type: Number })
+  portfolioValue: number;
 }
 
 export class PropertyResult implements IProperty {

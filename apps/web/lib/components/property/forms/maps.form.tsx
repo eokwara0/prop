@@ -2,17 +2,13 @@
 import { ChevronsRight } from 'lucide-react';
 import { usePropertyFormContext } from './property.form.provider';
 import dynamic from 'next/dynamic';
-import { CreatePropertyDto } from '../../../../../packages/ui/src';
-import { Controller, useForm } from 'react-hook-form';
+import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 
-const LeafletMap = dynamic(() => import('../map/leaflet.map'), { ssr: false });
+
+
+const LeafletMap = dynamic(() => import('../../map/leaflet.map'), { ssr: false });
 export default function LocationStep() {
   const { updateData, data, nextStep } = usePropertyFormContext();
-  const { handleSubmit, control, reset } = useForm<CreatePropertyDto>({});
-
-  const onsubmit = (e: CreatePropertyDto) => {
-    console.log(e);
-  };
   return (
     <div className="w-full flex flex-col gap-1">
       <div className="flex justify-between">
@@ -23,24 +19,14 @@ export default function LocationStep() {
       </p>
       <div className="">
         <LeafletMap />
-        <form action="" className="flex flex-col gap-1 px-5 py-2" onSubmit={handleSubmit(onsubmit)}>
+        <form action="" className="flex flex-col gap-1 px-5 py-2">
           <div className="flex gap-5 ">
-            <Controller
-              name='streetNumber'
-              control={control}
-              rules={{ required : true , min : 1 , max : 3 }}
-              render={({field}) => (
-
-                <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/4">
+            <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/4">
               <p className="text-muted">StreetNumber</p>
               <input
-                value={field.value }
+                value={data?.streetNumber ?? 1}
                 onChange={(e) => {
-                  field.onChange(e)
-                  updateData!({
-                    ...data,
-                    streetNumber: Number(e.target.value),
-                  });
+                  updateData!({...data as CreatePropertyDto , streetNumber : Number(e.currentTarget.value) });
                 }}
                 type="text"
                 name=""
@@ -48,17 +34,14 @@ export default function LocationStep() {
                 className=" rounded-md ring-[1px] ring-muted-foreground p-1 h-7 w-full"
               />
             </label>
-              )}
-              
-            />
-            
+
             <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/2">
               <p className="text-muted">StreetName</p>
               <input
                 value={data?.streetName ?? ''}
                 onChange={(e) => {
                   updateData!({
-                    ...data,
+                    ...data as CreatePropertyDto,
                     streetName: e.target.value,
                   });
                 }}
@@ -74,7 +57,7 @@ export default function LocationStep() {
                 value={data?.suburb ?? ''}
                 onChange={(e) => {
                   updateData!({
-                    ...data,
+                    ...data as CreatePropertyDto,
                     suburb: e.target.value,
                   });
                 }}
@@ -93,7 +76,7 @@ export default function LocationStep() {
                   value={data?.address ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data,
+                      ...data as CreatePropertyDto,
                       address: e.target.value,
                     });
                   }}
@@ -110,7 +93,7 @@ export default function LocationStep() {
                   value={data?.city ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data,
+                      ...data as CreatePropertyDto,
                       city: e.target.value,
                     });
                   }}
@@ -128,7 +111,7 @@ export default function LocationStep() {
                 value={data?.country ?? ''}
                 onChange={(e) => {
                   updateData!({
-                    ...data,
+                    ...data as CreatePropertyDto,
                     country: e.target.value,
                   });
                 }}
@@ -148,7 +131,7 @@ export default function LocationStep() {
                   value={data?.state ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data,
+                      ...data as CreatePropertyDto,
                       state: e.target.value,
                     });
                   }}
@@ -164,7 +147,7 @@ export default function LocationStep() {
                   value={data?.postalCode ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data,
+                      ...data as CreatePropertyDto,
                       postalCode: e.target.value,
                     });
                   }}
@@ -182,7 +165,7 @@ export default function LocationStep() {
         <button
           onClick={nextStep}
           type="button"
-          className="flex cursor-pointer items-center justify-center w-full bg-button p-1 text-xs rounded-lg inset-shadow-2xs inset-shadow-muted/50 shadow-2xs shadow-black"
+          className="flex cursor-pointer items-center justify-center w-full bg-button p-2 text-xs rounded-lg inset-shadow-2xs inset-shadow-muted/50 shadow-2xs shadow-black"
         >
           Next Step
           <div className="flex gap-0">

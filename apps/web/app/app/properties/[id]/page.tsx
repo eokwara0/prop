@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import { AnimatedHeader } from '../../../../lib/components/animated/animated.header';
 import { DialogComponent } from '../../../../lib/components/dialog/dialog';
+import { BadgePlusIcon } from 'lucide-react';
+import PropertyStats from '@/lib/components/property/components/property-stas';
 
 export default async function Properties() {
   const t = await getTranslations('Property');
@@ -11,8 +13,9 @@ export default async function Properties() {
         <div className="flex justify-between max-sm:flex-col max-sm:gap-3 max-sm:justify-start">
           <AnimatedHeader />
           <DialogComponent>
-            <div className=" p-2 rounded-md w-full cursor-pointer bg-button py-2 px-5  shadow-xs shadow-black/50  inset-shadow-2xs inset-shadow-accent/50 text-sm">
-              Add Property
+            <div className=" p-2 flex justify-center gap-2 items-center rounded-md w-full cursor-pointer bg-button py-2 px-5  shadow-xs shadow-black/50  inset-shadow-2xs inset-shadow-accent/50 text-sm">
+              <BadgePlusIcon size={20}/>
+              Add
             </div>
           </DialogComponent>
         </div>
@@ -20,26 +23,8 @@ export default async function Properties() {
           {t('description')}
         </p>
       </div>
-      <div className="  max-md:grid  min-md:flex  max-md:grid-cols-1 gap-4 w-full p-2">
-        {...[1, 2, 3, 4, 5].map((x) => (
-          <div
-            key={x}
-            className={`text-center flex justify-center items-center w-full rounded-lg backdrop-blur-lg shadow-md shadow-black  inset-shadow-2xs inset-shadow-accent/50 text-xs ${
-              x == 1
-                ? 'bg-gradient-to-tr from-button to-emerald-600'
-                : x == 2
-                  ? 'bg-gradient-to-tr from-sky-400 to-emerald-600'
-                  : x == 3
-                    ? 'bg-gradient-to-tr from-indigo-300 to-emerald-600'
-                    : x == 4
-                      ? '  bg-gradient-to-tr from-pink-400 to-pink-500'
-                      : 'bg-gradient-to-br from-amber-300 to-amber-500'
-            } h-60`}
-          >
-            {x}
-          </div>
-        ))}
-      </div>
+      <PropertyStats>
+      </PropertyStats>
     </div>
   );
     

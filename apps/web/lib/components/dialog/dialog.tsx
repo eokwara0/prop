@@ -17,7 +17,7 @@ import {
   DialogTrigger,
   DialogTitle,
 } from '@/lib/shadcn/components/ui/dialog';
-import PropertyForm from '../property/add.property.form';
+import PropertyForm from '../property/forms/add.property.form';
 
 export function DialogComponent({ children }: { children: ReactNode }) {
   const t = useTranslations('Property');

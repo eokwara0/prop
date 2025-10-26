@@ -191,7 +191,47 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PropertyResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Property"
+        ]
+      }
+    },
+    "/property/owner/stats/{ownerId}": {
+      "get": {
+        "operationId": "PropertyController_getOwnerStats",
+        "parameters": [
+          {
+            "name": "ownerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyStatsResult"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -438,6 +478,135 @@
           "isForSale",
           "images",
           "isActive"
+        ]
+      },
+      "PropertyResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "number"
+          },
+          "suburb": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "bedrooms": {
+            "type": "number"
+          },
+          "bathrooms": {
+            "type": "number"
+          },
+          "hasParking": {
+            "type": "boolean"
+          },
+          "isFurnished": {
+            "type": "boolean"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "isForRent": {
+            "type": "boolean"
+          },
+          "isForSale": {
+            "type": "boolean"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "squareFeet": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "mainImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name",
+          "streetName",
+          "streetNumber",
+          "suburb",
+          "country",
+          "bedrooms",
+          "bathrooms",
+          "hasParking",
+          "isFurnished",
+          "ownerId",
+          "isForRent",
+          "isForSale",
+          "images",
+          "isActive"
+        ]
+      },
+      "PropertyStatsResult": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "totalProperties": {
+            "type": "number"
+          },
+          "propertiesAvailable": {
+            "type": "number"
+          },
+          "propertiesRented": {
+            "type": "number"
+          },
+          "portfolioValue": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "userId",
+          "userName",
+          "totalProperties",
+          "propertiesAvailable",
+          "propertiesRented",
+          "portfolioValue"
         ]
       }
     }

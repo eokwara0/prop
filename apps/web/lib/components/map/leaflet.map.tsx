@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import { IoSearch } from 'react-icons/io5';
 import './index.css';
-import { usePropertyFormContext } from '../property/property.form.provider';
+import { usePropertyFormContext } from '../property/forms/property.form.provider';
 
 export type GeoResponse = {
   summary: Summary;

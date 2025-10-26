@@ -12,3 +12,4 @@ export * from './verficiation.token.schema';
 export * from './userpaass.schema';
 export * from './user.type.schema';
 export * from './response'
+export * from './views';

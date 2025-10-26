@@ -84,6 +84,42 @@ export interface CreatePropertyDto {
   mainImage?: string;
 }
 
+export interface PropertyResult {
+  id: string;
+  type: string;
+  name: string;
+  streetName: string;
+  streetNumber: number;
+  suburb: string;
+  country: string;
+  bedrooms: number;
+  bathrooms: number;
+  hasParking: boolean;
+  isFurnished: boolean;
+  ownerId: string;
+  isForRent: boolean;
+  isForSale: boolean;
+  images: string[];
+  isActive: boolean;
+  description?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  squareFeet?: number;
+  price?: number;
+  mainImage?: string;
+}
+
+export interface PropertyStatsResult {
+  userId: string;
+  userName: string;
+  totalProperties: number;
+  propertiesAvailable: number;
+  propertiesRented: number;
+  portfolioValue: number;
+}
+
 export const getDomio = () => {
 const authControllerGetUsers = (
     
@@ -157,13 +193,22 @@ const propertyControllerGet = (
 const propertyControllerGetByOwner = (
     ownerId: string,
  ) => {
-      return customInstanceMutator<void>(
+      return customInstanceMutator<PropertyResult[]>(
       {url: `/property/owner/${ownerId}`, method: 'GET'
     },
       );
     }
   
-return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile,authControllerGetUserId,propertyControllerCreate,propertyControllerGet,propertyControllerGetByOwner}};
+const propertyControllerGetOwnerStats = (
+    ownerId: string,
+ ) => {
+      return customInstanceMutator<PropertyStatsResult>(
+      {url: `/property/owner/stats/${ownerId}`, method: 'GET'
+    },
+      );
+    }
+  
+return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile,authControllerGetUserId,propertyControllerCreate,propertyControllerGet,propertyControllerGetByOwner,propertyControllerGetOwnerStats}};
 export type AuthControllerGetUsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUsers']>>>
 export type AuthControllerLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerLogin']>>>
 export type AuthControllerSignupResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerSignup']>>>
@@ -172,3 +217,4 @@ export type AuthControllerGetUserIdResult = NonNullable<Awaited<ReturnType<Retur
 export type PropertyControllerCreateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerCreate']>>>
 export type PropertyControllerGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGet']>>>
 export type PropertyControllerGetByOwnerResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGetByOwner']>>>
+export type PropertyControllerGetOwnerStatsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGetOwnerStats']>>>

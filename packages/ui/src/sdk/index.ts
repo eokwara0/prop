@@ -4,7 +4,11 @@ const {
   authControllerGetUsers,
   authControllerLogin,
   authControllerSignup,
-  authControllerGetUserId
+  authControllerGetUserId,
+  propertyControllerCreate,
+  propertyControllerGet,
+  propertyControllerGetByOwner,
+  propertyControllerGetOwnerStats
 } = getDomio();
 
 export {
@@ -12,6 +16,10 @@ export {
   authControllerGetUsers as getUser,
   authControllerLogin as login,
   authControllerSignup as signup,
-  authControllerGetUserId as getUserId
+  authControllerGetUserId as getUserId,
+  propertyControllerCreate as createProperty,
+  propertyControllerGet as getPropertyById,
+  propertyControllerGetByOwner as getOwnersProperty,
+  propertyControllerGetOwnerStats as getPropertyStats
 };
 export * from './domio';
