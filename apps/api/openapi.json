@@ -238,6 +238,123 @@
           "Property"
         ]
       }
+    },
+    "/file/upload": {
+      "post": {
+        "operationId": "FileController_uploadFile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadFileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "File Management"
+        ]
+      }
+    },
+    "/file/upload-url": {
+      "post": {
+        "operationId": "FileController_generateUploadUrl",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadFileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "File Management"
+        ]
+      }
+    },
+    "/file/download/{key}": {
+      "get": {
+        "operationId": "FileController_getDownloadUrl",
+        "parameters": [
+          {
+            "name": "key",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "File Management"
+        ]
+      }
+    },
+    "/file/list": {
+      "get": {
+        "operationId": "FileController_listFiles",
+        "parameters": [
+          {
+            "name": "prefix",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "File Management"
+        ]
+      }
+    },
+    "/file/delete/{key}": {
+      "delete": {
+        "operationId": "FileController_deleteFile",
+        "parameters": [
+          {
+            "name": "key",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "File Management"
+        ]
+      }
     }
   },
   "info": {
@@ -607,6 +724,63 @@
           "propertiesAvailable",
           "propertiesRented",
           "portfolioValue"
+        ]
+      },
+      "UploadFileDto": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary"
+          },
+          "folder": {
+            "type": "string",
+            "enum": [
+              "properties",
+              "users",
+              "tenancies",
+              "payments"
+            ]
+          },
+          "sub": {
+            "type": "string",
+            "enum": [
+              "images",
+              "documents",
+              "profile",
+              "identity",
+              "agreements",
+              "inspections",
+              "proof"
+            ]
+          },
+          "tenantId": {
+            "type": "string"
+          },
+          "propertyId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "tenancyId": {
+            "type": "string"
+          },
+          "paymentId": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "file",
+          "folder",
+          "sub",
+          "tenantId"
         ]
       }
     }
