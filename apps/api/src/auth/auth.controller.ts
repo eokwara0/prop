@@ -91,7 +91,7 @@ export class AuthController {
   }
 
   @Get('get-id')
-  @ApiOkResponse({ type : String })
+  @ApiOkResponse({ type: String })
   async getUserId(@Request() req): Promise<string> {
     return req.user.sub;
   }

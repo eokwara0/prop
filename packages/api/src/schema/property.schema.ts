@@ -46,13 +46,16 @@ export const PropertyCreateSchema = PropertySchema.omit({
   updatedAt: true,
 });
 
-export const PropertyWithUnitsSchema = PropertySchema.extend({
-  units: z
-    .array(
-      UnitSchema)
+export const propertyUpdateShcema = PropertySchema.omit({
+  createdAt: true,
+  updatedAt: true,
 });
 
+export const PropertyWithUnitsSchema = PropertySchema.extend({
+  units: z.array(UnitSchema),
+});
 
 export type IPropertyCreateDTO = z.infer<typeof PropertyCreateSchema>;
+export type IPropertyUpdateDto = z.infer<typeof propertyUpdateShcema>;
 export type IProperty = z.infer<typeof PropertySchema>;
 export type IPropertyWithUnits = z.infer<typeof PropertyWithUnitsSchema>;

@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@radix-ui/react-tooltip';
-import {  LogOut, LucideProps, PanelLeft, Settings } from 'lucide-react';
+import { LogOut, LucideProps, PanelLeft, Settings } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import React, { useCallback, useEffect } from 'react';
 import { createContext, useContext, useState } from 'react';
@@ -14,7 +14,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useIsMobile } from './use-mobile';
 import { NavDrawer } from './nav.drawer';
 import { AuthProviderContext } from '../../providers/app.auth.provider';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/lib/shadcn/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/lib/shadcn/components/ui/dropdown-menu';
 
 const SIDEBAR_WIDTH = '3rem';
 
@@ -201,7 +206,7 @@ export function SideBar({ logo }: { logo: StaticImageData }) {
                   </div>
                   <div>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild className='mb-5'>
+                      <DropdownMenuTrigger asChild className="mb-5">
                         <Settings className="cursor-pointer" />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent

@@ -1,10 +1,18 @@
-import { ChevronLeft } from "lucide-react";
-import { usePropertyFormContext } from "./property.form.provider";
-import { motion } from "framer-motion";
-import { PropertySchema } from "../../../types/schemas";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/lib/shadcn/components/ui/select";
-import { Switch } from "@/lib/shadcn/components/ui/switch";
-import { CreatePropertyDto } from "../../../../../../packages/ui/src";
+import { ChevronLeft } from 'lucide-react';
+import { usePropertyFormContext } from './property.form.provider';
+import { motion } from 'framer-motion';
+import { PropertySchema } from '../../../types/schemas';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/lib/shadcn/components/ui/select';
+import { Switch } from '@/lib/shadcn/components/ui/switch';
+import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 export default function DetailsStep() {
   const { updateData, data, nextStep, prevStep } = usePropertyFormContext();
 
@@ -13,7 +21,7 @@ export default function DetailsStep() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 80, damping: 18 }}
+        transition={{ type: 'spring', stiffness: 80, damping: 18 }}
         className="w-full flex flex-col gap-3 px-5  py-3"
       >
         <div className="flex justify-between ">
@@ -37,9 +45,12 @@ export default function DetailsStep() {
                 id="prop-name"
                 placeholder="Property name"
                 className=" h-7 ring  w-full p-2 rounded-md"
-                value={data?.name ?? ""}
+                value={data?.name ?? ''}
                 onChange={(e) =>
-                  updateData!({ ...data as CreatePropertyDto, name: e.currentTarget.value })
+                  updateData!({
+                    ...(data as CreatePropertyDto),
+                    name: e.currentTarget.value,
+                  })
                 }
               />
             </label>
@@ -51,9 +62,12 @@ export default function DetailsStep() {
                 id="prop-desc"
                 placeholder="description"
                 className=" h-7 ring w-full p-2 rounded-md"
-                value={data?.description ?? ""}
+                value={data?.description ?? ''}
                 onChange={(e) =>
-                  updateData!({ ...data as CreatePropertyDto, description: e.currentTarget.value })
+                  updateData!({
+                    ...(data as CreatePropertyDto),
+                    description: e.currentTarget.value,
+                  })
                 }
               />
             </label>
@@ -66,7 +80,7 @@ export default function DetailsStep() {
                 onValueChange={(e) => {
                   console.log(e);
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     type: PropertySchema.shape.type.parse(e),
                   });
                 }}
@@ -82,13 +96,13 @@ export default function DetailsStep() {
                   <SelectGroup className="bg-dialog-color">
                     <SelectLabel>Property Types</SelectLabel>
                     {[
-                      "house",
-                      "apartment",
-                      "townhouse",
-                      "condo",
-                      "duplex",
-                      "commercial",
-                      "land",
+                      'house',
+                      'apartment',
+                      'townhouse',
+                      'condo',
+                      'duplex',
+                      'commercial',
+                      'land',
                     ].map((val) => (
                       <SelectItem
                         value={val}
@@ -109,7 +123,10 @@ export default function DetailsStep() {
                 type="number"
                 value={data?.price ?? 10000}
                 onChange={(e) =>
-                  updateData!({ ...data as CreatePropertyDto, price: Number(e.currentTarget.value) })
+                  updateData!({
+                    ...(data as CreatePropertyDto),
+                    price: Number(e.currentTarget.value),
+                  })
                 }
                 name="prop-price"
                 id="prop-price"
@@ -126,7 +143,7 @@ export default function DetailsStep() {
                 value={data?.bedrooms ?? 2}
                 onChange={(e) =>
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     bedrooms: Number(e.currentTarget.value),
                   })
                 }
@@ -143,7 +160,7 @@ export default function DetailsStep() {
                 value={data?.bathrooms ?? 2}
                 onChange={(e) =>
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     bathrooms: Number(e.currentTarget.value),
                   })
                 }
@@ -160,7 +177,7 @@ export default function DetailsStep() {
                 value={data?.squareFeet ?? 0}
                 onChange={(e) =>
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     squareFeet: Number(e.currentTarget.value),
                   })
                 }
@@ -180,7 +197,7 @@ export default function DetailsStep() {
                 checked={data?.hasParking ?? false}
                 onCheckedChange={(e) =>
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     hasParking: e,
                   })
                 }
@@ -194,7 +211,7 @@ export default function DetailsStep() {
                 checked={data?.isFurnished ?? false}
                 onCheckedChange={(e) =>
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     isFurnished: e,
                   })
                 }
@@ -208,8 +225,8 @@ export default function DetailsStep() {
                 checked={data?.isForRent ?? false}
                 onCheckedChange={(e) =>
                   updateData!({
-                    ...data as CreatePropertyDto,
-                    isForRent:e,
+                    ...(data as CreatePropertyDto),
+                    isForRent: e,
                   })
                 }
               />
@@ -222,7 +239,7 @@ export default function DetailsStep() {
                 checked={data?.isForSale ?? false}
                 onCheckedChange={(e) =>
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     isForSale: e,
                   })
                 }

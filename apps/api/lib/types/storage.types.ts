@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { File } from "buffer";
-import { IsEnum, IsOptional, IsString, ValidateIf } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { File } from 'buffer';
+import { IsEnum, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export enum S3Folder {
   PROPERTIES = 'properties',
@@ -19,8 +19,6 @@ export enum S3SubFolder {
   PROOF = 'proof',
 }
 
-
-
 export class UploadFileDtoWithFile {
   @ApiProperty({ type: 'string', description: 'Any field in your body' })
   someField: string;
@@ -31,9 +29,8 @@ export class UploadFileDtoWithFile {
 
 // ✅ Upload Request DTO for NestJS (metadata only)
 export class UploadFileDto {
-
-  @ApiProperty({ type : 'string' , format : 'binary'})
-  file: Express.Multer.File
+  @ApiProperty({ type: 'string', format: 'binary' })
+  file: Express.Multer.File;
 
   @ApiProperty({ enum: S3Folder })
   @IsEnum(S3Folder)
@@ -48,28 +45,28 @@ export class UploadFileDto {
   tenantId!: string;
 
   // ✅ Conditional fields depending on folder type
-  @ValidateIf(o => o.folder === S3Folder.PROPERTIES)
+  @ValidateIf((o) => o.folder === S3Folder.PROPERTIES)
   @IsOptional()
   @IsString()
-  @ApiProperty({type : 'string', required : false})
+  @ApiProperty({ type: 'string', required: false })
   propertyId?: string;
 
-  @ValidateIf(o => o.folder === S3Folder.USERS)
+  @ValidateIf((o) => o.folder === S3Folder.USERS)
   @IsOptional()
   @IsString()
-  @ApiProperty({type : 'string' , required  : false})
+  @ApiProperty({ type: 'string', required: false })
   userId?: string;
 
-  @ValidateIf(o => o.folder === S3Folder.TENANCIES)
+  @ValidateIf((o) => o.folder === S3Folder.TENANCIES)
   @IsOptional()
   @IsString()
-  @ApiProperty({type : 'string' , required :false})
+  @ApiProperty({ type: 'string', required: false })
   tenancyId?: string;
 
-  @ValidateIf(o => o.folder === S3Folder.PAYMENTS)
+  @ValidateIf((o) => o.folder === S3Folder.PAYMENTS)
   @IsOptional()
   @IsString()
-  @ApiProperty({type : 'string', required  : false})
+  @ApiProperty({ type: 'string', required: false })
   paymentId?: string;
 
   @ApiProperty({ required: false })
@@ -77,11 +74,10 @@ export class UploadFileDto {
   @IsString()
   fileName?: string;
 
-
-  @ApiProperty({ required : false })
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  contentType?: string
+  contentType?: string;
 }
 
 // ✅ Type-safe parameters AFTER validation (internal use)

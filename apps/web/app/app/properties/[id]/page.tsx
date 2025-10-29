@@ -26,7 +26,7 @@ export default async function Properties() {
         </p>
       </div>
       <PropertyStats></PropertyStats>
-      <PropertyList/>
+      <PropertyList />
     </div>
   );
 }

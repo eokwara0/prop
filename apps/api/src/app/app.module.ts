@@ -10,7 +10,10 @@ import { FileModule } from '../file/file.module';
     AuthModule,
     PropertyModule,
     FileModule,
-    ConfigModule.forRoot({isGlobal : true, envFilePath : ['.env.development.local']}),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env.development.local'],
+    }),
     JwtModule.register({
       global: true,
       secret: process.env.JWT,

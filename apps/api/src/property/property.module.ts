@@ -3,7 +3,7 @@ import { PropertyController } from './property.controller';
 import { SServiceModule } from 'lib/services';
 
 @Module({
-  imports:[SServiceModule],
-  controllers: [PropertyController]
+  imports: [SServiceModule],
+  controllers: [PropertyController],
 })
 export class PropertyModule {}
