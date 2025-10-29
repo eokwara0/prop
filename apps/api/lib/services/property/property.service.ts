@@ -10,6 +10,7 @@ import {
   IProperty,
   IPropertyCreateDTO,
   IPropertyStats,
+  IPropertyUpdateDto,
   IPropertyWithUnits,
 } from '@repo/api/index';
 import { PropertyStats } from 'lib/models/views/property.stats.model';
@@ -69,12 +70,12 @@ export class PropertyService {
   }
 
   /** ✅ Update property */
-  async update(id: string, data: IPropertyCreateDTO): Promise<IProperty> {
+  async update(data: IPropertyUpdateDto): Promise<IProperty> {
     return await this.knexService.instance.transaction(async (trx) => {
       const updated = await this.propertyModel
         .query(trx)
-        .patch(data)
-        .where('id', id)
+        .patch({ ...data, updatedAt: new Date(Date.now()).toISOString() })
+        .where('id', data.id)
         .returning('*');
 
       if (!updated?.length) throw new NotFoundException('Property not found');

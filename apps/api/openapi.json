@@ -153,6 +153,37 @@
         ]
       }
     },
+    "/property/update": {
+      "patch": {
+        "operationId": "PropertyController_updateProperty",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePrpopertyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePropertyResult"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Property"
+        ]
+      }
+    },
     "/property/{id}": {
       "get": {
         "operationId": "PropertyController_get",
@@ -591,6 +622,203 @@
           "hasParking",
           "isFurnished",
           "ownerId",
+          "isForRent",
+          "isForSale",
+          "images",
+          "isActive"
+        ]
+      },
+      "UpdatePrpopertyDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "house",
+              "apartment",
+              "townhouse",
+              "condo",
+              "duplex",
+              "commercial",
+              "land"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "number"
+          },
+          "suburb": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "bedrooms": {
+            "type": "number"
+          },
+          "bathrooms": {
+            "type": "number"
+          },
+          "hasParking": {
+            "type": "boolean"
+          },
+          "isFurnished": {
+            "type": "boolean"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "isForRent": {
+            "type": "boolean"
+          },
+          "isForSale": {
+            "type": "boolean"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "squareFeet": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "mainImage": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "streetName",
+          "streetNumber",
+          "suburb",
+          "country",
+          "bedrooms",
+          "bathrooms",
+          "hasParking",
+          "isFurnished",
+          "ownerId",
+          "isForRent",
+          "isForSale",
+          "images",
+          "isActive",
+          "id"
+        ]
+      },
+      "UpdatePropertyResult": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "number"
+          },
+          "suburb": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "bedrooms": {
+            "type": "number"
+          },
+          "bathrooms": {
+            "type": "number"
+          },
+          "hasParking": {
+            "type": "boolean"
+          },
+          "isFurnished": {
+            "type": "boolean"
+          },
+          "isForRent": {
+            "type": "boolean"
+          },
+          "isForSale": {
+            "type": "boolean"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "squareFeet": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "mainImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "streetName",
+          "streetNumber",
+          "suburb",
+          "country",
+          "bedrooms",
+          "bathrooms",
+          "hasParking",
+          "isFurnished",
           "isForRent",
           "isForSale",
           "images",

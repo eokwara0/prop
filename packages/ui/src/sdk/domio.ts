@@ -86,6 +86,47 @@ export interface CreatePropertyDto {
   mainImage?: string;
 }
 
+export type UpdatePrpopertyDtoType =
+  (typeof UpdatePrpopertyDtoType)[keyof typeof UpdatePrpopertyDtoType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdatePrpopertyDtoType = {
+  house: 'house',
+  apartment: 'apartment',
+  townhouse: 'townhouse',
+  condo: 'condo',
+  duplex: 'duplex',
+  commercial: 'commercial',
+  land: 'land',
+} as const;
+
+export interface UpdatePrpopertyDto {
+  type: UpdatePrpopertyDtoType;
+  name: string;
+  streetName: string;
+  streetNumber: number;
+  suburb: string;
+  country: string;
+  bedrooms: number;
+  bathrooms: number;
+  hasParking: boolean;
+  isFurnished: boolean;
+  ownerId: string;
+  isForRent: boolean;
+  isForSale: boolean;
+  images: string[];
+  isActive: boolean;
+  description?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  squareFeet?: number;
+  price?: number;
+  mainImage?: string;
+  id: string;
+}
+
 export interface PropertyResult {
   id: string;
   type: string;
@@ -210,6 +251,17 @@ export const getDomio = () => {
     });
   };
 
+  const propertyControllerUpdateProperty = (
+    updatePrpopertyDto: UpdatePrpopertyDto,
+  ) => {
+    return customInstanceMutator<PropertyResult>({
+      url: `/property/update`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: updatePrpopertyDto,
+    });
+  };
+
   const propertyControllerGet = (id: string) => {
     return customInstanceMutator<void>({
       url: `/property/${id}`,
@@ -302,6 +354,7 @@ export const getDomio = () => {
     authControllerGetProfile,
     authControllerGetUserId,
     propertyControllerCreate,
+    propertyControllerUpdateProperty,
     propertyControllerGet,
     propertyControllerGetByOwner,
     propertyControllerGetOwnerStats,
@@ -329,6 +382,11 @@ export type AuthControllerGetUserIdResult = NonNullable<
 >;
 export type PropertyControllerCreateResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerCreate']>>
+>;
+export type PropertyControllerUpdatePropertyResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getDomio>['propertyControllerUpdateProperty']>
+  >
 >;
 export type PropertyControllerGetResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGet']>>

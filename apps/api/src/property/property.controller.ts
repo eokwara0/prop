@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { ApiOkResponse } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBody, ApiOkResponse, OmitType } from '@nestjs/swagger';
 import { IProperty } from '@repo/api/index';
 import { AuthGuard } from 'lib/guards/auth.guard';
 import { PropertyService } from 'lib/services/property/property.service';
@@ -8,6 +17,8 @@ import {
   PropertyResult,
   PropertyStatsResult,
   RResponse,
+  UpdatePropertyResult,
+  UpdatePrpopertyDto,
 } from 'lib/types/property.types';
 
 @UseGuards(AuthGuard)
@@ -26,6 +37,16 @@ export class PropertyController {
         message: 'Property created successfully',
       },
     };
+  }
+
+  @ApiOkResponse({ type:  UpdatePropertyResult })
+  @ApiBody({ type: UpdatePrpopertyDto })
+  @HttpCode(201)
+  @Patch('update')
+  async updateProperty(
+    @Body() data: UpdatePrpopertyDto,
+  ): Promise<UpdatePropertyResult> {
+    return (await this.propertyService.update(data)) as UpdatePropertyResult;
   }
 
   @Get(':id')
