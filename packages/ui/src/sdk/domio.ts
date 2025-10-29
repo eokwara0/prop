@@ -120,6 +120,48 @@ export interface PropertyStatsResult {
   portfolioValue: number;
 }
 
+export type UploadFileDtoFolder = typeof UploadFileDtoFolder[keyof typeof UploadFileDtoFolder];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UploadFileDtoFolder = {
+  properties: 'properties',
+  users: 'users',
+  tenancies: 'tenancies',
+  payments: 'payments',
+} as const;
+
+export type UploadFileDtoSub = typeof UploadFileDtoSub[keyof typeof UploadFileDtoSub];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UploadFileDtoSub = {
+  images: 'images',
+  documents: 'documents',
+  profile: 'profile',
+  identity: 'identity',
+  agreements: 'agreements',
+  inspections: 'inspections',
+  proof: 'proof',
+} as const;
+
+export interface UploadFileDto {
+  file: Blob;
+  folder: UploadFileDtoFolder;
+  sub: UploadFileDtoSub;
+  tenantId: string;
+  propertyId?: string;
+  userId?: string;
+  tenancyId?: string;
+  paymentId?: string;
+  fileName?: string;
+  contentType?: string;
+}
+
+export type FileControllerListFilesParams = {
+prefix: string;
+};
+
 export const getDomio = () => {
 const authControllerGetUsers = (
     
@@ -208,7 +250,80 @@ const propertyControllerGetOwnerStats = (
       );
     }
   
-return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile,authControllerGetUserId,propertyControllerCreate,propertyControllerGet,propertyControllerGetByOwner,propertyControllerGetOwnerStats}};
+const fileControllerUploadFile = (
+    uploadFileDto: UploadFileDto,
+ ) => {const formData = new FormData();
+formData.append(`file`, uploadFileDto.file)
+formData.append(`folder`, uploadFileDto.folder)
+formData.append(`sub`, uploadFileDto.sub)
+formData.append(`tenantId`, uploadFileDto.tenantId)
+if(uploadFileDto.propertyId !== undefined) {
+ formData.append(`propertyId`, uploadFileDto.propertyId)
+ }
+if(uploadFileDto.userId !== undefined) {
+ formData.append(`userId`, uploadFileDto.userId)
+ }
+if(uploadFileDto.tenancyId !== undefined) {
+ formData.append(`tenancyId`, uploadFileDto.tenancyId)
+ }
+if(uploadFileDto.paymentId !== undefined) {
+ formData.append(`paymentId`, uploadFileDto.paymentId)
+ }
+if(uploadFileDto.fileName !== undefined) {
+ formData.append(`fileName`, uploadFileDto.fileName)
+ }
+if(uploadFileDto.contentType !== undefined) {
+ formData.append(`contentType`, uploadFileDto.contentType)
+ }
+
+      return customInstanceMutator<void>(
+      {url: `/file/upload`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData
+    },
+      );
+    }
+  
+const fileControllerGenerateUploadUrl = (
+    uploadFileDto: UploadFileDto,
+ ) => {
+      return customInstanceMutator<void>(
+      {url: `/file/upload-url`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: uploadFileDto
+    },
+      );
+    }
+  
+const fileControllerGetDownloadUrl = (
+    key: string,
+ ) => {
+      return customInstanceMutator<void>(
+      {url: `/file/download/${key}`, method: 'GET'
+    },
+      );
+    }
+  
+const fileControllerListFiles = (
+    params: FileControllerListFilesParams,
+ ) => {
+      return customInstanceMutator<void>(
+      {url: `/file/list`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+const fileControllerDeleteFile = (
+    key: string,
+ ) => {
+      return customInstanceMutator<void>(
+      {url: `/file/delete/${key}`, method: 'DELETE'
+    },
+      );
+    }
+  
+return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile,authControllerGetUserId,propertyControllerCreate,propertyControllerGet,propertyControllerGetByOwner,propertyControllerGetOwnerStats,fileControllerUploadFile,fileControllerGenerateUploadUrl,fileControllerGetDownloadUrl,fileControllerListFiles,fileControllerDeleteFile}};
 export type AuthControllerGetUsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUsers']>>>
 export type AuthControllerLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerLogin']>>>
 export type AuthControllerSignupResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerSignup']>>>
@@ -218,3 +333,8 @@ export type PropertyControllerCreateResult = NonNullable<Awaited<ReturnType<Retu
 export type PropertyControllerGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGet']>>>
 export type PropertyControllerGetByOwnerResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGetByOwner']>>>
 export type PropertyControllerGetOwnerStatsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGetOwnerStats']>>>
+export type FileControllerUploadFileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerUploadFile']>>>
+export type FileControllerGenerateUploadUrlResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerGenerateUploadUrl']>>>
+export type FileControllerGetDownloadUrlResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerGetDownloadUrl']>>>
+export type FileControllerListFilesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerListFiles']>>>
+export type FileControllerDeleteFileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerDeleteFile']>>>

@@ -7,27 +7,42 @@ export class KnexService {
 
   constructor() {
     try {
-        this.knex = knex({
-      client: 'mssql',
-      connection: {
-        database: 'domio',
-        server: 'domio.database.windows.net',
-        user: 'domio',
-        password: 'DHousing123456789$',
-        options: {
-          encrypt: true,
-          trustServerCertificate: false,
-          enableArithAbort: true,
-        },
-        port: 1433,
-      },
-      pool: { min: 10, max: 20 },
-    });
-      
+      this.knex = knex(
+        process.env.NODE_ENV === 'production'
+          ? {
+              client: 'mssql',
+              connection: {
+                database: 'domio',
+                server: 'domio.database.windows.net',
+                user: 'domio',
+                password: 'DHousing123456789$',
+                options: {
+                  encrypt: true,
+                  trustServerCertificate: false,
+                  enableArithAbort: true,
+                },
+                port: 1433,
+              },
+              pool: { min: 10, max: 20 },
+            }
+          : {
+              client: 'mssql',
+              connection: {
+                server: 'localhost',
+                user: 'sa',
+                password: 'StrongP@ssword123!',
+                database: 'master', // or your DB name
+                port: 1433,
+                options: {
+                  encrypt: false,
+                  trustServerCertificate: true,
+                },
+              },
+            },
+      );
     } catch (error) {
-      console.log('Knex initialization error:', error); 
+      console.log('Knex initialization error:', error);
     }
-    
   }
 
   get instance(): Knex {

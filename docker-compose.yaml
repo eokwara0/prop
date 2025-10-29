@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_local
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "StrongP@ssword123!"   # Change this to a secure password
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: minioadmin       # Change for security
+      MINIO_ROOT_PASSWORD: minioadmin   # Change for security
+    ports:
+      - "9005:9000"  # S3 API Endpoint
+      - "9006:9001"  # MinIO Web Console
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+  sql_data:
+  minio_data:

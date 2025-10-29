@@ -63,7 +63,7 @@
 }
 
 @theme inline {
-  --color-dsc: var(--dialog-s-color)
+  --color-dsc: var(--dialog-s-color);
   --color-mn: var(--mn-color);
   --color-dialog-color: var(--dialog-color);
   --color-pp-c: var(--primary-p-color);

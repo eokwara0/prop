@@ -34,7 +34,7 @@ export default function PropertyStats() {
         return (
           <div
             key={b}
-            className={`text-center flex flex-col gap-3 justify-left px-4 py-4 items-left w-full rounded-lg backdrop-blur-lg shadow-md shadow-black  inset-shadow-2xs inset-shadow-accent/50 text-xs ${
+            className={`text-center flex flex-col gap-3 justify-left px-4 py-4 items-left w-full rounded-lg backdrop-blur-sm shadow-md shadow-black  inset-shadow-2xs inset-shadow-accent/50 text-xs ${
               b == 0
                 ? 'bg-gradient-to-tr from-button to-emerald-500'
                 : b == 1

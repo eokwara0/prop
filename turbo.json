@@ -9,7 +9,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": ["NEST_API_URL","NEXT_PUBLIC_AZURE_MAPS_KEY"]
+      "env": ["NEST_API_URL","NEXT_PUBLIC_AZURE_MAPS_KEY","MINIO_ENDPOINT","MINIO_ACCESS_KEY","MINIO_SECRET_KEY","MINIO_REGION"]
     },
     "build": {
       "dependsOn": ["^build"],
