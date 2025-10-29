@@ -43,7 +43,7 @@ export default function BannerProvider({
       setOpen(true);
       setTimeout(close, 5000);
     },
-    [setMessage, setType, setOpen,close],
+    [setMessage, setType, setOpen, close],
   );
 
   return (

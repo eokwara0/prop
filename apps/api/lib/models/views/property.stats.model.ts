@@ -1,6 +1,6 @@
-import {Model} from "objection";
-import { UserModel } from "../user.model";
-import { Property as PP } from "../property.model";
+import { Model } from 'objection';
+import { UserModel } from '../user.model';
+import { Property as PP } from '../property.model';
 
 class PropertyStats extends Model {
   static get tableName() {
@@ -23,15 +23,15 @@ class PropertyStats extends Model {
         totalProperties: { type: 'integer' },
         propertiesAvailable: { type: 'integer' },
         propertiesRented: { type: 'integer' },
-        portfolioValue: { type: 'number' }
-      }
+        portfolioValue: { type: 'number' },
+      },
     };
   }
 
   // Optional: relationMappings if you want to join with other tables
   static get relationMappings() {
-    const User = UserModel // assuming you have a User model
-    const Property = PP // your Property model
+    const User = UserModel; // assuming you have a User model
+    const Property = PP; // your Property model
 
     return {
       owner: {
@@ -54,4 +54,4 @@ class PropertyStats extends Model {
   }
 }
 
-export { PropertyStats }
+export { PropertyStats };

@@ -9,7 +9,6 @@ import Modal from '../../../lib/components/banner/modal';
 import Loader from '../../../lib/components/loader/loader';
 import { InfoComponent } from '../../../lib/components/banner/info';
 
-
 export default function SignInPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

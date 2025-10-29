@@ -1,6 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import { DndContext, useDraggable, DragEndEvent } from "@dnd-kit/core";
+'use client';
+import React, { useState } from 'react';
+import { DndContext, useDraggable, DragEndEvent } from '@dnd-kit/core';
 
 export const DraggableBox: React.FC<{
   id: string;
@@ -12,11 +12,11 @@ export const DraggableBox: React.FC<{
 
   // Apply position + live drag transform
   const style = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute" as const,
-    cursor: "grab",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute' as const,
+    cursor: 'grab',
     left: position.x,
     top: position.y,
     transform: transform
@@ -25,7 +25,13 @@ export const DraggableBox: React.FC<{
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes} className="w-fit h-fit">
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className="w-fit h-fit"
+    >
       {children}
     </div>
   );
@@ -41,7 +47,7 @@ const DragContext = React.createContext<DragContextType | null>(null);
 export function useDragContext() {
   const context = React.useContext(DragContext);
   if (!context) {
-    throw new Error("useDragContext must be used within a DragProvider");
+    throw new Error('useDragContext must be used within a DragProvider');
   }
   return context;
 }
@@ -65,10 +71,10 @@ const FreeDragPage: React.FC<{ children: React.ReactNode }> = ({
       <DndContext onDragEnd={handleDragEnd}>
         <div
           style={{
-            position: "relative",
-            backgroundColor: "#f3f4f6",
+            position: 'relative',
+            backgroundColor: '#f3f4f6',
           }}
-            className="w-full h-full min-h-[86vh] bg-amber-500"
+          className="w-full h-full min-h-[86vh] bg-amber-500"
         >
           {children}
         </div>

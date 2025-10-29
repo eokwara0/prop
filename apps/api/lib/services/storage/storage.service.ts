@@ -11,16 +11,18 @@ import { S3KeyParams } from 'lib/types/storage.types';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { randomUUID, UUID } from 'node:crypto';
 
-
 @Injectable()
 export class StorageService {
   private EXPIRY: number;
-  constructor( private s3Client : S3ClientService ) {
+  constructor(private s3Client: S3ClientService) {
     this.EXPIRY = 60 * 10;
   }
 
-
-  async uploadFileBuffer(params: S3KeyParams, fileBuffer: Buffer, contentType: string): Promise<{ key: string; downloadUrl: string }> {
+  async uploadFileBuffer(
+    params: S3KeyParams,
+    fileBuffer: Buffer,
+    contentType: string,
+  ): Promise<{ key: string; downloadUrl: string }> {
     const key = this.buildS3Key(params);
 
     await this.s3Client.client.send(
@@ -61,7 +63,9 @@ export class StorageService {
   }
 
   async deleteFile(key: string): Promise<{ deleted: boolean }> {
-    await this.s3Client.client.send(new DeleteObjectCommand({ Bucket: this.s3Client.bucket_, Key: key }));
+    await this.s3Client.client.send(
+      new DeleteObjectCommand({ Bucket: this.s3Client.bucket_, Key: key }),
+    );
     return { deleted: true };
   }
 

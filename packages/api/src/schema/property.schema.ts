@@ -47,11 +47,8 @@ export const PropertyCreateSchema = PropertySchema.omit({
 });
 
 export const PropertyWithUnitsSchema = PropertySchema.extend({
-  units: z
-    .array(
-      UnitSchema)
+  units: z.array(UnitSchema),
 });
-
 
 export type IPropertyCreateDTO = z.infer<typeof PropertyCreateSchema>;
 export type IProperty = z.infer<typeof PropertySchema>;

@@ -4,9 +4,9 @@ import { usePropertyFormContext } from './property.form.provider';
 import dynamic from 'next/dynamic';
 import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 
-
-
-const LeafletMap = dynamic(() => import('../../map/leaflet.map'), { ssr: false });
+const LeafletMap = dynamic(() => import('../../map/leaflet.map'), {
+  ssr: false,
+});
 export default function LocationStep() {
   const { updateData, data, nextStep } = usePropertyFormContext();
   return (
@@ -26,7 +26,10 @@ export default function LocationStep() {
               <input
                 value={data?.streetNumber ?? 1}
                 onChange={(e) => {
-                  updateData!({...data as CreatePropertyDto , streetNumber : Number(e.currentTarget.value) });
+                  updateData!({
+                    ...(data as CreatePropertyDto),
+                    streetNumber: Number(e.currentTarget.value),
+                  });
                 }}
                 type="text"
                 name=""
@@ -41,7 +44,7 @@ export default function LocationStep() {
                 value={data?.streetName ?? ''}
                 onChange={(e) => {
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     streetName: e.target.value,
                   });
                 }}
@@ -57,7 +60,7 @@ export default function LocationStep() {
                 value={data?.suburb ?? ''}
                 onChange={(e) => {
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     suburb: e.target.value,
                   });
                 }}
@@ -76,7 +79,7 @@ export default function LocationStep() {
                   value={data?.address ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data as CreatePropertyDto,
+                      ...(data as CreatePropertyDto),
                       address: e.target.value,
                     });
                   }}
@@ -93,7 +96,7 @@ export default function LocationStep() {
                   value={data?.city ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data as CreatePropertyDto,
+                      ...(data as CreatePropertyDto),
                       city: e.target.value,
                     });
                   }}
@@ -111,7 +114,7 @@ export default function LocationStep() {
                 value={data?.country ?? ''}
                 onChange={(e) => {
                   updateData!({
-                    ...data as CreatePropertyDto,
+                    ...(data as CreatePropertyDto),
                     country: e.target.value,
                   });
                 }}
@@ -131,7 +134,7 @@ export default function LocationStep() {
                   value={data?.state ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data as CreatePropertyDto,
+                      ...(data as CreatePropertyDto),
                       state: e.target.value,
                     });
                   }}
@@ -147,7 +150,7 @@ export default function LocationStep() {
                   value={data?.postalCode ?? ''}
                   onChange={(e) => {
                     updateData!({
-                      ...data as CreatePropertyDto,
+                      ...(data as CreatePropertyDto),
                       postalCode: e.target.value,
                     });
                   }}

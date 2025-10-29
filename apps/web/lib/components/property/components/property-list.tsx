@@ -3,6 +3,7 @@ import {
   BathIcon,
   BedIcon,
   ChevronDown,
+  HouseIcon,
   MapPin,
   Ruler,
   SearchIcon,
@@ -16,59 +17,71 @@ import {
   PopoverTrigger,
 } from '@/lib/shadcn/components/ui/popover';
 import { PopoverArrow } from '@radix-ui/react-popover';
-import { Button } from '@/lib/shadcn/components/ui/button';
+import { FlexContainer, PropertyResult } from '../../../../../../packages/ui/src';
+import { usePropertyEdit } from '@/lib/providers/property.provider';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/lib/shadcn/components/ui/drawer';
+import { Skeleton } from '@/lib/shadcn/components/ui/skeleton';
 
 export function PropertyList() {
   const data = useProperty();
   return (
     <div className="w-full p-2">
       <PropertyFilter />
-      <div className="flex flex-wrap gap-5 gap-x-10 w-full  justify-center">
+      <div className="flex flex-wrap gap-5 gap-x-15 w-full  justify-center">
         {...data.map((a, b) => (
-          <div
-            key={b}
-            className="h-fit rounded-lg gap flex flex-col gap-2 ring  cursor-pointer w-fit"
-          >
-            <div className=' rounded-t-lg h-40 w-[300px] bg-[url("/prop.jpg")] bg-cover bg-no-repeat'>
-              <div className="w-full px-2 py-2 flex justify-end">
-                <Badge className="bg-gradient-to-r from-dialog-color backdrop-blur-xs ring to-dsc  flex text-[10px]">
-                  {a.isForRent ? 'Available' : 'rented'}
-                </Badge>
-              </div>
-            </div>
-            <div className="flex text-2xs">
-              <div className="flex justify-between w-full text-xs px-2">
-                <p>{a.name}</p>
-                <p>R {formatter.format(Number(a.price))}</p>
-              </div>
-            </div>
-            <div className="flex px-2  w-[300px] justify-left gap-2 items-center">
-              <MapPin size={20} />
-              <p className=" break-words text-muted-foreground overflow-hidden w-full text-[10px] h-4">
-                {a.address}
-              </p>
-            </div>
-            <div className="px-2 mb-5 flex gap-2">
-              {/* <Badge className='text-xs bg-d-background ring rounded-sm'>{a.type}</Badge> */}
-              <Badge className="rounded-sm">
-                <BathIcon /> <p>{a.bathrooms}</p>
-              </Badge>
-              <Badge className="rounded-sm  text-xs">
-                <BedIcon /> <p>{a.bedrooms}</p>
-              </Badge>
-              <Badge className="rounded-sm  text-xs">
-                <Ruler />{' '}
-                <p>
-                  {a.squareFeet}m<sup>2</sup>
-                </p>
-              </Badge>
-            </div>
-          </div>
+          <PropertyEditDrawer>
+            <PropertyCard key={b} a={a} b={b} />
+          </PropertyEditDrawer>
         ))}
       </div>
     </div>
   );
 }
+
+const PropertyEditDrawer = ({ children }: { children: React.ReactNode }) => {
+  const { data: c } = usePropertyEdit();
+  return (
+    <Drawer modal={false} >
+      <DrawerTrigger>{children}</DrawerTrigger>
+      <DrawerContent className='flex justify-center items-center bg-gradient-to-tr from-dialog-color to-dsc'>
+        <DrawerTitle></DrawerTitle>
+        <FlexContainer iscol center={true} className='p-4 h-1/2  w-1/2 gap-3'>
+          <FlexContainer className='w-full gap-2 items-center'>
+            <div className='bg-indigo-300 rounded-sm h-fit p-1'>
+              <HouseIcon size={20}/>
+            </div>
+            <p className='text-2xl text-gray-400'>Property Detail Page</p>
+          </FlexContainer>
+          <FlexContainer  className='w-full gap-2'>
+            <Skeleton className='h-100 w-full bg-gray-500/40'>
+              {''}
+            </Skeleton>
+            <FlexContainer iscol className='gap-2 justify-between h-100'>
+               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
+               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
+               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
+               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
+            </FlexContainer>
+          </FlexContainer>
+          <FlexContainer className='w-full'>
+            <FlexContainer iscol className='w-full gap-2'>
+            <p className='text-2xl text-muted'>{c?.name}</p>
+            <p className='text-sm text-muted-foregro'>{c?.description}</p>
+            </FlexContainer>
+
+          </FlexContainer>
+        </FlexContainer>
+      </DrawerContent>
+    </Drawer>
+  );
+};
 
 const PropertyFilter = () => {
   return (
@@ -85,15 +98,11 @@ const PropertyFilter = () => {
       </div>
       <div className="w-full flex justify-between p-2  #ring rounded-xl">
         <div className="flex gap-2 ">
-          {/* <datalist id="search-suggestions" className='bg-button'>
-                <option value="name:'Sunset Gardens'"></option>
-                <option value="type:condo"></option>
-            </datalist> */}
           <Popover>
             <PopoverTrigger className="flex  gap-2">
               <label
                 htmlFor="prop-search"
-                className="flex items-center ring-1 ring-muted/40 rounded-md p-1"
+                className="flex items-center ring-1 ring-muted/40 rounded-md px-1"
               >
                 <SearchIcon size={20} />
                 <input
@@ -105,9 +114,9 @@ const PropertyFilter = () => {
                 />
               </label>
               <div>
-                <Button type="submit" className="cursor-pointer bg-button">
+                <div className="p-2 rounded-md text-xs cursor-pointer bg-button">
                   search
-                </Button>
+                </div>
               </div>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] bg-l_f_f p-0  rounded-md ">
@@ -139,3 +148,54 @@ const PropertyFilter = () => {
     </div>
   );
 };
+function PropertyCard({
+  b,
+  a,
+}: {
+  b: number;
+  a: PropertyResult;
+}) {
+  const { setProperty: cc } = usePropertyEdit();
+  return (
+    <div
+      onClick={() => cc(a)}
+      key={b}
+      className="h-fit flex-1 rounded-lg gap flex flex-col gap-2 ring ring-button  cursor-pointer w-fit shadow-black shadow-2xs"
+    >
+      <div className=' rounded-t-lg h-40 w-full bg-[url("/prop.jpg")] bg-cover bg-no-repeat'>
+        <div className="w-full px-2 py-2 flex justify-end">
+          <Badge className="bg-gradient-to-r from-dialog-color backdrop-blur-xs ring to-dsc  flex text-[10px]">
+            {a.isForRent ? 'Available' : 'rented'}
+          </Badge>
+        </div>
+      </div>
+      <div className="flex text-2xs">
+        <div className="flex justify-between w-full text-xs px-2">
+          <p>{a.name}</p>
+          <p>R {formatter.format(Number(a.price))}</p>
+        </div>
+      </div>
+      <div className="flex px-2  w-[300px] justify-left gap-2 items-center">
+        <MapPin size={20} />
+        <p className=" break-words text-muted-foreground overflow-hidden w-full text-[10px] h-4">
+          {a.address}
+        </p>
+      </div>
+      <div className="px-2 mb-5 flex gap-2">
+        {/* <Badge className='text-xs bg-d-background ring rounded-sm'>{a.type}</Badge> */}
+        <Badge className="rounded-sm">
+          <BathIcon /> <p>{a.bathrooms}</p>
+        </Badge>
+        <Badge className="rounded-sm  text-xs">
+          <BedIcon /> <p>{a.bedrooms}</p>
+        </Badge>
+        <Badge className="rounded-sm  text-xs">
+          <Ruler />{' '}
+          <p>
+            {a.squareFeet}m<sup>2</sup>
+          </p>
+        </Badge>
+      </div>
+    </div>
+  );
+}

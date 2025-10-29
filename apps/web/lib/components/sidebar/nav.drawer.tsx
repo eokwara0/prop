@@ -1,5 +1,5 @@
 'use client';
-import {  LucideLogOut } from 'lucide-react';
+import { LucideLogOut } from 'lucide-react';
 import { useCallback } from 'react';
 import React from 'react';
 import {
@@ -8,9 +8,19 @@ import {
   SideBarPanel,
   useSideBarContext,
 } from './sidebar';
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle } from '@/lib/shadcn/components/ui/sheet';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/lib/shadcn/components/ui/drawer';
-
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/lib/shadcn/components/ui/sheet';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/lib/shadcn/components/ui/drawer';
 
 export function NavDrawer({ sdata }: { sdata: SideBarDataType[] }) {
   const { toggleSideBar } = useSideBarContext();

@@ -4,8 +4,8 @@ import { StorageModule } from 'lib/services/storage/storage.module';
 import { StorageService } from 'lib/services/storage/storage.service';
 
 @Module({
-  imports : [StorageModule],
-  providers: [ StorageService],
-  controllers: [FileController]
+  imports: [StorageModule],
+  providers: [StorageService],
+  controllers: [FileController],
 })
 export class FileModule {}

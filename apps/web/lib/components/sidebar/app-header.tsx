@@ -29,14 +29,14 @@ export function AppHeader() {
                 className=" placeholder:bg-transparent placeholder:text-[0.8rem] placeholder:text-left placeholder:text-slate-300 w-full text-sm h-full outline-none"
               />
               <div className="flex gap-1">
-                  <div className="flex justify-center items-center rounded size-4 border border-slate-100 text-center p-2">
+                <div className="flex justify-center items-center rounded size-4 border border-slate-100 text-center p-2">
                   <p className="text-xs">≊</p>
                 </div>
                 <p className="text-xs">+</p>
                 <div className="flex justify-center items-center rounded size-4 border border-slate-100 text-center p-2">
                   <p className="text-xs">/</p>
                 </div>
-                </div>
+              </div>
             </label>
           </form>
         </div>
