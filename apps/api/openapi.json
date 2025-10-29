@@ -173,7 +173,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PropertyResult"
+                  "$ref": "#/components/schemas/UpdatePropertyResult"
                 }
               }
             }
@@ -733,6 +733,96 @@
           "images",
           "isActive",
           "id"
+        ]
+      },
+      "UpdatePropertyResult": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "number"
+          },
+          "suburb": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "bedrooms": {
+            "type": "number"
+          },
+          "bathrooms": {
+            "type": "number"
+          },
+          "hasParking": {
+            "type": "boolean"
+          },
+          "isFurnished": {
+            "type": "boolean"
+          },
+          "isForRent": {
+            "type": "boolean"
+          },
+          "isForSale": {
+            "type": "boolean"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "squareFeet": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "mainImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "name",
+          "streetName",
+          "streetNumber",
+          "suburb",
+          "country",
+          "bedrooms",
+          "bathrooms",
+          "hasParking",
+          "isFurnished",
+          "isForRent",
+          "isForSale",
+          "images",
+          "isActive"
         ]
       },
       "PropertyResult": {

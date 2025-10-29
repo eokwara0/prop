@@ -74,7 +74,7 @@ export class PropertyService {
     return await this.knexService.instance.transaction(async (trx) => {
       const updated = await this.propertyModel
         .query(trx)
-        .patch({ ...data, updatedAt: new Date(Date.now()) })
+        .patch({ ...data, updatedAt: new Date(Date.now()).toISOString() })
         .where('id', data.id)
         .returning('*');
 

@@ -8,7 +8,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, OmitType } from '@nestjs/swagger';
 import { IProperty } from '@repo/api/index';
 import { AuthGuard } from 'lib/guards/auth.guard';
 import { PropertyService } from 'lib/services/property/property.service';
@@ -17,6 +17,7 @@ import {
   PropertyResult,
   PropertyStatsResult,
   RResponse,
+  UpdatePropertyResult,
   UpdatePrpopertyDto,
 } from 'lib/types/property.types';
 
@@ -38,14 +39,14 @@ export class PropertyController {
     };
   }
 
-  @ApiOkResponse({ type: PropertyResult })
+  @ApiOkResponse({ type:  UpdatePropertyResult })
   @ApiBody({ type: UpdatePrpopertyDto })
   @HttpCode(201)
   @Patch('update')
   async updateProperty(
     @Body() data: UpdatePrpopertyDto,
-  ): Promise<PropertyResult> {
-    return (await this.propertyService.update(data)) as PropertyResult;
+  ): Promise<UpdatePropertyResult> {
+    return (await this.propertyService.update(data)) as UpdatePropertyResult;
   }
 
   @Get(':id')
