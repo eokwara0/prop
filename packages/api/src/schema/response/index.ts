@@ -1,1 +1,1 @@
-export * from './Rproperty.schema'
+export * from './Rproperty.schema';

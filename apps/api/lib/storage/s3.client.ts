@@ -7,7 +7,11 @@ export class S3ClientService {
 
   constructor(private config: ConfigService) {
     this.bucket = 'domio';
-    console.log(process.env.MINIO_REGION, process.env.MINIO_ENDPOINT, process.env.MINIO_SECRET_KEY)
+    console.log(
+      process.env.MINIO_REGION,
+      process.env.MINIO_ENDPOINT,
+      process.env.MINIO_SECRET_KEY,
+    );
     this.s3 = new S3Client({
       region: process.env.MINIO_REGION,
       endpoint: process.env.MINIO_ENDPOINT,
@@ -19,18 +23,18 @@ export class S3ClientService {
     });
   }
 
-  get bucket_(){
+  get bucket_() {
     return this.bucket;
   }
-  get client(){
+  get client() {
     return this.s3;
   }
-  private async testConnection(){
+  private async testConnection() {
     try {
-    const result = await this.s3.send(new ListBucketsCommand({}));
-    console.log('connected! Buckets: ', result.Buckets);
-  } catch (err) {
-    console.error('Connection failed', err);
-  }
+      const result = await this.s3.send(new ListBucketsCommand({}));
+      console.log('connected! Buckets: ', result.Buckets);
+    } catch (err) {
+      console.error('Connection failed', err);
+    }
   }
 }

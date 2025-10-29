@@ -56,29 +56,29 @@ export function useProperty(): PropertyResult[] {
 }
 
 export const columns: ColumnDef<PropertyResult>[] = [
-//   {
-//     id: 'select',
-//     header: ({ table }) => (
-//       <Checkbox
-//         checked={
-//           table.getIsAllPageRowsSelected() ||
-//           (table.getIsSomePageRowsSelected() && 'indeterminate')
-          
-//         }
-//         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-//         aria-label="Select all"
-//       />
-//     ),
-//     cell: ({ row }) => (
-//       <Checkbox
-//         checked={row.getIsSelected()}
-//         onCheckedChange={(value) => row.toggleSelected(!!value)}
-//         aria-label="Select row"
-//       />
-//     ),
-//     enableSorting: false,
-//     enableHiding: false,
-//   },
+  //   {
+  //     id: 'select',
+  //     header: ({ table }) => (
+  //       <Checkbox
+  //         checked={
+  //           table.getIsAllPageRowsSelected() ||
+  //           (table.getIsSomePageRowsSelected() && 'indeterminate')
+
+  //         }
+  //         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //         aria-label="Select all"
+  //       />
+  //     ),
+  //     cell: ({ row }) => (
+  //       <Checkbox
+  //         checked={row.getIsSelected()}
+  //         onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //         aria-label="Select row"
+  //       />
+  //     ),
+  //     enableSorting: false,
+  //     enableHiding: false,
+  //   },
   {
     accessorKey: 'name',
     header: ({ column }) => {
@@ -137,12 +137,20 @@ export const columns: ColumnDef<PropertyResult>[] = [
         Property Type
       </div>
     ),
-    cell : ({ row}) => <Badge className='bg-indigo-500'>{row.getValue('type')}</Badge>,
-    enableResizing : true
-  },{
-    accessorKey : 'isForRent'
-    ,header : ({column}) => <div className='text-white text-xs'>IsForRent</div>,
-    cell : ({row}) => <Switch className=' data-[state=checked]:bg-indigo-400' checked={Boolean(row.getValue('isForRent'))}/>
+    cell: ({ row }) => (
+      <Badge className="bg-indigo-500">{row.getValue('type')}</Badge>
+    ),
+    enableResizing: true,
+  },
+  {
+    accessorKey: 'isForRent',
+    header: ({ column }) => <div className="text-white text-xs">IsForRent</div>,
+    cell: ({ row }) => (
+      <Switch
+        className=" data-[state=checked]:bg-indigo-400"
+        checked={Boolean(row.getValue('isForRent'))}
+      />
+    ),
   },
 
   {
@@ -211,7 +219,7 @@ export function PropertyTable() {
       columnFilters,
       columnVisibility,
       rowSelection,
-      columnOrder : ["name","type", 'price', 'isForRent', 'isActive']
+      columnOrder: ['name', 'type', 'price', 'isForRent', 'isActive'],
     },
   });
 
@@ -219,12 +227,12 @@ export function PropertyTable() {
     <>
       <div className="overflow-hidden border-b ">
         <Table className="">
-          <TableHeader className='' >
+          <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className='border-0 outline-0'>
+              <TableRow key={headerGroup.id} className="border-0 outline-0">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className=' outline-0'>
+                    <TableHead key={header.id} className=" outline-0">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -246,7 +254,7 @@ export function PropertyTable() {
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className=''>
+                    <TableCell key={cell.id} className="">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

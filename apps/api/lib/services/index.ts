@@ -26,7 +26,7 @@ import { PropertyModule } from './property/property.module';
     UsertypeModule,
     UsertypeactivityModule,
     VerificationtokenModule,
-    PropertyModule
+    PropertyModule,
   ],
   exports: [
     KnexModule,
@@ -39,7 +39,7 @@ import { PropertyModule } from './property/property.module';
     UsertypeModule,
     UsertypeactivityModule,
     VerificationtokenModule,
-    PropertyModule
+    PropertyModule,
   ],
 })
 export class SServiceModule {}

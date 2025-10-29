@@ -19,7 +19,7 @@ export function PropertyFormProvider({
 }) {
   const clientID = useAuthId();
   const [data, setData] = React.useState<CreatePropertyDto>(() => {
-    return { ownerId : clientID } as CreatePropertyDto
+    return { ownerId: clientID } as CreatePropertyDto;
   });
   const [captureState, setCatpureState] =
     React.useState<catpureStateType>('location');

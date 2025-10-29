@@ -1,14 +1,7 @@
 'use client';
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
-import {
-  GetSessionAndUserResult,
-} from '../../../../packages/ui/src/sdk';
+import { createContext, useCallback, useContext, useState } from 'react';
+import { GetSessionAndUserResult } from '../../../../packages/ui/src/sdk';
 
 export type SessionProviderContext = {
   data: GetSessionAndUserResult | null;
@@ -51,7 +44,7 @@ export function auth() {
   return sessionContextData.data;
 }
 
-export function useAuthId(){
+export function useAuthId() {
   const sessionContextData = useContext(sessionProviderContext);
   if (!sessionContextData) {
     return undefined;

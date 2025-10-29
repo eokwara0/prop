@@ -1,1 +1,1 @@
-export * from './property-stats.schema'
+export * from './property-stats.schema';

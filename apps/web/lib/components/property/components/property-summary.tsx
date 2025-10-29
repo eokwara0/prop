@@ -22,7 +22,7 @@ export function PropertySummaryCards() {
 
     start(getData);
   }, [id]);
-  return !ispending && data ?  (
+  return !ispending && data ? (
     <>
       <div className="  max-md:grid  min-md:flex  max-md:grid-cols-1 gap-4 w-full p-2 overflow-x-scroll scrollbar-hidden">
         {...data!.slice(5).map((x) => (
@@ -35,11 +35,11 @@ export function PropertySummaryCards() {
         ))}
       </div>
     </>
-  ) : <div className='max-md:grid  min-md:flex  max-md:grid-cols-1 gap-4 w-full p-2'>
-    {
-        ...[1,2,3,4,5].map((c) => (
-            <Skeleton key={c} className='h-60 w-full'/>
-        ))
-    }
-  </div>
+  ) : (
+    <div className="max-md:grid  min-md:flex  max-md:grid-cols-1 gap-4 w-full p-2">
+      {...[1, 2, 3, 4, 5].map((c) => (
+        <Skeleton key={c} className="h-60 w-full" />
+      ))}
+    </div>
+  );
 }
