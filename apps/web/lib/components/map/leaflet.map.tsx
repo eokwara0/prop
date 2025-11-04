@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L, { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -7,6 +7,7 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import { IoSearch } from 'react-icons/io5';
 import './index.css';
 import { usePropertyFormContext } from '../property/forms/property.form.provider';
+import { CreatePropertyDto } from '../../../../../packages/ui/src';
 
 export type GeoResponse = {
   summary: Summary;
@@ -119,30 +120,36 @@ export default function LeafletMap() {
     return data.results || [];
   }
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     const results = await fetchForwardGeocode(place);
     if (results.length > 0) {
       const first = results[0];
-      updateData!({
+      if(!first){
+        throw new Error("somethign bad happened");
+      }else{
+         updateData!({
         ...data,
-        address: first?.address.freeformAddress,
-        city: first?.address.municipality,
-        state: first?.address.countrySubdivision,
-        postalCode: first?.address.postalCode,
-        country: first?.address.country,
-        streetName: first?.address.streetName,
-        streetNumber: first?.address.streetNumber,
-        suburb: first?.address.municipalitySubdivision,
-      });
-      setCenter([first!.position.lat, first!.position.lon]);
+        address: first.address.freeformAddress,
+        city: first.address.municipality,
+        state: first.address.countrySubdivision,
+        postalCode: first.address.postalCode,
+        country: first.address.country,
+        streetName: first.address.streetName,
+        streetNumber: first.address.streetNumber,
+        suburb: first.address.municipalitySubdivision,
+      } as CreatePropertyDto );
+       setCenter([first!.position.lat, first!.position.lon]);
       setZoom(15);
       setLocations(results);
+      }
+     
+     
     }
-  };
+  }, [data, place, updateData]);
 
   useEffect(() => {
     handleSearch();
-  }, []);
+  }, [handleSearch]);
 
   return (
     <div className="w-full flex flex-col-reverse gap-8">

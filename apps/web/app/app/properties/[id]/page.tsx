@@ -3,7 +3,6 @@ import { AnimatedHeader } from '../../../../lib/components/animated/animated.hea
 import { DialogComponent } from '../../../../lib/components/dialog/dialog';
 import { BadgePlusIcon } from 'lucide-react';
 import PropertyStats from '@/lib/components/property/components/property-stas';
-import { Skeleton } from '@/lib/shadcn/components/ui/skeleton';
 import { PropertyList } from '@/lib/components/property/components/property-list';
 
 export default async function Properties() {

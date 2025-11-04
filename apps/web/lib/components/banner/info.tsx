@@ -34,7 +34,7 @@ export function InfoComponent({
   className?: string;
   infoBoxStyle?: string;
 }) {
-  const [data, setInfoData] = useState<string[]>(datas);
+  const [data] = useState<string[]>(datas);
   const [current_index, setCurrIndex] = useState<number>(0);
   const next = useCallback(() => {
     if (current_index === data.length) {

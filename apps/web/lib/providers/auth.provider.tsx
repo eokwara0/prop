@@ -36,7 +36,7 @@ export function SessionProvider({
   );
 }
 
-export function auth() {
+export function useAuth() {
   const sessionContextData = useContext(sessionProviderContext);
   if (!sessionContextData) {
     return undefined;

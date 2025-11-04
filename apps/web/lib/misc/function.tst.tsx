@@ -11,6 +11,7 @@ const parsed = map([12, 3, 4, 5], (n) => String(n));
 
 console.log(parsed);
 
-function longest<T extends { length: number }>(a: T, b: T) {}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function longest<T extends { length: number }>(_a: T, _b: T) {}
 
 longest<string>('293', '2983');
