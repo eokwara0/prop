@@ -124,26 +124,24 @@ export default function LeafletMap() {
     const results = await fetchForwardGeocode(place);
     if (results.length > 0) {
       const first = results[0];
-      if(!first){
-        throw new Error("somethign bad happened");
-      }else{
-         updateData!({
-        ...data,
-        address: first.address.freeformAddress,
-        city: first.address.municipality,
-        state: first.address.countrySubdivision,
-        postalCode: first.address.postalCode,
-        country: first.address.country,
-        streetName: first.address.streetName,
-        streetNumber: first.address.streetNumber,
-        suburb: first.address.municipalitySubdivision,
-      } as CreatePropertyDto );
-       setCenter([first!.position.lat, first!.position.lon]);
-      setZoom(15);
-      setLocations(results);
+      if (!first) {
+        throw new Error('somethign bad happened');
+      } else {
+        updateData!({
+          ...data,
+          address: first.address.freeformAddress,
+          city: first.address.municipality,
+          state: first.address.countrySubdivision,
+          postalCode: first.address.postalCode,
+          country: first.address.country,
+          streetName: first.address.streetName,
+          streetNumber: first.address.streetNumber,
+          suburb: first.address.municipalitySubdivision,
+        } as CreatePropertyDto);
+        setCenter([first!.position.lat, first!.position.lon]);
+        setZoom(15);
+        setLocations(results);
       }
-     
-     
     }
   }, [data, place, updateData]);
 

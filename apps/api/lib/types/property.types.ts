@@ -31,8 +31,9 @@ export class PropertyStatsResult implements IPropertyStats {
   portfolioValue: number;
 }
 
-
-export class UpdatePropertyResult implements Omit<PropertyResult, 'id' | 'ownerId'>{
+export class UpdatePropertyResult
+  implements Omit<PropertyResult, 'id' | 'ownerId'>
+{
   @ApiProperty({ type: String })
   type:
     | 'house'
@@ -84,7 +85,6 @@ export class UpdatePropertyResult implements Omit<PropertyResult, 'id' | 'ownerI
   price?: number;
   @ApiProperty({ type: String, required: false })
   mainImage?: string;
-
 }
 
 export class PropertyResult implements IProperty {

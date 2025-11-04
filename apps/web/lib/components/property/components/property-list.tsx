@@ -41,7 +41,7 @@ export function PropertyList() {
       <PropertyFilter />
       <div className="flex flex-wrap gap-5 gap-x-15 w-full  justify-center">
         {...data.map((a, b) => (
-          <PropertyDetail>
+          <PropertyDetail key={'pd' + b}>
             <PropertyCard key={b} a={a} b={b} />
           </PropertyDetail>
         ))}
@@ -55,12 +55,12 @@ const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
   return (
     <Drawer modal={false}>
       <DrawerTrigger>{children}</DrawerTrigger>
-      <DrawerContent className=" flex justify-center items-center bg-gradient-to-tr from-dialog-color to-dsc">
+      <DrawerContent className=" flex justify-center items-center bg-gradient-to-br from-dialog-color to-dsc">
         <DrawerTitle></DrawerTitle>
         <Flex
           iscol
           center={true}
-          className=" p-4  w-[50%] gap-3 overflow-y-scroll scrollbar-hidden"
+          className=" p-4   max-md:w-full min-md:w-1/2 gap-3 overflow-y-scroll scrollbar-hidden"
         >
           <Flex className="w-full gap-2 items-center justify-between ">
             <Flex className="gap-2 items-center">
@@ -80,7 +80,6 @@ const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
               <TT message={'edit property'}>
                 <Edit2Icon size={15} className="cursor-pointer" />
               </TT>
-              
             </Flex>
           </Flex>
           <Flex className="w-full gap-2">

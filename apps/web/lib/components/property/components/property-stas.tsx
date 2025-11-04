@@ -1,5 +1,5 @@
 'use client';
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getPropertyStats,
   PropertyStatsResult,
@@ -29,7 +29,7 @@ export default function PropertyStats() {
     console.log(Object.entries(data));
   }
   return (
-    <div className="max-md:grid  min-md:flex  max-md:grid-cols-1 gap-4 w-full p-2">
+    <div className="max-md:flex max-md:overflow-x-scroll scrollbar-hidden  min-md:flex  max-md:grid-cols-1 gap-4 w-full p-2">
       {data !== undefined ? (
         [
           ...Object.entries(data!)
@@ -99,7 +99,7 @@ function PropertyStatsCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col justify-between gap-10">
+    <div className="flex flex-col justify-between gap-10 max-md:w-[300px]">
       <div className="flex justify-between items-center">
         <h1 className=" text-muted text-lg text-left">{title}</h1>
         {children}

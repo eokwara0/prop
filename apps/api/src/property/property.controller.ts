@@ -38,7 +38,7 @@ export class PropertyController {
     };
   }
 
-  @ApiOkResponse({ type:  UpdatePropertyResult })
+  @ApiOkResponse({ type: UpdatePropertyResult })
   @ApiBody({ type: UpdatePrpopertyDto })
   @HttpCode(201)
   @Patch('update')

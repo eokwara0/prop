@@ -10,14 +10,14 @@ export class SignInData {
 }
 
 export class SignupDto {
-  @ApiProperty({type : 'string' , required : true})
+  @ApiProperty({ type: 'string', required: true })
   @IsString()
   @MinLength(30)
   name: string;
-  @ApiProperty({type : 'string' , required : true})
+  @ApiProperty({ type: 'string', required: true })
   @IsEmail()
   email: string;
-  @ApiProperty({type : 'string' , required : true , minLength : 8 , maxLength : 20})
+  @ApiProperty({ type: 'string', required: true, minLength: 8, maxLength: 20 })
   @MinLength(8)
   @MaxLength(20)
   password: string;
