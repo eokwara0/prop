@@ -8,8 +8,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiOkResponse, OmitType } from '@nestjs/swagger';
-import { IProperty } from '@repo/api/index';
+import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
 import { AuthGuard } from 'lib/guards/auth.guard';
 import { PropertyService } from 'lib/services/property/property.service';
 import {

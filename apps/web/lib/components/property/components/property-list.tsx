@@ -1,12 +1,16 @@
 'use client';
 import {
+  ArmchairIcon,
   BathIcon,
   BedIcon,
   ChevronDown,
+  Edit2Icon,
   HouseIcon,
   MapPin,
+  PinIcon,
   Ruler,
   SearchIcon,
+  Trash2Icon,
 } from 'lucide-react';
 import { useProperty } from './property-table';
 import { formatter } from '@/lib/providers/number.format';
@@ -17,17 +21,18 @@ import {
   PopoverTrigger,
 } from '@/lib/shadcn/components/ui/popover';
 import { PopoverArrow } from '@radix-ui/react-popover';
-import { FlexContainer, PropertyResult } from '../../../../../../packages/ui/src';
+import { Flex, PropertyResult } from '../../../../../../packages/ui/src';
 import { usePropertyEdit } from '@/lib/providers/property.provider';
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from '@/lib/shadcn/components/ui/drawer';
 import { Skeleton } from '@/lib/shadcn/components/ui/skeleton';
+import { Switch } from '@/lib/shadcn/components/ui/switch';
+import { TT } from '../../tooltip';
+import { DeleteDialog } from '../../dialog/delete.dialog';
 
 export function PropertyList() {
   const data = useProperty();
@@ -36,48 +41,111 @@ export function PropertyList() {
       <PropertyFilter />
       <div className="flex flex-wrap gap-5 gap-x-15 w-full  justify-center">
         {...data.map((a, b) => (
-          <PropertyEditDrawer>
+          <PropertyDetail>
             <PropertyCard key={b} a={a} b={b} />
-          </PropertyEditDrawer>
+          </PropertyDetail>
         ))}
       </div>
     </div>
   );
 }
 
-const PropertyEditDrawer = ({ children }: { children: React.ReactNode }) => {
+const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
   const { data: c } = usePropertyEdit();
   return (
-    <Drawer modal={false} >
+    <Drawer modal={false}>
       <DrawerTrigger>{children}</DrawerTrigger>
-      <DrawerContent className='flex justify-center items-center bg-gradient-to-tr from-dialog-color to-dsc'>
+      <DrawerContent className=" flex justify-center items-center bg-gradient-to-tr from-dialog-color to-dsc">
         <DrawerTitle></DrawerTitle>
-        <FlexContainer iscol center={true} className='p-4 h-1/2  w-1/2 gap-3'>
-          <FlexContainer className='w-full gap-2 items-center'>
-            <div className='bg-indigo-300 rounded-sm h-fit p-1'>
-              <HouseIcon size={20}/>
-            </div>
-            <p className='text-2xl text-gray-400'>Property Detail Page</p>
-          </FlexContainer>
-          <FlexContainer  className='w-full gap-2'>
-            <Skeleton className='h-100 w-full bg-gray-500/40'>
-              {''}
-            </Skeleton>
-            <FlexContainer iscol className='gap-2 justify-between h-100'>
-               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
-               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
-               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
-               <Skeleton className='w-28 h-30 bg-gray-500/20 rounded-md'></Skeleton>
-            </FlexContainer>
-          </FlexContainer>
-          <FlexContainer className='w-full'>
-            <FlexContainer iscol className='w-full gap-2'>
-            <p className='text-2xl text-muted'>{c?.name}</p>
-            <p className='text-sm text-muted-foregro'>{c?.description}</p>
-            </FlexContainer>
+        <Flex
+          iscol
+          center={true}
+          className=" p-4  w-[50%] gap-3 overflow-y-scroll scrollbar-hidden"
+        >
+          <Flex className="w-full gap-2 items-center justify-between ">
+            <Flex className="gap-2 items-center">
+              <div className="bg-button rounded-sm h-fit p-1">
+                <HouseIcon size={20} />
+              </div>
+              <p className="text-2xl text-gray-400">Property Detail</p>
+              <Badge className="ring ring-button h-fit">{c?.type}</Badge>
+            </Flex>
 
-          </FlexContainer>
-        </FlexContainer>
+            <Flex className="gap-4">
+              <DeleteDialog>
+                <TT message="delete property">
+                  <Trash2Icon size={15} className="fill-red-400" />
+                </TT>
+              </DeleteDialog>
+              <TT message={'edit property'}>
+                <Edit2Icon size={15} className="cursor-pointer" />
+              </TT>
+              
+            </Flex>
+          </Flex>
+          <Flex className="w-full gap-2">
+            <Skeleton className="h-100 w-full bg-gray-500/40">{''}</Skeleton>
+            <Flex iscol className="gap-2 justify-between h-100">
+              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+            </Flex>
+          </Flex>
+          <Flex className="w-full">
+            <Flex iscol className="w-full gap-2">
+              <Flex className="w-full justify-between">
+                <p className="text-2xl text-muted">{c?.name}</p>
+                <p className="text-2xl text-muted">
+                  R {formatter.format(Number(c?.price))}
+                </p>
+              </Flex>
+              <Flex className="gap-3">
+                <Badge className="rounded-sm ring-indigo-400 ring">
+                  <BathIcon /> <p>{c?.bathrooms} baths</p>
+                </Badge>
+                <Badge className="rounded-sm  text-xs ring ring-emerald-500">
+                  <BedIcon /> <p>{c?.bedrooms} bed</p>
+                </Badge>
+                <Badge className="rounded-sm  text-xs ring ring-amber-500">
+                  <Ruler />{' '}
+                  <p>
+                    {c?.squareFeet}m<sup>2</sup>
+                  </p>
+                </Badge>
+              </Flex>
+              <Flex className=" items-center gap-2 text-muted-foreground">
+                <PinIcon size={17} />
+                <span>
+                  {c?.address} {c?.country}
+                </span>
+              </Flex>
+              <Flex iscol className="gap-2">
+                <h1 className="text-lg font-light">Description</h1>
+                <p className="text-sm text-muted-foreground">
+                  {c?.description}
+                </p>
+              </Flex>
+
+              <Flex className="gap-2 items-center text-sm">
+                <Badge className="ring ring-button p-1">
+                  <ArmchairIcon size={20} /> <span>furnished</span>
+                  <Switch
+                    checked={c?.isFurnished}
+                    className="data-[state=checked]:bg-button"
+                  />
+                </Badge>
+                <Badge className="ring ring-button p-1">
+                  <ArmchairIcon size={20} /> <span>isForRent</span>
+                  <Switch
+                    checked={c?.isForRent}
+                    className="data-[state=checked]:bg-button"
+                  />
+                </Badge>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
       </DrawerContent>
     </Drawer>
   );
@@ -148,13 +216,7 @@ const PropertyFilter = () => {
     </div>
   );
 };
-function PropertyCard({
-  b,
-  a,
-}: {
-  b: number;
-  a: PropertyResult;
-}) {
+function PropertyCard({ b, a }: { b: number; a: PropertyResult }) {
   const { setProperty: cc } = usePropertyEdit();
   return (
     <div
