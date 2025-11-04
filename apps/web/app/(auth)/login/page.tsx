@@ -21,7 +21,7 @@ export default function SignInPage() {
           const fd = new FormData(e.currentTarget);
           const ed = fd.get('email') as string;
           const pd = fd.get('password') as string;
-          const ers = await login({
+          await login({
             email: ed,
             password: pd,
           });
@@ -35,6 +35,7 @@ export default function SignInPage() {
           );
           router.push(`/app/${(await getUserId()).data}`);
         } catch (error) {
+          console.log(error);
           show(
             <Modal
               firstMessage="Internal error"

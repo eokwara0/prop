@@ -17,18 +17,15 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { Checkbox } from '@/lib/shadcn/components/ui/checkbox';
-import { Button } from '@/lib/shadcn/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/lib/shadcn/components/ui/dropdown-menu';
-import { ArrowUpDown, ChevronDown, MoreVerticalIcon } from 'lucide-react';
+import { ArrowUpDown, MoreVerticalIcon } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -39,7 +36,7 @@ import {
 } from '@/lib/shadcn/components/ui/table';
 import { Switch } from '@/lib/shadcn/components/ui/switch';
 import { Badge } from '@/lib/shadcn/components/ui/badge';
-import { Input } from '@/lib/shadcn/components/ui/input';
+import { Button } from '@/lib/shadcn/components/ui/button';
 
 export function useProperty(): PropertyResult[] {
   const userID = useAuthId();
@@ -144,7 +141,7 @@ export const columns: ColumnDef<PropertyResult>[] = [
   },
   {
     accessorKey: 'isForRent',
-    header: ({ column }) => <div className="text-white text-xs">IsForRent</div>,
+    header: () => <div className="text-white text-xs">IsForRent</div>,
     cell: ({ row }) => (
       <Switch
         className=" data-[state=checked]:bg-indigo-400"

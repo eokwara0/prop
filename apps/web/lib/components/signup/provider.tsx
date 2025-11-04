@@ -45,6 +45,7 @@ export const SignupReducer = (
         ...state,
         numbers: { ...state, ...action.value },
       };
+    // eslint-disable-next-line no-duplicate-case
     case SignupContextAction.ADD:
       return {
         ...state,
