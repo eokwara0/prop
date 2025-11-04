@@ -12,7 +12,7 @@ import { FileModule } from '../file/file.module';
     FileModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development.local'],
+      envFilePath: ['.env.development.local', '.env'],
     }),
     JwtModule.register({
       global: true,

@@ -74,6 +74,7 @@ export class AuthController {
   @Get('profile')
   @ApiOkResponse({ type: GetSessionAndUserResult })
   async getProfile(@Request() req): Promise<GetSessionAndUserResult> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const usr = await this.authService.getSessionAndUser(req.user.sub);
 
     return {
