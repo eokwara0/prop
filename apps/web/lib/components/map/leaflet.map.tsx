@@ -143,11 +143,12 @@ export default function LeafletMap() {
         setLocations(results);
       }
     }
-  }, [data, place, updateData]);
+  }, [ place]);
 
   useEffect(() => {
     handleSearch();
-  }, [handleSearch]);
+    return () => {}
+  }, []);
 
   return (
     <div className="w-full flex flex-col-reverse gap-8">

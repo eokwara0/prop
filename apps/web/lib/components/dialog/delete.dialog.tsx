@@ -13,7 +13,7 @@ import { useState, useTransition } from 'react';
 import Loader from '../loader/loader';
 export function DeleteDialog({ children }: { children: React.ReactNode }) {
   const [disabled, setEnable] = useState(true);
-  const [pending, startTransition] = useTransition();
+  const [pending] = useTransition();
 
   const handleSubmit = () => {};
   return (

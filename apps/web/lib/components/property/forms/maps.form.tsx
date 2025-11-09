@@ -1,5 +1,5 @@
 'use client';
-import { ChevronsRight } from 'lucide-react';
+import { ChevronsRight, MapIcon } from 'lucide-react';
 import { usePropertyFormContext } from './property.form.provider';
 import dynamic from 'next/dynamic';
 import { CreatePropertyDto } from '../../../../../../packages/ui/src';
@@ -12,7 +12,7 @@ export default function LocationStep() {
   return (
     <div className="w-full flex flex-col gap-1">
       <div className="flex justify-between">
-        <h1 className="text-2xl px-5 py-2">Maps</h1>
+        <h1 className="text-2xl px-5 py-2 flex gap-2 items-center"><MapIcon/> Maps</h1>
       </div>
       <p className="text-sm px-5 py-1 text-muted/50">
         Type in your properties location

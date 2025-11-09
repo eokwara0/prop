@@ -33,6 +33,7 @@ import { Skeleton } from '@/lib/shadcn/components/ui/skeleton';
 import { Switch } from '@/lib/shadcn/components/ui/switch';
 import { TT } from '../../tooltip';
 import { DeleteDialog } from '../../dialog/delete.dialog';
+import { EditPropertyDialog } from '../../dialog/edit.property.dialog';
 
 export function PropertyList() {
   const data = useProperty();
@@ -53,9 +54,9 @@ export function PropertyList() {
 const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
   const { data: c } = usePropertyEdit();
   return (
-    <Drawer modal={false}>
+    <Drawer>
       <DrawerTrigger>{children}</DrawerTrigger>
-      <DrawerContent className=" flex justify-center items-center bg-gradient-to-br from-dialog-color to-dsc">
+      <DrawerContent className="flex justify-center items-center bg-gradient-to-tr from-dialog-color to-dsc">
         <DrawerTitle></DrawerTitle>
         <Flex
           iscol
@@ -77,9 +78,11 @@ const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
                   <Trash2Icon size={15} className="fill-red-400" />
                 </TT>
               </DeleteDialog>
-              <TT message={'edit property'}>
-                <Edit2Icon size={15} className="cursor-pointer" />
-              </TT>
+              <EditPropertyDialog>
+                <TT message={'edit property'}>
+                  <Edit2Icon size={15} className="cursor-pointer" />
+                </TT>
+              </EditPropertyDialog>
             </Flex>
           </Flex>
           <Flex className="w-full gap-2">
