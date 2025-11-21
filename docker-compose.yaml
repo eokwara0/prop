@@ -2,16 +2,16 @@ version: "3.9"
 
 services:
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/azure-sql-edge
     container_name: sqlserver_local
-    restart: unless-stopped
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "StrongP@ssword123!"   # Change this to a secure password
     ports:
       - "1433:1433"
+    environment:
+      ACCEPT_EULA: "1"
+      MSSQL_SA_PASSWORD: "StrongP@ssword123!"  # Use a strong password
     volumes:
       - sql_data:/var/opt/mssql
+    restart: unless-stopped
 
   minio:
     image: minio/minio:latest
@@ -30,3 +30,4 @@ services:
 volumes:
   sql_data:
   minio_data:
+
