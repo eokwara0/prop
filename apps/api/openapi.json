@@ -162,7 +162,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdatePrpopertyDto"
+                "$ref": "#/components/schemas/UpdatePropertyDto"
               }
             }
           }
@@ -575,6 +575,12 @@
           "bedrooms": {
             "type": "number"
           },
+          "lon": {
+            "type": "string"
+          },
+          "lat": {
+            "type": "string"
+          },
           "bathrooms": {
             "type": "number"
           },
@@ -635,6 +641,8 @@
           "suburb",
           "country",
           "bedrooms",
+          "lon",
+          "lat",
           "bathrooms",
           "hasParking",
           "isFurnished",
@@ -645,7 +653,7 @@
           "isActive"
         ]
       },
-      "UpdatePrpopertyDto": {
+      "UpdatePropertyDto": {
         "type": "object",
         "properties": {
           "type": {
@@ -723,6 +731,12 @@
           "squareFeet": {
             "type": "number"
           },
+          "lat": {
+            "type": "string"
+          },
+          "lon": {
+            "type": "string"
+          },
           "price": {
             "type": "number"
           },
@@ -749,6 +763,8 @@
           "isForSale",
           "images",
           "isActive",
+          "lat",
+          "lon",
           "id"
         ]
       },
@@ -766,6 +782,12 @@
           },
           "streetNumber": {
             "type": "number"
+          },
+          "lat": {
+            "type": "string"
+          },
+          "lon": {
+            "type": "string"
           },
           "suburb": {
             "type": "string"
@@ -830,6 +852,8 @@
           "name",
           "streetName",
           "streetNumber",
+          "lat",
+          "lon",
           "suburb",
           "country",
           "bedrooms",
@@ -849,7 +873,16 @@
             "type": "string"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "house",
+              "apartment",
+              "townhouse",
+              "condo",
+              "duplex",
+              "commercial",
+              "land"
+            ]
           },
           "name": {
             "type": "string"
@@ -899,6 +932,12 @@
           "description": {
             "type": "string"
           },
+          "lat": {
+            "type": "string"
+          },
+          "lon": {
+            "type": "string"
+          },
           "address": {
             "type": "string"
           },
@@ -937,7 +976,9 @@
           "isForRent",
           "isForSale",
           "images",
-          "isActive"
+          "isActive",
+          "lat",
+          "lon"
         ]
       },
       "PropertyStatsResult": {

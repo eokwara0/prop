@@ -11,16 +11,28 @@ import DetailsStep from './property.detail.form';
 import ImageStep from './image.form';
 import { useAuthId } from '../../../providers/auth.provider';
 import { CreatePropertyDto } from '../../../../../../packages/ui/src';
+import { useProperty } from '@/lib/providers/property.provider';
 
 export function PropertyFormProvider({
   children,
+  property,
+  isEdit
 }: {
   children: React.ReactNode;
+  property? : CreatePropertyDto;
+  isEdit? : boolean
 }) {
   const clientID = useAuthId();
   const [data, setData] = React.useState<CreatePropertyDto>(() => {
+    if(property){
+      console.log("PROPERTY",property, );
+      return property;
+    }
     return { ownerId: clientID } as CreatePropertyDto;
   });
+
+  console.log('data', data);
+
   const [captureState, setCatpureState] =
     React.useState<catpureStateType>('location');
   const updateData = (newData: CreatePropertyDto) => {
@@ -49,6 +61,7 @@ export function PropertyFormProvider({
     <>
       <PropertyFormContext.Provider
         value={{
+          isEdit : isEdit ?? false,
           captureState,
           data,
           setData,
@@ -71,14 +84,14 @@ export default function PropertyForm() {
   );
 }
 
-function PropertyFormData() {
-  const { captureState } = usePropertyFormContext();
+export function PropertyFormData() {
+  const { captureState , data } = usePropertyFormContext();
   switch (captureState) {
     case 'location':
-      return <LocationStep />;
+      return <LocationStep data={data} />;
     case 'details':
-      return <DetailsStep />;
+      return <DetailsStep data={data}/>;
     case 'images':
-      return <ImageStep />;
+      return <ImageStep data={data}/>;
   }
 }

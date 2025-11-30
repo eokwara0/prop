@@ -14,6 +14,8 @@ exports.up = async function (knex) {
     table.integer("streetNumber").defaultTo(10);
     table.string("suburb", 255).defaultTo("suburb");
     table.string("type", 50).notNullable().defaultTo("house"); // replace enum
+    table.string("lat").nullable().defaultTo("0.000");
+    table.string("lon").nullable().defaultTo("0.000");
     table.integer("bedrooms").defaultTo(0);
     table.integer("bathrooms").defaultTo(0);
     table.decimal("squareFeet", 12, 2).nullable();

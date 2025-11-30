@@ -12,7 +12,6 @@ import {
   SearchIcon,
   Trash2Icon,
 } from 'lucide-react';
-import { useProperty } from './property-table';
 import { formatter } from '@/lib/providers/number.format';
 import { Badge } from '@/lib/shadcn/components/ui/badge';
 import {
@@ -21,47 +20,67 @@ import {
   PopoverTrigger,
 } from '@/lib/shadcn/components/ui/popover';
 import { PopoverArrow } from '@radix-ui/react-popover';
-import { Flex, PropertyResult } from '../../../../../../packages/ui/src';
-import { usePropertyEdit } from '@/lib/providers/property.provider';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/lib/shadcn/components/ui/drawer';
+import { CreatePropertyDto, Flex, getOwnersProperty, PropertyResult } from '../../../../../../packages/ui/src';
+import { useProperties, useProperty } from '@/lib/providers/property.provider';
 import { Skeleton } from '@/lib/shadcn/components/ui/skeleton';
 import { Switch } from '@/lib/shadcn/components/ui/switch';
 import { TT } from '../../tooltip';
 import { DeleteDialog } from '../../dialog/delete.dialog';
 import { EditPropertyDialog } from '../../dialog/edit.property.dialog';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/lib/shadcn/components/ui/dialog';
+import { PropertyFormProvider } from '../forms/add.property.form';
+import { usePropertyFormContext } from '../forms/property.form.provider';
+import { useEffect, useState } from 'react';
+
+
+
 
 export function PropertyList() {
-  const data = useProperty();
+
+  const { properties} = useProperty();
+  console.log('properties', properties);
   return (
-    <div className="w-full p-2">
-      <PropertyFilter />
-      <div className="flex flex-wrap gap-5 gap-x-15 w-full  justify-center">
-        {...data.map((a, b) => (
-          <PropertyDetail key={'pd' + b}>
-            <PropertyCard key={b} a={a} b={b} />
-          </PropertyDetail>
-        ))}
+    <PropertyFormProvider>
+      <div className="p-2 bg-[#yellow] w-full rounded-md overflow-hidden">
+        <PropertyFilter />
+        <div className=' w-full'>
+          <div className='flex w-full overflow-auto p-4 scrollbar-hidden gap-5 '>
+            {properties.map((a, b) => (
+              <PropertyDetailDialog key={'pd' + b}>
+                <PropertyCard key={b} a={a} b={b} />
+              </PropertyDetailDialog>
+            ))}
+          </div>
+
+        </div>
+
       </div>
-    </div>
+    </PropertyFormProvider>
   );
 }
 
-const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
-  const { data: c } = usePropertyEdit();
+const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
+  const { data: c } = useProperty();
+  const { setData } = usePropertyFormContext();
+
+  useEffect(() => {
+    setData(c as CreatePropertyDto);
+    return () => { }
+  }, [])
+
   return (
-    <Drawer>
-      <DrawerTrigger>{children}</DrawerTrigger>
-      <DrawerContent className="flex justify-center items-center bg-gradient-to-tr from-dialog-color to-dsc">
-        <DrawerTitle></DrawerTitle>
+    <Dialog modal={false}>
+      <DialogTrigger asChild>
+        <div>
+        {children}
+        </div>
+        </DialogTrigger>
+      <DialogContent className="flex justify-center w-fit items-center bg-gradient-to-r from-l_f_f  to-l_f_s  data-[state=open]:border-[0.5px] data-[state=open]:border-button">
+        <DialogTitle></DialogTitle>
         <Flex
           iscol
           center={true}
-          className=" p-4   max-md:w-full min-md:w-1/2 gap-3 overflow-y-scroll scrollbar-hidden"
+          className=" p-1   max-md:w-full min-md:w-full gap-3 overflow-y-scroll scrollbar-hidden"
         >
           <Flex className="w-full gap-2 items-center justify-between ">
             <Flex className="gap-2 items-center">
@@ -69,16 +88,25 @@ const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
                 <HouseIcon size={20} />
               </div>
               <p className="text-2xl text-gray-400">Property Detail</p>
-              <Badge className="ring ring-button h-fit">{c?.type}</Badge>
+              {/* <Badge className="ring ring-button h-fit">{c?.type}</Badge> */}
+              <div className="
+  bg-[linear-gradient(125deg,rgba(255,255,255,0.10),rgba(255,255,255,0.02))]
+  border-t
+  border-t-[rgba(255,255,255,0.25)]
+  rounded-xl
+  px-4 py-1 text-xs
+">
+                apartment
+              </div>
             </Flex>
 
             <Flex className="gap-4">
               <DeleteDialog>
-                <TT message="delete property">
+                <TT  message="delete property">
                   <Trash2Icon size={15} className="fill-red-400" />
                 </TT>
               </DeleteDialog>
-              <EditPropertyDialog>
+              <EditPropertyDialog property={c as CreatePropertyDto}>
                 <TT message={'edit property'}>
                   <Edit2Icon size={15} className="cursor-pointer" />
                 </TT>
@@ -86,7 +114,7 @@ const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
             </Flex>
           </Flex>
           <Flex className="w-full gap-2">
-            <Skeleton className="h-100 w-full bg-gray-500/40">{''}</Skeleton>
+            <Skeleton className="h-100 w-[800px] bg-gray-500/40">{''}</Skeleton>
             <Flex iscol className="gap-2 justify-between h-100">
               <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
               <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
@@ -148,8 +176,8 @@ const PropertyDetail = ({ children }: { children: React.ReactNode }) => {
             </Flex>
           </Flex>
         </Flex>
-      </DrawerContent>
-    </Drawer>
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -157,13 +185,11 @@ const PropertyFilter = () => {
   return (
     <div className="flex flex-col gap-3 mb-5">
       <div>
-        <h1 className="text-xl"> View Properties</h1>
+        <h1 className="text-xl">Property List</h1>
         <p className="text-sm text-muted-foreground">
           Browse and manage all properties associated with your account. Each
           item shows a thumbnail and key details such as address, price, and
-          status, with quick actions for viewing, editing, or sharing. Use the
-          filters and sorting controls to narrow results by location, price, or
-          availability — the list updates responsively for smaller screens.
+          status, with quick actions for viewing, editing, or sharing.
         </p>
       </div>
       <div className="w-full flex justify-between p-2  #ring rounded-xl">
@@ -219,12 +245,12 @@ const PropertyFilter = () => {
   );
 };
 function PropertyCard({ b, a }: { b: number; a: PropertyResult }) {
-  const { setProperty: cc } = usePropertyEdit();
+  const { setProperty } = useProperty();
   return (
     <div
-      onClick={() => cc(a)}
+      onClick={() => setProperty(a)}
       key={b}
-      className="h-fit flex-1 rounded-lg gap flex flex-col gap-2 ring ring-button  cursor-pointer w-fit shadow-black shadow-2xs"
+      className="h-fit  rounded-lg gap flex flex-col gap-2 ring ring-button  cursor-pointer w-fit shadow-black shadow-2xs"
     >
       <div className=' rounded-t-lg h-40 w-full bg-[url("/prop.jpg")] bg-cover bg-no-repeat'>
         <div className="w-full px-2 py-2 flex justify-end">

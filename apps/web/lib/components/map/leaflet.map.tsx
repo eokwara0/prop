@@ -103,12 +103,18 @@ export function FlyToLocation({ center, zoom }: FlyToProps) {
 
   return null;
 }
+
 export default function LeafletMap() {
-  const [place, setPlace] = useState('johannesburg , south africa');
+  const { updateData, data } = usePropertyFormContext();
+  const [place, setPlace] = useState(()=>{
+    if(data){
+      return data.address  as string
+    }
+    return 'Johannesburg ,South Africa'
+  });
   const [locations, setLocations] = useState<GeoResult[]>([]);
   const [center, setCenter] = useState<LatLngExpression | null>(null);
   const [zoom, setZoom] = useState(5);
-  const { updateData, data } = usePropertyFormContext();
 
   async function fetchForwardGeocode(query: string): Promise<GeoResult[]> {
     const url = `https://atlas.microsoft.com/search/address/json?api-version=1.0&subscription-key=${AZURE_MAPS_KEY}&query=${encodeURIComponent(
@@ -137,6 +143,8 @@ export default function LeafletMap() {
           streetName: first.address.streetName,
           streetNumber: first.address.streetNumber,
           suburb: first.address.municipalitySubdivision,
+          lat : new String(first.position.lat),
+          lon : new String(first.position.lon)
         } as CreatePropertyDto);
         setCenter([first!.position.lat, first!.position.lon]);
         setZoom(15);
@@ -165,7 +173,6 @@ export default function LeafletMap() {
               attribution="&copy; OpenStreetMap contributors, HOT"
             />
             {locations.map((loc, i) => {
-              console.log(loc);
               return (
                 <Marker
                   key={i}

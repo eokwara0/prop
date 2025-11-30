@@ -13,8 +13,10 @@ import {
 } from '@/lib/shadcn/components/ui/select';
 import { Switch } from '@/lib/shadcn/components/ui/switch';
 import { CreatePropertyDto } from '../../../../../../packages/ui/src';
-export default function DetailsStep() {
-  const { updateData, data, nextStep, prevStep } = usePropertyFormContext();
+
+
+export default function DetailsStep({data} : { data : CreatePropertyDto | null }) {
+  const { updateData, nextStep, prevStep } = usePropertyFormContext();
 
   return (
     <>
@@ -22,7 +24,7 @@ export default function DetailsStep() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 80, damping: 18 }}
-        className="w-full flex flex-col gap-3 px-5  py-3"
+        className="w-full flex flex-col gap-3 px-5  py-3 text-xs"
       >
         <div className="flex justify-between ">
           <h2 className="w-full">Fill in property details</h2>
@@ -137,7 +139,7 @@ export default function DetailsStep() {
           </div>
           <div className="flex gap-5">
             <label htmlFor="prop-beds" className="flex flex-col gap-1">
-              <p className="text-muted/70">Number of Bedrooms</p>
+              <p className="text-muted/70 ">Number of Bedrooms</p>
               <input
                 type="number"
                 value={data?.bedrooms ?? 2}
@@ -154,7 +156,7 @@ export default function DetailsStep() {
               />
             </label>
             <label htmlFor="prop-baths" className="flex flex-col gap-1">
-              <p className="text-muted/70">Number of Bathrooms</p>
+              <p className="text-muted/70 ">Number of Bathrooms</p>
               <input
                 type="number"
                 value={data?.bathrooms ?? 2}
@@ -167,7 +169,7 @@ export default function DetailsStep() {
                 name="prop-baths"
                 id="prop-baths"
                 placeholder="property bathrooms"
-                className="w-full ring rounded-md p-2"
+                className="w-full ring rounded-md p-2 placeholder:text-xs"
               />
             </label>
             <label htmlFor="prop-size" className="flex flex-col gap-1">

@@ -284,9 +284,11 @@ export function SideBarHeader({
 }
 
 export function SideBarInset({ children }: { children: React.ReactNode }) {
+  const {open} = useSideBarContext();
+  const isMobile = useIsMobile();
   return (
     <>
-      <div className="w-full min-h-screen scrollbar-hidden">{children}</div>
+      <div className={`${ isMobile ? 'w-full' : !open ? 'w-full' : 'w-[calc(100%-3rem)]' } min-h-screen`}>{children}</div>
     </>
   );
 }

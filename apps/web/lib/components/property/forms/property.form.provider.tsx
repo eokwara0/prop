@@ -6,6 +6,7 @@ import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 export type catpureStateType = 'location' | 'details' | 'images';
 
 export type PropertyFormContextType = {
+  isEdit: boolean,
   captureState: catpureStateType;
   setData: (data: CreatePropertyDto) => void;
   data: CreatePropertyDto | null;

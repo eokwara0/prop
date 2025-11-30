@@ -16,8 +16,8 @@ import {
   PropertyResult,
   PropertyStatsResult,
   RResponse,
+  UpdatePropertyDto,
   UpdatePropertyResult,
-  UpdatePrpopertyDto,
 } from 'lib/types/property.types';
 
 @UseGuards(AuthGuard)
@@ -39,11 +39,11 @@ export class PropertyController {
   }
 
   @ApiOkResponse({ type: UpdatePropertyResult })
-  @ApiBody({ type: UpdatePrpopertyDto })
+  @ApiBody({ type: UpdatePropertyDto })
   @HttpCode(201)
   @Patch('update')
   async updateProperty(
-    @Body() data: UpdatePrpopertyDto,
+    @Body() data: UpdatePropertyDto,
   ): Promise<UpdatePropertyResult> {
     return (await this.propertyService.update(data)) as UpdatePropertyResult;
   }

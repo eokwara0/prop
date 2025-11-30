@@ -17,9 +17,13 @@ export function DeleteDialog({ children }: { children: React.ReactNode }) {
 
   const handleSubmit = () => {};
   return (
-    <Dialog>
-      <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className=" w-fit bg-gradient-to-tr from-dialog-color to-dsc ring-0 outline-0 border-0">
+    <Dialog modal={true}>
+      <DialogTrigger asChild>
+        <div>
+        {children}
+        </div>
+        </DialogTrigger>
+      <DialogContent className=" w-4/12 bg-gradient-to-tr from-dialog-color to-dsc ring-0 outline-0 border-0">
         <DialogHeader>
           <DialogTitle className="flex gap-2 items-center">
             <AlertCircleIcon size={20} />

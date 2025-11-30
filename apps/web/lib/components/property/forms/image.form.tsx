@@ -9,14 +9,54 @@ import { useBanner } from '../../banner/banner';
 import {
   createProperty,
   CreatePropertyDto,
+  PropertyResult,
+  UpdatePropertyDto,
 } from '../../../../../../packages/ui/src';
+import { useProperty } from '@/lib/providers/property.provider';
 
-export default function ImageStep() {
+export default function ImageStep({data} : {data : CreatePropertyDto | null }) {
   const clientId = useAuthId();
   const { show } = useBanner();
-  const { data, prevStep } = usePropertyFormContext();
+  const {  prevStep , isEdit , data : property } = usePropertyFormContext();
   const [isPending, startTransition] = useTransition();
+  const {updateProperty , updateProperties , properties} = useProperty();
 
+  const handleIsEdit = () => {
+    startTransition(async () => {
+      try {
+        if (!clientId) {
+          throw new Error('Invalid client id');
+        }
+        console.log(property)
+        const res = await updateProperty(
+          {
+            ...property
+          } as UpdatePropertyDto
+        );
+
+        updateProperties(properties.map(c => {
+          if(c.id === (property as UpdatePropertyDto).id){
+            return property as PropertyResult
+          }
+          return c;
+        }))
+        
+
+        show(<Modal firstMessage="property successfully updated" secondMessage={''} />, 'success');
+      } catch (err) {
+        console.log('something happened here ❌')
+        show(
+          <Modal
+            key={`property-modal`}
+            firstMessage={'Error occured while updating property'}
+            secondMessage={(err as Error).message}
+          />,
+          'error',
+        );
+        console.log(err);
+      }
+    });
+  }
   const handleSubmit = () => {
     startTransition(async () => {
       try {
@@ -26,7 +66,7 @@ export default function ImageStep() {
         const res = await createProperty({
           ...(data as CreatePropertyDto),
         });
-        console.log(res);
+
         show(<Modal firstMessage="successful" secondMessage={''} />, 'success');
       } catch (err) {
         show(
@@ -42,7 +82,7 @@ export default function ImageStep() {
     });
   };
   return (
-    <div className="px-5 gap-2 flex flex-col">
+    <div className="px-5 gap-2 flex flex-col text-sm">
       <div className="flex justify-between items-center py-3">
         <h2 className="w-full">Image Step</h2>
         <button
@@ -57,7 +97,7 @@ export default function ImageStep() {
       <div className="w-full">
         {!isPending ? (
           <button
-            onClick={handleSubmit}
+            onClick={!isEdit ? handleSubmit : handleIsEdit }
             className="w-full p-2 cursor-pointer bg-button rounded-md text-[1rem] "
           >
             Submit

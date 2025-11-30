@@ -19,12 +19,12 @@ import {
 } from '@/lib/shadcn/components/ui/dialog';
 import PropertyForm from '../property/forms/add.property.form';
 
-export function DialogComponent({ children }: { children: ReactNode }) {
+export function AddPropertyDialog({ children }: { children: ReactNode }) {
   const t = useTranslations('Property');
   const ismobile = useIsMobile();
   return ismobile ? (
     <Sheet modal={false}>
-      <SheetTrigger className=" max-sm:w-full max-sm:flex max-sm:justify-start">
+      <SheetTrigger className=" max-sm:w-full max-sm:flex max-sm:justify-start" asChild>
         <div className="w-full flex justify-start">{children}</div>
       </SheetTrigger>
       <SheetContent
@@ -49,8 +49,8 @@ export function DialogComponent({ children }: { children: ReactNode }) {
     </Sheet>
   ) : (
     <Dialog modal={false}>
-      <DialogTrigger className=" max-sm:w-full max-sm:flex max-sm:justify-start">
-        <div className="w-full">{children}</div>
+      <DialogTrigger className="" asChild>
+        {children}
       </DialogTrigger>
       <DialogContent className=" rounded-2xl gap-0 w-fit  min-h-fit ring-1 ring-muted/30 outline-none  border-none  p-0 backdrop-blur-md bg-gradient-to-br from-dialog-color to-dialog-color shadow-md shadow-black/30  inset-shadow-2xs inset-shadow-muted/10 text-xs #bg-pink-500">
         <DialogHeader className="h-fit gap-0  py-2 border-b border-b-muted/30">
