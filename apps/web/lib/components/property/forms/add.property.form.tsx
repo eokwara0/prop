@@ -16,16 +16,16 @@ import { useProperty } from '@/lib/providers/property.provider';
 export function PropertyFormProvider({
   children,
   property,
-  isEdit
+  isEdit,
 }: {
   children: React.ReactNode;
-  property? : CreatePropertyDto;
-  isEdit? : boolean
+  property?: CreatePropertyDto;
+  isEdit?: boolean;
 }) {
   const clientID = useAuthId();
   const [data, setData] = React.useState<CreatePropertyDto>(() => {
-    if(property){
-      console.log("PROPERTY",property, );
+    if (property) {
+      console.log('PROPERTY', property);
       return property;
     }
     return { ownerId: clientID } as CreatePropertyDto;
@@ -61,7 +61,7 @@ export function PropertyFormProvider({
     <>
       <PropertyFormContext.Provider
         value={{
-          isEdit : isEdit ?? false,
+          isEdit: isEdit ?? false,
           captureState,
           data,
           setData,
@@ -85,13 +85,13 @@ export default function PropertyForm() {
 }
 
 export function PropertyFormData() {
-  const { captureState , data } = usePropertyFormContext();
+  const { captureState, data } = usePropertyFormContext();
   switch (captureState) {
     case 'location':
       return <LocationStep data={data} />;
     case 'details':
-      return <DetailsStep data={data}/>;
+      return <DetailsStep data={data} />;
     case 'images':
-      return <ImageStep data={data}/>;
+      return <ImageStep data={data} />;
   }
 }

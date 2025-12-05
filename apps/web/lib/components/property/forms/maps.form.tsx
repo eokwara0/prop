@@ -7,12 +7,18 @@ import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 const LeafletMap = dynamic(() => import('../../map/leaflet.map'), {
   ssr: false,
 });
-export default function LocationStep({ data } : { data : CreatePropertyDto | null }) {
+export default function LocationStep({
+  data,
+}: {
+  data: CreatePropertyDto | null;
+}) {
   const { updateData, nextStep } = usePropertyFormContext();
   return (
     <div className="w-full flex flex-col gap-1 text-xs">
       <div className="flex justify-between">
-        <h1 className="text-2xl px-5 py-2 flex gap-2 items-center"><MapIcon/> Maps</h1>
+        <h1 className="text-2xl px-5 py-2 flex gap-2 items-center">
+          <MapIcon /> Maps
+        </h1>
       </div>
       <p className="text-sm px-5 py-1 text-muted/50">
         Type in your properties location
@@ -24,7 +30,7 @@ export default function LocationStep({ data } : { data : CreatePropertyDto | nul
             <label htmlFor="" className="flex flex-col gap-2 w-full flex-1/4">
               <p className="text-muted">StreetNumber</p>
               <input
-                value={data?.streetNumber  ?? 1}
+                value={data?.streetNumber ?? 1}
                 onChange={(e) => {
                   updateData!({
                     ...(data as CreatePropertyDto),

@@ -15,9 +15,7 @@ export function TT({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div>
-          {children}
-        </div>
+        <div>{children}</div>
       </TooltipTrigger>
       <TooltipContent>
         <p>{message}</p>

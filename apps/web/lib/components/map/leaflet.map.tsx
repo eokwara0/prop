@@ -106,11 +106,11 @@ export function FlyToLocation({ center, zoom }: FlyToProps) {
 
 export default function LeafletMap() {
   const { updateData, data } = usePropertyFormContext();
-  const [place, setPlace] = useState(()=>{
-    if(data){
-      return data.address  as string
+  const [place, setPlace] = useState(() => {
+    if (data) {
+      return data.address as string;
     }
-    return 'Johannesburg ,South Africa'
+    return 'Johannesburg ,South Africa';
   });
   const [locations, setLocations] = useState<GeoResult[]>([]);
   const [center, setCenter] = useState<LatLngExpression | null>(null);
@@ -143,19 +143,19 @@ export default function LeafletMap() {
           streetName: first.address.streetName,
           streetNumber: first.address.streetNumber,
           suburb: first.address.municipalitySubdivision,
-          lat : new String(first.position.lat),
-          lon : new String(first.position.lon)
+          lat: new String(first.position.lat),
+          lon: new String(first.position.lon),
         } as CreatePropertyDto);
         setCenter([first!.position.lat, first!.position.lon]);
         setZoom(15);
         setLocations(results);
       }
     }
-  }, [ place]);
+  }, [place]);
 
   useEffect(() => {
     handleSearch();
-    return () => {}
+    return () => {};
   }, []);
 
   return (

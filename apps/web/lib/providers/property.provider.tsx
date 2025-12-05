@@ -1,10 +1,15 @@
 'use client';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { getOwnersProperty, PropertyResult, } from '../../../../packages/ui/src';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { getOwnersProperty, PropertyResult } from '../../../../packages/ui/src';
 import { updateProperty } from '../../../../packages/ui/src';
 import { createProperty } from '../../../../packages/ui/src';
 import { useAuthId } from './auth.provider';
-
 
 export function useProperties(): PropertyResult[] {
   const userID = useAuthId();
@@ -15,22 +20,19 @@ export function useProperties(): PropertyResult[] {
       setData(result);
     };
     getData();
-    return () => { };
+    return () => {};
   }, [userID, setData]);
   return data;
 }
 
 export type PropertyContextType = {
-  properties: PropertyResult[],
+  properties: PropertyResult[];
   updateProperties: (data: PropertyResult[]) => void;
   data: PropertyResult | null;
   setProperty: (data: PropertyResult) => void;
-  updateProperty: typeof updateProperty
-  createProperty: typeof createProperty
+  updateProperty: typeof updateProperty;
+  createProperty: typeof createProperty;
 };
-
-
-
 
 export const PropertyContext = createContext<PropertyContextType | null>(null);
 
@@ -42,16 +44,10 @@ export const useProperty = () => {
   return context;
 };
 
-
-export function PropertyProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function PropertyProvider({ children }: { children: React.ReactNode }) {
   const props = useProperties();
   const [data, setData] = useState<PropertyResult | null>(null);
   const [properties, setProperties] = useState<PropertyResult[]>(props ?? []);
-
 
   const setProperty = useCallback(
     (data_: PropertyResult) => {
@@ -66,11 +62,10 @@ export function PropertyProvider({
     return;
   }, []);
 
-    useEffect(() => {
-     setProperties(props)
-  },[props]);
+  useEffect(() => {
+    setProperties(props);
+  }, [props]);
 
-  
   return (
     <PropertyContext.Provider
       value={{
@@ -79,8 +74,7 @@ export function PropertyProvider({
         data,
         setProperty: setProperty,
         updateProperty: updateProperty,
-        createProperty: createProperty
-
+        createProperty: createProperty,
       }}
     >
       {children}

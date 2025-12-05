@@ -49,9 +49,9 @@ export class UpdatePropertyResult
   streetName: string;
   @ApiProperty({ type: Number })
   streetNumber: number;
-  @ApiProperty({type : String})
+  @ApiProperty({ type: String })
   lat: string;
-  @ApiProperty({type : String})
+  @ApiProperty({ type: String })
   lon: string;
   @ApiProperty({ type: String })
   suburb: string;
@@ -94,7 +94,8 @@ export class UpdatePropertyResult
 export class PropertyResult implements IProperty {
   @ApiProperty({ type: String })
   id: string;
-  @ApiProperty({ type: String , 
+  @ApiProperty({
+    type: String,
     enum: [
       'house',
       'apartment',
@@ -143,10 +144,10 @@ export class PropertyResult implements IProperty {
   isActive: boolean;
   @ApiProperty({ type: String, required: false })
   description?: string;
-  @ApiProperty({ type : String, required : true })
-  lat : string;
-  @ApiProperty({ type : String, required : true })
-  lon : string;
+  @ApiProperty({ type: String, required: true })
+  lat: string;
+  @ApiProperty({ type: String, required: true })
+  lon: string;
   @ApiProperty({ type: String, required: false })
   address?: string;
   @ApiProperty({ type: String, required: false })
@@ -236,10 +237,10 @@ export class UpdatePropertyDto implements IPropertyUpdateDto {
   postalCode?: string;
   @ApiProperty({ type: Number, required: false })
   squareFeet?: number;
-  @ApiProperty({type : String , required : true})
-  lat : string;
-  @ApiProperty({type : String , required : true})
-  lon : string;
+  @ApiProperty({ type: String, required: true })
+  lat: string;
+  @ApiProperty({ type: String, required: true })
+  lon: string;
   @ApiProperty({ type: Number, required: false })
   price?: number;
   @ApiProperty({ type: String, required: false })
@@ -282,9 +283,9 @@ export class CreatePropertyDto implements Partial<IPropertyCreateDTO> {
   country: string;
   @ApiProperty({ type: Number })
   bedrooms: number;
-  @ApiProperty({type : String})
+  @ApiProperty({ type: String })
   lon: string;
-  @ApiProperty({type : String})
+  @ApiProperty({ type: String })
   lat: string;
   @ApiProperty({ type: Number })
   bathrooms: number;

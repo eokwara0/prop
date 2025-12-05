@@ -14,12 +14,16 @@ import {
 } from '../../../../../../packages/ui/src';
 import { useProperty } from '@/lib/providers/property.provider';
 
-export default function ImageStep({data} : {data : CreatePropertyDto | null }) {
+export default function ImageStep({
+  data,
+}: {
+  data: CreatePropertyDto | null;
+}) {
   const clientId = useAuthId();
   const { show } = useBanner();
-  const {  prevStep , isEdit , data : property } = usePropertyFormContext();
+  const { prevStep, isEdit, data: property } = usePropertyFormContext();
   const [isPending, startTransition] = useTransition();
-  const {updateProperty , updateProperties , properties} = useProperty();
+  const { updateProperty, updateProperties, properties } = useProperty();
 
   const handleIsEdit = () => {
     startTransition(async () => {
@@ -27,24 +31,29 @@ export default function ImageStep({data} : {data : CreatePropertyDto | null }) {
         if (!clientId) {
           throw new Error('Invalid client id');
         }
-        console.log(property)
-        const res = await updateProperty(
-          {
-            ...property
-          } as UpdatePropertyDto
+        console.log(property);
+        const res = await updateProperty({
+          ...property,
+        } as UpdatePropertyDto);
+
+        updateProperties(
+          properties.map((c) => {
+            if (c.id === (property as UpdatePropertyDto).id) {
+              return property as PropertyResult;
+            }
+            return c;
+          }),
         );
 
-        updateProperties(properties.map(c => {
-          if(c.id === (property as UpdatePropertyDto).id){
-            return property as PropertyResult
-          }
-          return c;
-        }))
-        
-
-        show(<Modal firstMessage="property successfully updated" secondMessage={''} />, 'success');
+        show(
+          <Modal
+            firstMessage="property successfully updated"
+            secondMessage={''}
+          />,
+          'success',
+        );
       } catch (err) {
-        console.log('something happened here ❌')
+        console.log('something happened here ❌');
         show(
           <Modal
             key={`property-modal`}
@@ -56,7 +65,7 @@ export default function ImageStep({data} : {data : CreatePropertyDto | null }) {
         console.log(err);
       }
     });
-  }
+  };
   const handleSubmit = () => {
     startTransition(async () => {
       try {
@@ -97,7 +106,7 @@ export default function ImageStep({data} : {data : CreatePropertyDto | null }) {
       <div className="w-full">
         {!isPending ? (
           <button
-            onClick={!isEdit ? handleSubmit : handleIsEdit }
+            onClick={!isEdit ? handleSubmit : handleIsEdit}
             className="w-full p-2 cursor-pointer bg-button rounded-md text-[1rem] "
           >
             Submit

@@ -14,8 +14,11 @@ import {
 import { Switch } from '@/lib/shadcn/components/ui/switch';
 import { CreatePropertyDto } from '../../../../../../packages/ui/src';
 
-
-export default function DetailsStep({data} : { data : CreatePropertyDto | null }) {
+export default function DetailsStep({
+  data,
+}: {
+  data: CreatePropertyDto | null;
+}) {
   const { updateData, nextStep, prevStep } = usePropertyFormContext();
 
   return (

@@ -16,13 +16,13 @@
   --default-background: #0e0f11;
   --secondary-background: #36393e;
   --button-color: #06cf9c;
-  --button-secondary : #049c75;
+  --button-secondary: #049c75;
   --login-form-color: #212121;
   --login-form-secondary: #1a1d21;
   --login-form-first: #1e2122;
   --l-c: #dddfe2;
   /* --banner-primary:#00e5ff; */
-  --banner-primary:#06cf9c;
+  --banner-primary: #06cf9c;
   --banner-secondary: #049c75;
   --banner-error-primary: #e22859;
   --banner-error-secondary: #e22859;
@@ -70,8 +70,8 @@
   --color-pp-s: var(--secondary-p-color);
   --color-bc: var(--border-color);
   --color-l-c: var(--l-c);
-  --color-d-background : var(--default-background);
-  --color-s-background : var(--secondary-background);
+  --color-d-background: var(--default-background);
+  --color-s-background: var(--secondary-background);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-button: var(--button-color);
@@ -166,6 +166,7 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -175,28 +176,30 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-    @layer utilities {
-      /* Chrome, Safari, and Opera */
-      .scrollbar-hidden::-webkit-scrollbar {
-        display: none;
-      }
+@layer utilities {
 
-      /* Firefox */
-      .scrollbar-hidden {
-        scrollbar-width: none;
-      }
+  /* Chrome, Safari, and Opera */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 
-      /* IE and Edge */
-      .scrollbar-hidden {
-        -ms-overflow-style: none;
-      }
-    }
+  /* Firefox */
+  .scrollbar-hidden {
+    scrollbar-width: none;
+  }
 
-.lucide-x{
+  /* IE and Edge */
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+  }
+}
+
+.lucide-x {
   display: none;
 }

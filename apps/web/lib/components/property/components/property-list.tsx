@@ -20,40 +20,44 @@ import {
   PopoverTrigger,
 } from '@/lib/shadcn/components/ui/popover';
 import { PopoverArrow } from '@radix-ui/react-popover';
-import { CreatePropertyDto, Flex, getOwnersProperty, PropertyResult } from '../../../../../../packages/ui/src';
+import {
+  CreatePropertyDto,
+  Flex,
+  getOwnersProperty,
+  PropertyResult,
+} from '../../../../../../packages/ui/src';
 import { useProperties, useProperty } from '@/lib/providers/property.provider';
 import { Skeleton } from '@/lib/shadcn/components/ui/skeleton';
 import { Switch } from '@/lib/shadcn/components/ui/switch';
 import { TT } from '../../tooltip';
 import { DeleteDialog } from '../../dialog/delete.dialog';
 import { EditPropertyDialog } from '../../dialog/edit.property.dialog';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/lib/shadcn/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '@/lib/shadcn/components/ui/dialog';
 import { PropertyFormProvider } from '../forms/add.property.form';
 import { usePropertyFormContext } from '../forms/property.form.provider';
 import { useEffect, useState } from 'react';
 
-
-
-
 export function PropertyList() {
-
-  const { properties} = useProperty();
+  const { properties } = useProperty();
   console.log('properties', properties);
   return (
     <PropertyFormProvider>
       <div className="p-2 bg-[#yellow] w-full rounded-md overflow-hidden">
         <PropertyFilter />
-        <div className=' w-full'>
-          <div className='flex w-full overflow-auto p-4 scrollbar-hidden gap-5 '>
+        <div className=" w-full">
+          <div className="flex w-full overflow-auto p-4 scrollbar-hidden gap-5 ">
             {properties.map((a, b) => (
               <PropertyDetailDialog key={'pd' + b}>
                 <PropertyCard key={b} a={a} b={b} />
               </PropertyDetailDialog>
             ))}
           </div>
-
         </div>
-
       </div>
     </PropertyFormProvider>
   );
@@ -65,114 +69,124 @@ const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setData(c as CreatePropertyDto);
-    return () => { }
-  }, [])
+    return () => {};
+  }, []);
 
   return (
     <Dialog modal={false}>
       <DialogTrigger asChild>
-        <div>
-        {children}
-        </div>
-        </DialogTrigger>
-      <DialogContent className="flex justify-center w-fit items-center bg-gradient-to-r from-l_f_f  to-l_f_s  data-[state=open]:border-[0.5px] data-[state=open]:border-button">
+        <div>{children}</div>
+      </DialogTrigger>
+      <DialogContent className=" flex justify-center w-[80%] h-[80%] items-center bg-gradient-to-r from-l_f_f  to-l_f_s  data-[state=open]:border-[0.5px] data-[state=open]:border-button">
         <DialogTitle></DialogTitle>
         <Flex
           iscol
-          center={true}
-          className=" p-1   max-md:w-full min-md:w-full gap-3 overflow-y-scroll scrollbar-hidden"
+          className="w-full gap-3 h-full overflow-y-scroll scrollbar-hidden shrink-0"
         >
-          <Flex className="w-full gap-2 items-center justify-between ">
-            <Flex className="gap-2 items-center">
-              <div className="bg-button rounded-sm h-fit p-1">
-                <HouseIcon size={20} />
-              </div>
-              <p className="text-2xl text-gray-400">Property Detail</p>
-              {/* <Badge className="ring ring-button h-fit">{c?.type}</Badge> */}
-              <div className="
-  bg-[linear-gradient(125deg,rgba(255,255,255,0.10),rgba(255,255,255,0.02))]
-  border-t
-  border-t-[rgba(255,255,255,0.25)]
-  rounded-xl
-  px-4 py-1 text-xs
-">
-                apartment
-              </div>
-            </Flex>
-
-            <Flex className="gap-4">
-              <DeleteDialog>
-                <TT  message="delete property">
-                  <Trash2Icon size={15} className="fill-red-400" />
-                </TT>
-              </DeleteDialog>
-              <EditPropertyDialog property={c as CreatePropertyDto}>
-                <TT message={'edit property'}>
-                  <Edit2Icon size={15} className="cursor-pointer" />
-                </TT>
-              </EditPropertyDialog>
-            </Flex>
-          </Flex>
-          <Flex className="w-full gap-2">
-            <Skeleton className="h-100 w-[800px] bg-gray-500/40">{''}</Skeleton>
-            <Flex iscol className="gap-2 justify-between h-100">
-              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
-              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
-              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
-              <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
-            </Flex>
-          </Flex>
-          <Flex className="w-full">
-            <Flex iscol className="w-full gap-2">
-              <Flex className="w-full justify-between">
-                <p className="text-2xl text-muted">{c?.name}</p>
-                <p className="text-2xl text-muted">
-                  R {formatter.format(Number(c?.price))}
-                </p>
+          <Flex
+            iscol
+            center={true}
+            className=" p-1 w-full  max-md:w-full min-md:w-full gap-3 scrollbar-hidden"
+          >
+            <Flex className="w-full gap-2 items-center justify-between ">
+              <Flex className="gap-2 items-center">
+                <div className="bg-button rounded-sm h-fit p-1">
+                  <HouseIcon size={20} />
+                </div>
+                <p className="text-2xl text-gray-400">Property Detail</p>
+                {/* <Badge className="ring ring-button h-fit">{c?.type}</Badge> */}
+                <div className=" bg-[linear-gradient(125deg,rgba(255,255,255,0.10),rgba(255,255,255,0.02))] border-t border-t-[rgba(255,255,255,0.25)] rounded-xl px-4 py-1 text-xs ">
+                  apartment
+                </div>
               </Flex>
-              <Flex className="gap-3">
-                <Badge className="rounded-sm ring-indigo-400 ring">
-                  <BathIcon /> <p>{c?.bathrooms} baths</p>
-                </Badge>
-                <Badge className="rounded-sm  text-xs ring ring-emerald-500">
-                  <BedIcon /> <p>{c?.bedrooms} bed</p>
-                </Badge>
-                <Badge className="rounded-sm  text-xs ring ring-amber-500">
-                  <Ruler />{' '}
-                  <p>
-                    {c?.squareFeet}m<sup>2</sup>
+
+              <Flex className="gap-4">
+                <DeleteDialog>
+                  <TT message="delete property">
+                    <Trash2Icon size={15} className="fill-red-400" />
+                  </TT>
+                </DeleteDialog>
+                <EditPropertyDialog property={c as CreatePropertyDto}>
+                  <TT message={'edit property'}>
+                    <Edit2Icon size={15} className="cursor-pointer" />
+                  </TT>
+                </EditPropertyDialog>
+              </Flex>
+            </Flex>
+            <Flex className="w-full gap-2">
+              <Skeleton className="h-100 w-full bg-gray-500/40">{''}</Skeleton>
+              <Flex iscol className="gap-2 justify-between h-100">
+                <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+                <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+                <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+                <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
+              </Flex>
+            </Flex>
+            <Flex className="w-full">
+              <Flex iscol className="w-full gap-2">
+                <Flex className="w-full justify-between">
+                  <p className="text-2xl text-muted">{c?.name}</p>
+                  <p className="text-2xl text-muted">
+                    R {formatter.format(Number(c?.price))}
                   </p>
-                </Badge>
-              </Flex>
-              <Flex className=" items-center gap-2 text-muted-foreground">
-                <PinIcon size={17} />
-                <span>
-                  {c?.address} {c?.country}
-                </span>
-              </Flex>
-              <Flex iscol className="gap-2">
-                <h1 className="text-lg font-light">Description</h1>
-                <p className="text-sm text-muted-foreground">
-                  {c?.description}
-                </p>
-              </Flex>
+                </Flex>
+                <Flex className="gap-3">
+                  <Badge className="rounded-sm ring-indigo-400 ring">
+                    <BathIcon /> <p>{c?.bathrooms} baths</p>
+                  </Badge>
+                  <Badge className="rounded-sm  text-xs ring ring-emerald-500">
+                    <BedIcon /> <p>{c?.bedrooms} bed</p>
+                  </Badge>
+                  <Badge className="rounded-sm  text-xs ring ring-amber-500">
+                    <Ruler />{' '}
+                    <p>
+                      {c?.squareFeet}m<sup>2</sup>
+                    </p>
+                  </Badge>
+                </Flex>
+                <Flex className=" items-center gap-2 text-muted-foreground">
+                  <PinIcon size={17} />
+                  <span>
+                    {c?.address} {c?.country}
+                  </span>
+                </Flex>
+                <Flex iscol className="gap-2">
+                  <h1 className="text-lg font-light">Description</h1>
+                  <p className="text-sm text-muted-foreground">
+                    {c?.description}
+                  </p>
+                </Flex>
 
-              <Flex className="gap-2 items-center text-sm">
-                <Badge className="ring ring-button p-1">
-                  <ArmchairIcon size={20} /> <span>furnished</span>
-                  <Switch
-                    checked={c?.isFurnished}
-                    className="data-[state=checked]:bg-button"
-                  />
-                </Badge>
-                <Badge className="ring ring-button p-1">
-                  <ArmchairIcon size={20} /> <span>isForRent</span>
-                  <Switch
-                    checked={c?.isForRent}
-                    className="data-[state=checked]:bg-button"
-                  />
-                </Badge>
+                <Flex className="gap-2 items-center text-sm">
+                  <Badge className="ring ring-button p-1">
+                    <ArmchairIcon size={20} /> <span>furnished</span>
+                    <Switch
+                      checked={c?.isFurnished}
+                      className="data-[state=checked]:bg-button"
+                    />
+                  </Badge>
+                  <Badge className="ring ring-button p-1">
+                    <ArmchairIcon size={20} /> <span>isForRent</span>
+                    <Switch
+                      checked={c?.isForRent}
+                      className="data-[state=checked]:bg-button"
+                    />
+                  </Badge>
+                </Flex>
               </Flex>
+            </Flex>
+          </Flex>
+          <Flex iscol className="gap-2 w-full  shrink-0">
+            <p className="text-xl">Units</p>
+            <Flex className=" gap-5 overflow-hidden w-full">
+              <div className=" flex gap-2 overflow-x-scroll">
+                {[1, 2, 3, 4, 5, 6, 7, 223, 24334, 323, 33].map((c) => (
+                  <Skeleton
+                    key={c}
+                    className="shrink-0 bg-gray-500/40 w-[300px] h-[200px] max-sm:w-full"
+                  ></Skeleton>
+                ))}
+              </div>
             </Flex>
           </Flex>
         </Flex>

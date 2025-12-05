@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/lib/shadcn/components/ui/dialog';
@@ -15,22 +14,15 @@ type PropertyCardProps = {
   property: CreatePropertyDto;
 };
 
-
-export function EditPropertyDialog({
-  children,
-  property
-}: PropertyCardProps) {
+export function EditPropertyDialog({ children, property }: PropertyCardProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div>
-          {children}
-        </div>
+        <div>{children}</div>
       </DialogTrigger>
       <DialogContent className=" px-0 bg-gradient-to-tr from-dialog-color to-dsc w-fit backdrop-blur-xs">
-        <DialogTitle className=''>
-        </DialogTitle>
-        <PropertyEditForm  data={property} />
+        <DialogTitle className=""></DialogTitle>
+        <PropertyEditForm data={property} />
       </DialogContent>
     </Dialog>
   );

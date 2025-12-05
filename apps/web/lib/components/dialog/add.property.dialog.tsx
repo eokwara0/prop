@@ -24,7 +24,10 @@ export function AddPropertyDialog({ children }: { children: ReactNode }) {
   const ismobile = useIsMobile();
   return ismobile ? (
     <Sheet modal={false}>
-      <SheetTrigger className=" max-sm:w-full max-sm:flex max-sm:justify-start" asChild>
+      <SheetTrigger
+        className=" max-sm:w-full max-sm:flex max-sm:justify-start"
+        asChild
+      >
         <div className="w-full flex justify-start">{children}</div>
       </SheetTrigger>
       <SheetContent

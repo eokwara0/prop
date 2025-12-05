@@ -5,7 +5,16 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@radix-ui/react-tooltip';
-import { LogOut, LucideProps, PanelLeft, Settings } from 'lucide-react';
+import {
+  Bell,
+  LogOut,
+  LucideProps,
+  PanelLeft,
+  PersonStanding,
+  Settings,
+  SettingsIcon,
+  UserCheck,
+} from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import React, { useCallback, useEffect } from 'react';
 import { createContext, useContext, useState } from 'react';
@@ -183,7 +192,7 @@ export function SideBar({ logo }: { logo: StaticImageData }) {
                                     })
                                   }
                                 >
-                                  <da.icon size={'1.3rem'} />
+                                  <da.icon size={'20'} />
                                 </Link>
                               }
                             </TooltipTrigger>
@@ -207,22 +216,48 @@ export function SideBar({ logo }: { logo: StaticImageData }) {
                   <div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild className="mb-5">
-                        <Settings className="cursor-pointer" />
+                        <Settings
+                          width={20}
+                          height={20}
+                          className="cursor-pointer"
+                        />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent
                         hideWhenDetached={true}
                         align="end"
-                        alignOffset={2}
-                        className=" flex flex-col gap-3 p-1 rounded-md w-48   #shadow border-2 border-bc backdrop-blur-xs bg-gradient-to-r from-pp-s to-pp-s"
+                        alignOffset={20}
+                        className=" flex flex-col text-white text-xs gap-1 p-1 rounded-md w-fit   #shadow border-2 border-bc backdrop-blur-xs bg-gradient-to-r from-l_f_f to-l_f_s"
                         side="right"
                         sideOffset={20}
                       >
                         <DropdownMenuItem
-                          className="outline-none p-1 text-[1rem] rounded cursor-pointer hover:bg-button flex gap-2 justify-start items-center"
+                          className="outline-none p-1 text-xs rounded cursor-pointer hover:bg-button flex gap-2 justify-start items-center"
                           onClick={() => {}}
                         >
-                          <LogOut width={15} height={15} />
-                          Logout
+                          <UserCheck color="white" />
+                          <p>Members</p>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                          className="outline-none p-1 text-xs rounded cursor-pointer hover:bg-button flex gap-2 justify-start items-center"
+                          onClick={() => {}}
+                        >
+                          <SettingsIcon width={15} height={15} color="white" />
+                          <p>Settings</p>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="outline-none p-1 text-xs rounded cursor-pointer hover:bg-button flex gap-2 justify-start items-center"
+                          onClick={() => {}}
+                        >
+                          <LogOut width={15} height={15} color="white" />
+                          <p>Logout</p>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="outline-none p-1 text-xs rounded cursor-pointer hover:bg-button flex gap-2 justify-start items-center"
+                          onClick={() => {}}
+                        >
+                          <Bell color="white" />
+                          <p>Notifications</p>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -284,11 +319,15 @@ export function SideBarHeader({
 }
 
 export function SideBarInset({ children }: { children: React.ReactNode }) {
-  const {open} = useSideBarContext();
+  const { open } = useSideBarContext();
   const isMobile = useIsMobile();
   return (
     <>
-      <div className={`${ isMobile ? 'w-full' : !open ? 'w-full' : 'w-[calc(100%-3rem)]' } min-h-screen`}>{children}</div>
+      <div
+        className={`${isMobile ? 'w-full' : !open ? 'w-full' : 'w-[calc(100%-3rem)]'} min-h-screen`}
+      >
+        {children}
+      </div>
     </>
   );
 }

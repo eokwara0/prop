@@ -34,7 +34,7 @@ export const PropertySchema = z.object({
   isForRent: z.boolean().default(true),
   isForSale: z.boolean().default(false),
   mainImage: z.string().nullable().optional(),
-  lon:z.string().nullable(),
+  lon: z.string().nullable(),
   lat: z.string().nullable(),
   images: z.array(z.string()).default([]),
   isActive: z.boolean().default(true),
