@@ -22,6 +22,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from 'lib/guards/auth.guard';
 import { Public } from 'lib/guards/metadata/auth.guard.meta';
 import { ApiOkResponse } from '@nestjs/swagger';
+import { MailService } from 'lib/services/mailservice/mailservice.service';
 
 @UseGuards(AuthGuard)
 @Controller('auth')
@@ -30,6 +31,7 @@ export class AuthController {
     private uService: UserService,
     private authService: AuthService,
     private jwt: JwtService,
+    private mailService : MailService
   ) {}
 
   @Public()
@@ -61,6 +63,13 @@ export class AuthController {
     return {
       access_token: token,
     };
+  }
+
+
+  @Public()
+  @Get('test-mail')
+  async test(){
+    await this.mailService.sendWelcomeEmail("no-reply@gmail.com")
   }
 
   @Public()

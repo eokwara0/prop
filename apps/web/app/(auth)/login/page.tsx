@@ -78,6 +78,7 @@ export default function SignInPage() {
                 <input
                   name="password"
                   id="password"
+                  type="password"
                   placeholder="Password"
                   className="bg-gradient-to-tr placeholder:text-sm placeholder:p-2 from-login-form to-l_f_s  pl-3 text-muted  w-full border border-slate-50 rounded-md h-11"
                 />

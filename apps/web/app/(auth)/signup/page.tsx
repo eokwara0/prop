@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import AppLogo from '../../../assets/logo/icon2.png';
 import Image from 'next/image';
@@ -13,6 +13,8 @@ import SignupValidation, {
 } from '../../../lib/components/signup/provider';
 import Modal from '../../../lib/components/banner/modal';
 import Loader from '../../../lib/components/loader/loader';
+import { signup } from '../../../../../packages/ui/src';
+import { AxiosError } from 'axios';
 
 const strongPasswordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
 
@@ -21,7 +23,7 @@ export default function SignUpPage() {
   const { show } = useBanner();
   const router = useRouter();
   const [retype, setRetype] = useState('');
-  const [status, setStatus] = useState<SignupStatus>(SignupStatus.INITIAL);
+  const [ispending, start] = useTransition();
 
   const isValid =
     password.length > 0 &&
@@ -30,54 +32,61 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus(SignupStatus.LOADING);
     const formData = new FormData(e.currentTarget);
     const email = formData.get('signup_email') as string;
     const name = formData.get('signup_name') as string;
+
+    start(async () => {
     if (isValid && email) {
       try {
-        const response = await fetch('/api/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
+         const result = await signup({
+            email: email as string,
+            password: password as string,
             name: name,
-            userType: UserType.Admin,
-          }),
-        });
+          });
 
-        if (!response.ok) {
-          const data = await response.json();
-          show(
-            <Modal
-              firstMessage={data.data.error.message}
-              secondMessage={data.data.message}
-            />,
-            'error',
-          );
-          setStatus(SignupStatus.ERROR);
-        } else {
-          setStatus(SignupStatus.SUCCESS);
-          show(
-            <Modal
-              firstMessage="Account created successfully"
-              secondMessage="You can now login"
-            />,
-            'success',
-          );
-          router.push('/login');
-        }
+          if (result.status >= 400) {
+            show(
+              <Modal
+                firstMessage={`ERROR WHILE SIGNING UP`}
+                secondMessage={`Please check your credentials`}
+              />,
+              'error',
+            );
+          } else {
+            show(
+              <Modal
+                firstMessage="Account created successfully"
+                secondMessage="You can now login"
+              />,
+              'success',
+            );
+            router.push('/login');
+          }
       } catch (error) {
+
+        const { statusText } = (error as AxiosError).response as any
+        const {message} = (error as AxiosError).response?.data as any;
+         show(
+              <Modal
+                firstMessage={statusText}
+                secondMessage={message}
+              />,
+              'error',
+            );
         console.error('Signup error:', error);
-        setStatus(SignupStatus.ERROR);
       }
     } else {
-      setStatus(SignupStatus.ERROR);
-      console.error('Invalid form data');
+       show(
+              <Modal
+                firstMessage={"Error"}
+                secondMessage={"Invalid credentials please make sure that the data submitted is correct"}
+              />,
+              'error',
+            );
     }
+    })
+    
   };
 
   return (
@@ -112,7 +121,7 @@ export default function SignUpPage() {
                 />
                 {/* Email */}
                 <input
-                  disabled={status === SignupStatus.LOADING}
+                  disabled={ispending}
                   type="email"
                   id="signup_email"
                   name="signup_email"
@@ -127,7 +136,7 @@ export default function SignUpPage() {
                 <input
                   type="password"
                   id="retypepass"
-                  disabled={status === SignupStatus.LOADING}
+                  disabled={ispending}
                   value={retype}
                   onChange={(e) => setRetype(e.currentTarget.value)}
                   placeholder="Retype Password"
@@ -144,7 +153,7 @@ export default function SignUpPage() {
                       : 'bg-slate-500 cursor-not-allowed'
                   }`}
                 >
-                  {status === SignupStatus.LOADING ? <Loader /> : 'Continue'}
+                  {ispending ? <Loader /> : 'Continue'}
                 </button>
                 {/* Login link */}
                 <p className=" text-left text-white flex gap-1">

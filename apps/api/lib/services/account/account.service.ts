@@ -40,15 +40,13 @@ export class AccountService {
 
   /** Create a new account */
   async createAccount(data: IAccount): Promise<IAccount | null> {
-    const res = await this.accountModel
-      .query()
-      .insert(data)
-      .transacting(this.transaction);
+    const res = await this.accountModel.transaction( async trx => {
+      const re = this.accountModel.query(trx).insert(data);
+      return re;
+    })
     if (!res) {
-      this.transaction.rollback();
       throw new Error('Internal Server error , unable to create account');
     }
-    this.transaction.commit();
     return res.toJSON();
   }
 

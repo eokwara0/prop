@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from 'src/auth/auth.module';
 import { PropertyModule } from '../property/property.module';
 import { FileModule } from '../file/file.module';
+import { MailModule } from 'lib/services/mailservice/mailservice.module';
 
 @Module({
   imports: [

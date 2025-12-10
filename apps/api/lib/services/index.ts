@@ -13,7 +13,7 @@ import { UsertypeModule } from './usertype/usertype.module';
 import { UsertypeactivityModule } from './usertypeactivity/usertypeactivity.module';
 import { VerificationtokenModule } from './verificationtoken/verificationtoken.module';
 import { PropertyModule } from './property/property.module';
-
+import { MailModule } from './mailservice/mailservice.module';
 @Module({
   imports: [
     KnexModule,
@@ -27,6 +27,7 @@ import { PropertyModule } from './property/property.module';
     UsertypeactivityModule,
     VerificationtokenModule,
     PropertyModule,
+    MailModule
   ],
   exports: [
     KnexModule,
@@ -40,6 +41,7 @@ import { PropertyModule } from './property/property.module';
     UsertypeactivityModule,
     VerificationtokenModule,
     PropertyModule,
+    MailModule
   ],
 })
 export class SServiceModule {}

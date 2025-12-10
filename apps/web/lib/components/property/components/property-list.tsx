@@ -77,7 +77,7 @@ const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
       <DialogTrigger asChild>
         <div>{children}</div>
       </DialogTrigger>
-      <DialogContent className=" flex justify-center w-[80%] h-[80%] items-center bg-gradient-to-r from-l_f_f  to-l_f_s  data-[state=open]:border-[0.5px] data-[state=open]:border-button">
+      <DialogContent className=" flex justify-center w-[60%] h-[70%] items-center bg-gradient-to-r from-l_f_f  to-l_f_s  data-[state=open]:border-[0.5px] data-[state=open]:border-button">
         <DialogTitle></DialogTitle>
         <Flex
           iscol

@@ -9,7 +9,7 @@ import axios, {
 const customInstance: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3002/',
   withCredentials: true,
-  timeout: 10000,
+  timeout: 200000,
   headers: {
     'Content-Type': 'application/json',
   },

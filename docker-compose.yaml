@@ -8,7 +8,7 @@ services:
       - "1433:1433"
     environment:
       ACCEPT_EULA: "1"
-      MSSQL_SA_PASSWORD: "StrongP@ssword123!"  # Use a strong password
+      MSSQL_SA_PASSWORD: "StrongP@ssword123!"
     volumes:
       - sql_data:/var/opt/mssql
     restart: unless-stopped
@@ -18,16 +18,31 @@ services:
     container_name: minio
     restart: unless-stopped
     environment:
-      MINIO_ROOT_USER: minioadmin       # Change for security
-      MINIO_ROOT_PASSWORD: minioadmin   # Change for security
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
     ports:
-      - "9005:9000"  # S3 API Endpoint
-      - "9006:9001"  # MinIO Web Console
+      - "9005:9000"
+      - "9006:9001"
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
 
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    environment:
+      MP_UI_AUTH: "user:password123"     # Web UI login
+      MP_SMTP_AUTH_USERS: "user:password123" # SMTP login
+      MP_DATA_FILE: /data/mailpit.db     # Persistent mailbox DB
+      MP_MAX_MESSAGES: 10000
+    volumes:
+      - mailpit_data:/data
+
 volumes:
   sql_data:
   minio_data:
-
+  mailpit_data:
