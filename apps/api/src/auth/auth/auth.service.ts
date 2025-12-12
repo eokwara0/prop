@@ -16,6 +16,7 @@ import { UserType } from 'lib/types/app.types';
 import { UserTypeService } from 'lib/services/usertype/usertype.service';
 import { UserTypeActivityService } from 'lib/services/usertypeactivity/usertypeactivity.service';
 import { RoleService } from 'lib/services/role/role.service';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class AuthService {
@@ -103,11 +104,12 @@ export class AuthService {
     if (!up) {
       throw new HttpException('Internal server error', HttpStatus.BAD_REQUEST);
     }
+    console.log(nu);
     const acc = await this.accountService.createAccount({
       userId: nu.id,
       type: 'credentials',
       provider: 'credentials',
-      providerAccountId: '',
+      providerAccountId: randomUUID(),
     });
     if (!acc) {
       throw new HttpException('Internal server error', HttpStatus.BAD_REQUEST);

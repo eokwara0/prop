@@ -67,12 +67,6 @@ export class AuthController {
 
 
   @Public()
-  @Get('test-mail')
-  async test(){
-    await this.mailService.sendWelcomeEmail("no-reply@gmail.com")
-  }
-
-  @Public()
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: AuthToken })
   @Post('signup')
