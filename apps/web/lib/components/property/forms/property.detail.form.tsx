@@ -12,7 +12,10 @@ import {
   SelectValue,
 } from '@/lib/shadcn/components/ui/select';
 import { Switch } from '@/lib/shadcn/components/ui/switch';
-import { CreatePropertyDto } from '../../../../../../packages/ui/src';
+import {
+  CreatePropertyDto,
+  uploadFile,
+} from '../../../../../../packages/ui/src';
 
 export default function DetailsStep({
   data,

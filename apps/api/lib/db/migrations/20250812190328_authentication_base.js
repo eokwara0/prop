@@ -7,8 +7,8 @@ exports.up = async function (knex) {
   await knex.schema.createTable("users", (table) => {
     table
       .uuid("id")
-      .primary()
-      .defaultTo(knex.raw("NEWID()")); // MSSQL GUID generator
+        .primary()
+        .defaultTo(knex.raw("gen_random_uuid()")); // Postgres UUID generator (pgcrypto)
 
     table.string("name", 255);
     table.string("email", 255).unique();

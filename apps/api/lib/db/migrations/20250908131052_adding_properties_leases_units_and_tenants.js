@@ -1,7 +1,7 @@
 exports.up = async function (knex) {
   // property table
   await knex.schema.createTable("property", (table) => {
-    table.uuid("id").primary().defaultTo(knex.raw("NEWID()"));
+    table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
     table.uuid("ownerId").notNullable().references("id").inTable("users").onDelete("CASCADE");
     table.string("name", 255).notNullable();
     table.string("description", 2000);
@@ -33,7 +33,7 @@ exports.up = async function (knex) {
 
   // units table
   await knex.schema.createTable("unit", (table) => {
-    table.uuid("id").primary().defaultTo(knex.raw("NEWID()"));
+    table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
     table.uuid("propertyId").notNullable().references("id").inTable("property").onDelete("CASCADE");
     table.string("unitNumber", 50).notNullable();
     table.integer("floor").defaultTo(1);
@@ -54,7 +54,7 @@ exports.up = async function (knex) {
 
 //   // tenant table
   await knex.schema.createTable("tenant", (table) => {
-    table.uuid("id").primary().defaultTo(knex.raw("NEWID()"));
+    table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
     table.uuid("userId").notNullable().references("id").inTable("users");
     table.string("firstName", 255).notNullable();
     table.string("lastName", 255).notNullable();
@@ -77,7 +77,7 @@ exports.up = async function (knex) {
 
 //   // lease table
   await knex.schema.createTable("lease", (table) => {
-    table.uuid("id").primary().defaultTo(knex.raw("NEWID()"));
+    table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
     table.uuid("unitId").notNullable().references("id").inTable("unit").onDelete("CASCADE");
     table.uuid("tId").notNullable().references("id").inTable("tenant");
     table.date("startDate").notNullable();

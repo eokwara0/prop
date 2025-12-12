@@ -31,7 +31,7 @@ export class AuthController {
     private uService: UserService,
     private authService: AuthService,
     private jwt: JwtService,
-    private mailService : MailService
+    private mailService: MailService,
   ) {}
 
   @Public()
@@ -64,7 +64,6 @@ export class AuthController {
       access_token: token,
     };
   }
-
 
   @Public()
   @HttpCode(HttpStatus.OK)

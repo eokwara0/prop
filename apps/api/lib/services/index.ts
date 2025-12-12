@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from '@thallesp/nestjs-better-auth';
-import { AuthController } from 'src/auth/auth.controller';
 import { AccountModule } from './account/account.module';
 import { AuthenticatorModule } from './authenticator/authenticator.module';
 import { KnexModule } from './knex/knex.module';
-import { KnexService } from './knex/knex.service';
 import { RoleModule } from './role/role.module';
 import { SessionModule } from './session/session.module';
 import { UserModule } from './user/user.module';
@@ -27,7 +24,7 @@ import { MailModule } from './mailservice/mailservice.module';
     UsertypeactivityModule,
     VerificationtokenModule,
     PropertyModule,
-    MailModule
+    MailModule,
   ],
   exports: [
     KnexModule,
@@ -41,7 +38,7 @@ import { MailModule } from './mailservice/mailservice.module';
     UsertypeactivityModule,
     VerificationtokenModule,
     PropertyModule,
-    MailModule
+    MailModule,
   ],
 })
 export class SServiceModule {}

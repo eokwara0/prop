@@ -10,34 +10,30 @@ export class KnexService {
       this.knex = knex(
         process.env.NODE_ENV === 'production'
           ? {
-              client: 'mssql',
+              client: 'pg',
               connection: {
-                database: 'domio',
-                server: 'domio.database.windows.net',
-                user: 'domio',
-                password: 'DHousing123456789$',
-                options: {
-                  encrypt: true,
-                  trustServerCertificate: false,
-                  enableArithAbort: true,
-                },
-                port: 1433,
+                host: process.env.DB_HOST || 'your-prod-postgres-host',
+                port: Number(process.env.DB_PORT) || 5432,
+                database: process.env.DB_NAME || 'domio',
+                user: process.env.DB_USER || 'domio',
+                password: process.env.DB_PASSWORD || 'DHousing123456789$',
+                ssl:
+                  process.env.DB_SSL === 'true'
+                    ? { rejectUnauthorized: false }
+                    : undefined,
               },
               pool: { min: 10, max: 20 },
             }
           : {
-              client: 'mssql',
+              client: 'pg',
               connection: {
-                server: 'localhost',
-                user: 'sa',
-                password: 'StrongP@ssword123!',
-                database: 'master', // or your DB name
-                port: 1433,
-                options: {
-                  encrypt: false,
-                  trustServerCertificate: true,
-                },
+                host: process.env.DB_HOST || 'localhost',
+                port: Number(process.env.DB_PORT) || 5432,
+                database: process.env.DB_NAME || 'dev_db',
+                user: process.env.DB_USER || 'postgres',
+                password: process.env.DB_PASSWORD || 'StrongP@ssword123!',
               },
+              pool: { min: 2, max: 10 },
             },
       );
     } catch (error) {

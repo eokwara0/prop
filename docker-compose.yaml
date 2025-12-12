@@ -1,17 +1,18 @@
 version: "3.9"
 
 services:
-  sqlserver:
-    image: mcr.microsoft.com/azure-sql-edge
-    container_name: sqlserver_local
-    ports:
-      - "1433:1433"
-    environment:
-      ACCEPT_EULA: "1"
-      MSSQL_SA_PASSWORD: "StrongP@ssword123!"
-    volumes:
-      - sql_data:/var/opt/mssql
+  postgres:
+    image: postgres:15
+    container_name: postgres_local
     restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: StrongP@ssword123!
+      POSTGRES_DB: dev_db       # your development database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   minio:
     image: minio/minio:latest
@@ -43,6 +44,6 @@ services:
       - mailpit_data:/data
 
 volumes:
-  sql_data:
+  postgres_data:
   minio_data:
   mailpit_data:

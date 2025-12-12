@@ -10,6 +10,7 @@ const {
   propertyControllerGetByOwner,
   propertyControllerGetOwnerStats,
   fileControllerUploadFile,
+  fileControllerUploadFiles,
   propertyControllerUpdateProperty,
 } = getDomio();
 
@@ -24,6 +25,7 @@ export {
   propertyControllerGetByOwner as getOwnersProperty,
   propertyControllerGetOwnerStats as getPropertyStats,
   fileControllerUploadFile as uploadFile,
+  fileControllerUploadFiles as uploadFiles,
   propertyControllerUpdateProperty as updateProperty,
 };
 export * from './domio';

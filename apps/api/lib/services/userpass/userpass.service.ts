@@ -39,15 +39,14 @@ export class UserPassService {
   }
   /** Create a new password record */
   async createUserPass(data: UserPassCreateDto): Promise<IUserPass> {
-    const record = await this.userPassModel.transaction(async trx => {
+    const record = await this.userPassModel.transaction(async (trx) => {
       const rec = await this.userPassModel.query(trx).insert({
         ...data,
-        isActive : data.isActive ?? true,
-        createdAt: new Date().toISOString()
+        isActive: data.isActive ?? true,
+        createdAt: new Date().toISOString(),
       });
-      return rec
+      return rec;
     });
-
 
     if (!record) {
       throw new HttpException(

@@ -67,7 +67,6 @@ const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
   const { data: c } = useProperty();
   const { setData } = usePropertyFormContext();
 
-
   useEffect(() => {
     setData(c as CreatePropertyDto);
     return () => {};
@@ -78,7 +77,7 @@ const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
       <DialogTrigger asChild>
         <div>{children}</div>
       </DialogTrigger>
-      <DialogContent  className=" flex justify-center w-[50%] h-[70%] items-center bg-gradient-to-r from-l_f_f  to-l_f_s  data-[state=open]:border-[0.5px] data-[state=open]:border-button">
+      <DialogContent className=" flex justify-center w-3/4 h-3/4 items-center bg-gradient-to-r from-l_f_f  to-l_f_s  data-[state=open]:border-[0.5px] data-[state=open]:border-button">
         <DialogTitle></DialogTitle>
         <Flex
           iscol
@@ -104,7 +103,7 @@ const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
               <Flex className="gap-4">
                 <DeleteDialog>
                   <TT message="delete property">
-                    <Trash2Icon size={15} className="fill-red-400" />
+                    <Trash2Icon size={15} className="" />
                   </TT>
                 </DeleteDialog>
                 <EditPropertyDialog property={c as CreatePropertyDto}>
@@ -115,7 +114,14 @@ const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
               </Flex>
             </Flex>
             <Flex className="w-full gap-2">
-              <Skeleton className="h-100 w-full bg-gray-500/40">{''}</Skeleton>
+              <Flex className="w-full gap-5">
+                <Skeleton className="h-100 w-full bg-gray-500/40">
+                  {''}
+                </Skeleton>
+                <Skeleton className="h-100 w-full bg-gray-500/40">
+                  {''}
+                </Skeleton>
+              </Flex>
               <Flex iscol className="gap-2 justify-between h-100">
                 <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
                 <Skeleton className="w-28 h-30 bg-gray-500/20 rounded-md"></Skeleton>
@@ -180,7 +186,7 @@ const PropertyDetailDialog = ({ children }: { children: React.ReactNode }) => {
           <Flex iscol className="gap-2 w-full  shrink-0">
             <p className="text-xl">Units</p>
             <Flex className=" gap-5 overflow-hidden w-full">
-              <div className=" flex gap-2 overflow-x-scroll">
+              <div className=" flex gap-2 overflow-x-scroll bar rounded-md p-2">
                 {[1, 2, 3, 4, 5, 6, 7, 223, 24334, 323, 33].map((c) => (
                   <Skeleton
                     key={c}

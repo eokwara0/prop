@@ -7,159 +7,71 @@ const { v4: uuidv4 } = require("uuid");
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
+  return await knex.transaction(async (trx) => {
+    // Find a user to be the owner (prefer admin)
+    const owner = await trx("users").where({ email: "admin@property.com" }).first();
+    if (!owner) throw new Error("Owner user not found; run users seed first");
 
-  const user = await knex("users")
-    .where("name", "John Administrator")
-    .first();
+    const props = [
+      {
+        id: uuidv4(),
+        name: "Sunset Apartments",
+        description: faker.lorem.paragraphs(1),
+        address: "123 Sunset Boulevard",
+        city: faker.location.city(),
+        state: faker.location.state(),
+        postalCode: faker.location.zipCode(),
+        ownerId: owner.id,
+        price: 1200000.0,
+        mainImage: faker.image.url(),
+        isForRent: true,
+      },
+      {
+        id: uuidv4(),
+        name: "Riverside Complex",
+        description: faker.lorem.paragraphs(1),
+        address: "456 River Road",
+        city: faker.location.city(),
+        state: faker.location.state(),
+        postalCode: faker.location.zipCode(),
+        ownerId: owner.id,
+        price: 800000.0,
+        mainImage: faker.image.url(),
+        isForRent: true,
+      },
+      {
+        id: uuidv4(),
+        name: "Downtown Towers",
+        description: faker.lorem.paragraphs(1),
+        address: "789 Main Street",
+        city: faker.location.city(),
+        state: faker.location.state(),
+        postalCode: faker.location.zipCode(),
+        ownerId: owner.id,
+        price: 2000000.0,
+        mainImage: faker.image.url(),
+        isForRent: false,
+      },
+    ];
 
-  console.log(user);
+    const insertedProps = await trx("property").insert(props).returning("*");
 
+    // Create some units for each property
+    const unitRows = [];
+    for (const p of props) {
+      for (let i = 1; i <= 4; i++) {
+        unitRows.push({
+          id: uuidv4(),
+          propertyId: p.id,
+          unitNumber: String(i).padStart(3, "0"),
+          rentAmount: Math.round((1000 + Math.random() * 3000) * 100) / 100,
+          status: i % 3 === 0 ? "vacant" : "occupied",
+        });
+      }
+    }
 
-  const prop = [
-    {
-      id: uuidv4(),
-      name: "Sunset Apartments",
-      description : faker.lorem.text(),
-      address: "123 Sunset Boulevard, Los Angeles, CA 90001",
-      city: faker.location.city(),
-      state: faker.location.state(),
-      postalCode : faker.location.countryCode(),
-      ownerId: user.id,
-      price: 12000000,
-      mainImage : faker.image.avatar(),
+    const insertedUnits = await trx("unit").insert(unitRows).returning("*");
 
-    },
-    {
-      id: uuidv4(),
-      name: "Riverside Complex",
-      description : faker.lorem.text(),
-      address: "456 River Road, San Francisco, CA 94102",
-      city: faker.location.city(),
-      state: faker.location.state(),
-      postalCode : faker.location.countryCode(),
-      ownerId: user.id,
-      price: 12000000,
-      mainImage : faker.image.avatar(),
-    },
-    {
-      id: uuidv4(),
-      name: "Downtown Towers",
-      address: "789 Main Street, New York, NY 10001",
-      description : faker.lorem.text(),
-      city: faker.location.city(),
-      state: faker.location.state(),
-      postalCode : faker.location.countryCode(),
-      ownerId: user.id,
-      price: 12000000,
-      mainImage : faker.image.avatar(),
-    },
-  ];
-  // Insert properties
-  const properties = await knex("property")
-    .insert(prop)
-    .returning("*");
-
-  // Insert units
-  const units = await knex("unit")
-    .insert([
-      // Sunset Apartments units
-      {
-        id: uuidv4(),
-        propertyId: prop[0].id,
-        unitNumber: "101",
-        rentAmount: 1500.00,
-        status: "occupied",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[0].id,
-        unitNumber: "102",
-        rentAmount: 1600.00,
-        status: "occupied",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[0].id,
-        unitNumber: "103",
-        rentAmount: 1550.00,
-        status: "vacant",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[0].id,
-        unitNumber: "201",
-        rentAmount: 1700.00,
-        status: "maintenance",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[0].id,
-        unitNumber: "202",
-        rentAmount: 1750.00,
-        status: "occupied",
-      },
-
-      // Riverside Complex units
-      {
-        id: uuidv4(),
-        propertyId: prop[1].id,
-        unitNumber: "A1",
-        rentAmount: 2200.00,
-        status: "occupied",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[1].id,
-        unitNumber: "A2",
-        rentAmount: 2100.00,
-        status: "vacant",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[1].id,
-        unitNumber: "B1",
-        rentAmount: 2400.00,
-        status: "vacant",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[1].id,
-        unitNumber: "B2",
-        rentAmount: 2500.00,
-        status: "occupied",
-      },
-
-      // Downtown Towers units
-      {
-        id: uuidv4(),
-        propertyId: prop[2].id,
-        unitNumber: "1001",
-        rentAmount: 3500.00,
-        status: "occupied",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[2].id,
-        unitNumber: "1002",
-        rentAmount: 3600.00,
-        status: "vacant",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[2].id,
-        unitNumber: "2001",
-        rentAmount: 4200.00,
-        status: "occupied",
-      },
-      {
-        id: uuidv4(),
-        propertyId: prop[2].id,
-        unitNumber: "2002",
-        rentAmount: 4300.00,
-        status: "maintenance",
-      },
-    ])
-    .returning("*");
-
-  return { properties, units };
+    return { properties: insertedProps, units: insertedUnits };
+  });
 };

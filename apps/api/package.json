@@ -28,7 +28,6 @@
     "@nestjs/platform-express": "^11.1.8",
     "@nestjs/swagger": "^11.2.0",
     "@repo/api": "*",
-    "@thallesp/nestjs-better-auth": "^2.0.1",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.9",
     "bcrypt": "^6.0.0",
@@ -40,6 +39,7 @@
     "multer": "^2.0.2",
     "nodemailer": "^7.0.11",
     "objection": "^3.1.5",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

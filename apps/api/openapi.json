@@ -270,6 +270,93 @@
         ]
       }
     },
+    "/file/upload-files": {
+      "post": {
+        "operationId": "FileController_uploadFiles",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "folder": {
+                    "type": "string",
+                    "enum": [
+                      "properties",
+                      "users",
+                      "tenancies",
+                      "payments"
+                    ]
+                  },
+                  "sub": {
+                    "type": "string",
+                    "enum": [
+                      "images",
+                      "documents",
+                      "profile",
+                      "identity",
+                      "agreements",
+                      "inspections",
+                      "proof"
+                    ]
+                  },
+                  "tenantId": {
+                    "type": "string"
+                  },
+                  "propertyId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "userId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "tenancyId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "paymentId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "fileName": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "contentType": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "files",
+                  "folder",
+                  "sub",
+                  "tenantId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "File Management"
+        ]
+      }
+    },
     "/file/upload": {
       "post": {
         "operationId": "FileController_uploadFile",
@@ -279,7 +366,67 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UploadFileDto"
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "folder": {
+                    "type": "string",
+                    "enum": [
+                      "properties",
+                      "users",
+                      "tenancies",
+                      "payments"
+                    ]
+                  },
+                  "sub": {
+                    "type": "string",
+                    "enum": [
+                      "images",
+                      "documents",
+                      "profile",
+                      "identity",
+                      "agreements",
+                      "inspections",
+                      "proof"
+                    ]
+                  },
+                  "tenantId": {
+                    "type": "string"
+                  },
+                  "propertyId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "userId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "tenancyId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "paymentId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "fileName": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "contentType": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "file",
+                  "folder",
+                  "sub",
+                  "tenantId"
+                ]
               }
             }
           }

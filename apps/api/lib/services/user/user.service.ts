@@ -39,12 +39,10 @@ export class UserService {
 
   /** Create a new user */
   async createUser(data: UserCreateDto): Promise<IUser> {
-    const user = await this.userModel.transaction(
-      async trx => {
-        const u = await this.userModel.query(trx).insert(data);
-        return u;
-      }
-    );
+    const user = await this.userModel.transaction(async (trx) => {
+      const u = await this.userModel.query(trx).insert(data);
+      return u;
+    });
     if (!user) {
       throw new HttpException('Unable to create user', HttpStatus.BAD_REQUEST);
     }

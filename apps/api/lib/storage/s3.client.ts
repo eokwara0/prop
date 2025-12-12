@@ -1,4 +1,8 @@
-import { ListBucketsCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  CreateBucketCommand,
+  ListBucketsCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
 
 export class S3ClientService {
@@ -21,6 +25,7 @@ export class S3ClientService {
       },
       forcePathStyle: true, //
     });
+    this.checkBucketExists(this.bucket);
   }
 
   get bucket_() {
@@ -29,6 +34,24 @@ export class S3ClientService {
   get client() {
     return this.s3;
   }
+
+  private async checkBucketExists(bucketName: string): Promise<boolean> {
+    try {
+      const result = await this.s3.send(new ListBucketsCommand({}));
+      const buckets = result.Buckets || [];
+      const exists = buckets.some((bucket) => bucket.Name === bucketName);
+
+      if (exists) {
+        return true;
+      }
+      await this.s3.send(new CreateBucketCommand({ Bucket: bucketName }));
+      return true;
+    } catch (err) {
+      console.error('Error checking bucket existence', err);
+      return false;
+    }
+  }
+
   private async testConnection() {
     try {
       const result = await this.s3.send(new ListBucketsCommand({}));

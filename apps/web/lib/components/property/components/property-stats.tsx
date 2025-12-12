@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {
   getPropertyStats,
   PropertyStatsResult,
+  uploadFiles,
 } from '../../../../../../packages/ui/src';
 import { useAuthId } from '@/lib/providers/auth.provider';
 import { BadgeEuro, BirdIcon, CherryIcon, DramaIcon } from 'lucide-react';
@@ -38,17 +39,7 @@ export default function PropertyStats() {
               return (
                 <div
                   key={b}
-                  className={`text-center flex flex-col gap-3 justify-left px-4 py-4 items-left w-full rounded-lg backdrop-blur-sm shadow-md shadow-black  inset-shadow-2xs inset-shadow-accent/50 text-xs ${
-                    b == 0
-                      ? 'bg-gradient-to-tr from-button to-emerald-500'
-                      : b == 1
-                        ? 'bg-gradient-to-tr from-sky-400 to-emerald-600'
-                        : b == 2
-                          ? 'bg-gradient-to-tr from-indigo-300 to-emerald-600'
-                          : b == 3
-                            ? '  bg-gradient-to-tr from-pink-400 to-pink-500'
-                            : 'bg-gradient-to-br from-amber-300 to-amber-500'
-                  } h-40`}
+                  className={`text-center bg-l_f_s flex flex-col gap-3 justify-left px-4 py-4 items-left w-full rounded-lg backdrop-blur-sm/20 shadow-xs shadow-black   text-xs  h-40`}
                 >
                   {b == 0 ? (
                     <PropertyStatsCard title="Property count" value={`${a[1]}`}>

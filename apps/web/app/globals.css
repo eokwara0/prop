@@ -18,8 +18,8 @@
   --button-color: #06cf9c;
   --button-secondary: #049c75;
   --login-form-color: #212121;
-  --login-form-secondary: #1a1d21;
-  --login-form-first: #1e2122;
+  --login-form-secondary: #262524;
+  --login-form-first: #1f1e1d;
   --l-c: #dddfe2;
   /* --banner-primary:#00e5ff; */
   --banner-primary: #06cf9c;
@@ -182,6 +182,8 @@ body {
   }
 }
 
+
+
 @layer utilities {
 
   /* Chrome, Safari, and Opera */
@@ -197,6 +199,17 @@ body {
   /* IE and Edge */
   .scrollbar-hidden {
     -ms-overflow-style: none;
+  }
+
+  .bar::-webkit-scrollbar{
+    background-color: #36393e;
+    border-radius: 20px;
+    height: 5px;
+  }
+  .bar::-webkit-scrollbar-thumb{
+    background-color: #049c75;
+    border-radius: 20px;
+    height: 10px;
   }
 }
 

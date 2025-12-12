@@ -37,9 +37,9 @@ export default function SignUpPage() {
     const name = formData.get('signup_name') as string;
 
     start(async () => {
-    if (isValid && email) {
-      try {
-         const result = await signup({
+      if (isValid && email) {
+        try {
+          const result = await signup({
             email: email as string,
             password: password as string,
             name: name,
@@ -63,30 +63,27 @@ export default function SignUpPage() {
             );
             router.push('/login');
           }
-      } catch (error) {
-
-        const { statusText } = (error as AxiosError).response as any
-        const {message} = (error as AxiosError).response?.data as any;
-         show(
-              <Modal
-                firstMessage={statusText}
-                secondMessage={message}
-              />,
-              'error',
-            );
-        console.error('Signup error:', error);
+        } catch (error) {
+          const { statusText } = (error as AxiosError).response as any;
+          const { message } = (error as AxiosError).response?.data as any;
+          show(
+            <Modal firstMessage={statusText} secondMessage={message} />,
+            'error',
+          );
+          console.error('Signup error:', error);
+        }
+      } else {
+        show(
+          <Modal
+            firstMessage={'Error'}
+            secondMessage={
+              'Invalid credentials please make sure that the data submitted is correct'
+            }
+          />,
+          'error',
+        );
       }
-    } else {
-       show(
-              <Modal
-                firstMessage={"Error"}
-                secondMessage={"Invalid credentials please make sure that the data submitted is correct"}
-              />,
-              'error',
-            );
-    }
-    })
-    
+    });
   };
 
   return (

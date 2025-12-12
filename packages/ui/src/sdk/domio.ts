@@ -52,8 +52,8 @@ export interface GetSessionAndUserResult {
   user: GetSessionUserWithRoles;
 }
 
-export type CreatePropertyDtoType = typeof CreatePropertyDtoType[keyof typeof CreatePropertyDtoType];
-
+export type CreatePropertyDtoType =
+  (typeof CreatePropertyDtoType)[keyof typeof CreatePropertyDtoType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreatePropertyDtoType = {
@@ -94,8 +94,8 @@ export interface CreatePropertyDto {
   mainImage?: string;
 }
 
-export type UpdatePropertyDtoType = typeof UpdatePropertyDtoType[keyof typeof UpdatePropertyDtoType];
-
+export type UpdatePropertyDtoType =
+  (typeof UpdatePropertyDtoType)[keyof typeof UpdatePropertyDtoType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdatePropertyDtoType = {
@@ -164,8 +164,8 @@ export interface UpdatePropertyResult {
   mainImage?: string;
 }
 
-export type PropertyResultType = typeof PropertyResultType[keyof typeof PropertyResultType];
-
+export type PropertyResultType =
+  (typeof PropertyResultType)[keyof typeof PropertyResultType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PropertyResultType = {
@@ -216,8 +216,8 @@ export interface PropertyStatsResult {
   portfolioValue: number;
 }
 
-export type UploadFileDtoFolder = typeof UploadFileDtoFolder[keyof typeof UploadFileDtoFolder];
-
+export type UploadFileDtoFolder =
+  (typeof UploadFileDtoFolder)[keyof typeof UploadFileDtoFolder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UploadFileDtoFolder = {
@@ -227,8 +227,8 @@ export const UploadFileDtoFolder = {
   payments: 'payments',
 } as const;
 
-export type UploadFileDtoSub = typeof UploadFileDtoSub[keyof typeof UploadFileDtoSub];
-
+export type UploadFileDtoSub =
+  (typeof UploadFileDtoSub)[keyof typeof UploadFileDtoSub];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UploadFileDtoSub = {
@@ -254,195 +254,389 @@ export interface UploadFileDto {
   contentType?: string;
 }
 
+export type FileControllerUploadFilesBodyFolder =
+  (typeof FileControllerUploadFilesBodyFolder)[keyof typeof FileControllerUploadFilesBodyFolder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileControllerUploadFilesBodyFolder = {
+  properties: 'properties',
+  users: 'users',
+  tenancies: 'tenancies',
+  payments: 'payments',
+} as const;
+
+export type FileControllerUploadFilesBodySub =
+  (typeof FileControllerUploadFilesBodySub)[keyof typeof FileControllerUploadFilesBodySub];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileControllerUploadFilesBodySub = {
+  images: 'images',
+  documents: 'documents',
+  profile: 'profile',
+  identity: 'identity',
+  agreements: 'agreements',
+  inspections: 'inspections',
+  proof: 'proof',
+} as const;
+
+export type FileControllerUploadFilesBody = {
+  files: Blob[];
+  folder: FileControllerUploadFilesBodyFolder;
+  sub: FileControllerUploadFilesBodySub;
+  tenantId: string;
+  /** @nullable */
+  propertyId?: string | null;
+  /** @nullable */
+  userId?: string | null;
+  /** @nullable */
+  tenancyId?: string | null;
+  /** @nullable */
+  paymentId?: string | null;
+  /** @nullable */
+  fileName?: string | null;
+  /** @nullable */
+  contentType?: string | null;
+};
+
+export type FileControllerUploadFileBodyFolder =
+  (typeof FileControllerUploadFileBodyFolder)[keyof typeof FileControllerUploadFileBodyFolder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileControllerUploadFileBodyFolder = {
+  properties: 'properties',
+  users: 'users',
+  tenancies: 'tenancies',
+  payments: 'payments',
+} as const;
+
+export type FileControllerUploadFileBodySub =
+  (typeof FileControllerUploadFileBodySub)[keyof typeof FileControllerUploadFileBodySub];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileControllerUploadFileBodySub = {
+  images: 'images',
+  documents: 'documents',
+  profile: 'profile',
+  identity: 'identity',
+  agreements: 'agreements',
+  inspections: 'inspections',
+  proof: 'proof',
+} as const;
+
+export type FileControllerUploadFileBody = {
+  file: Blob;
+  folder: FileControllerUploadFileBodyFolder;
+  sub: FileControllerUploadFileBodySub;
+  tenantId: string;
+  /** @nullable */
+  propertyId?: string | null;
+  /** @nullable */
+  userId?: string | null;
+  /** @nullable */
+  tenancyId?: string | null;
+  /** @nullable */
+  paymentId?: string | null;
+  /** @nullable */
+  fileName?: string | null;
+  /** @nullable */
+  contentType?: string | null;
+};
+
 export type FileControllerListFilesParams = {
-prefix: string;
+  prefix: string;
 };
 
 export const getDomio = () => {
-const authControllerGetUsers = (
-    
- ) => {
-      return customInstanceMutator<null>(
-      {url: `/auth`, method: 'GET'
-    },
-      );
-    }
-  
-const authControllerLogin = (
-    signInData: SignInData,
- ) => {
-      return customInstanceMutator<AuthToken>(
-      {url: `/auth/login`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: signInData
-    },
-      );
-    }
-  
-const authControllerSignup = (
-    signupDto: SignupDto,
- ) => {
-      return customInstanceMutator<AuthToken>(
-      {url: `/auth/signup`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: signupDto
-    },
-      );
-    }
-  
-const authControllerGetProfile = (
-    
- ) => {
-      return customInstanceMutator<GetSessionAndUserResult>(
-      {url: `/auth/profile`, method: 'GET'
-    },
-      );
-    }
-  
-const authControllerGetUserId = (
-    
- ) => {
-      return customInstanceMutator<string>(
-      {url: `/auth/get-id`, method: 'GET'
-    },
-      );
-    }
-  
-const propertyControllerCreate = (
-    createPropertyDto: CreatePropertyDto,
- ) => {
-      return customInstanceMutator<CreatePropertyDto[]>(
-      {url: `/property`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: createPropertyDto
-    },
-      );
-    }
-  
-const propertyControllerUpdateProperty = (
-    updatePropertyDto: UpdatePropertyDto,
- ) => {
-      return customInstanceMutator<UpdatePropertyResult>(
-      {url: `/property/update`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: updatePropertyDto
-    },
-      );
-    }
-  
-const propertyControllerGet = (
-    id: string,
- ) => {
-      return customInstanceMutator<null>(
-      {url: `/property/${id}`, method: 'GET'
-    },
-      );
-    }
-  
-const propertyControllerGetByOwner = (
-    ownerId: string,
- ) => {
-      return customInstanceMutator<PropertyResult[]>(
-      {url: `/property/owner/${ownerId}`, method: 'GET'
-    },
-      );
-    }
-  
-const propertyControllerGetOwnerStats = (
-    ownerId: string,
- ) => {
-      return customInstanceMutator<PropertyStatsResult>(
-      {url: `/property/owner/stats/${ownerId}`, method: 'GET'
-    },
-      );
-    }
-  
-const fileControllerUploadFile = (
-    uploadFileDto: UploadFileDto,
- ) => {const formData = new FormData();
-formData.append(`file`, uploadFileDto.file)
-formData.append(`folder`, uploadFileDto.folder)
-formData.append(`sub`, uploadFileDto.sub)
-formData.append(`tenantId`, uploadFileDto.tenantId)
-if(uploadFileDto.propertyId !== undefined) {
- formData.append(`propertyId`, uploadFileDto.propertyId)
- }
-if(uploadFileDto.userId !== undefined) {
- formData.append(`userId`, uploadFileDto.userId)
- }
-if(uploadFileDto.tenancyId !== undefined) {
- formData.append(`tenancyId`, uploadFileDto.tenancyId)
- }
-if(uploadFileDto.paymentId !== undefined) {
- formData.append(`paymentId`, uploadFileDto.paymentId)
- }
-if(uploadFileDto.fileName !== undefined) {
- formData.append(`fileName`, uploadFileDto.fileName)
- }
-if(uploadFileDto.contentType !== undefined) {
- formData.append(`contentType`, uploadFileDto.contentType)
- }
+  const authControllerGetUsers = () => {
+    return customInstanceMutator<null>({ url: `/auth`, method: 'GET' });
+  };
 
-      return customInstanceMutator<null>(
-      {url: `/file/upload`, method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data', },
-       data: formData
-    },
-      );
+  const authControllerLogin = (signInData: SignInData) => {
+    return customInstanceMutator<AuthToken>({
+      url: `/auth/login`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: signInData,
+    });
+  };
+
+  const authControllerSignup = (signupDto: SignupDto) => {
+    return customInstanceMutator<AuthToken>({
+      url: `/auth/signup`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: signupDto,
+    });
+  };
+
+  const authControllerGetProfile = () => {
+    return customInstanceMutator<GetSessionAndUserResult>({
+      url: `/auth/profile`,
+      method: 'GET',
+    });
+  };
+
+  const authControllerGetUserId = () => {
+    return customInstanceMutator<string>({
+      url: `/auth/get-id`,
+      method: 'GET',
+    });
+  };
+
+  const propertyControllerCreate = (createPropertyDto: CreatePropertyDto) => {
+    return customInstanceMutator<CreatePropertyDto[]>({
+      url: `/property`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: createPropertyDto,
+    });
+  };
+
+  const propertyControllerUpdateProperty = (
+    updatePropertyDto: UpdatePropertyDto,
+  ) => {
+    return customInstanceMutator<UpdatePropertyResult>({
+      url: `/property/update`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: updatePropertyDto,
+    });
+  };
+
+  const propertyControllerGet = (id: string) => {
+    return customInstanceMutator<null>({
+      url: `/property/${id}`,
+      method: 'GET',
+    });
+  };
+
+  const propertyControllerGetByOwner = (ownerId: string) => {
+    return customInstanceMutator<PropertyResult[]>({
+      url: `/property/owner/${ownerId}`,
+      method: 'GET',
+    });
+  };
+
+  const propertyControllerGetOwnerStats = (ownerId: string) => {
+    return customInstanceMutator<PropertyStatsResult>({
+      url: `/property/owner/stats/${ownerId}`,
+      method: 'GET',
+    });
+  };
+
+  const fileControllerUploadFiles = (
+    fileControllerUploadFilesBody: FileControllerUploadFilesBody,
+  ) => {
+    const formData = new FormData();
+    fileControllerUploadFilesBody.files.forEach((value) =>
+      formData.append(`files`, value),
+    );
+    formData.append(`folder`, fileControllerUploadFilesBody.folder);
+    formData.append(`sub`, fileControllerUploadFilesBody.sub);
+    formData.append(`tenantId`, fileControllerUploadFilesBody.tenantId);
+    if (
+      fileControllerUploadFilesBody.propertyId !== undefined &&
+      fileControllerUploadFilesBody.propertyId !== null
+    ) {
+      formData.append(`propertyId`, fileControllerUploadFilesBody.propertyId);
     }
-  
-const fileControllerGenerateUploadUrl = (
-    uploadFileDto: UploadFileDto,
- ) => {
-      return customInstanceMutator<null>(
-      {url: `/file/upload-url`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: uploadFileDto
-    },
-      );
+    if (
+      fileControllerUploadFilesBody.userId !== undefined &&
+      fileControllerUploadFilesBody.userId !== null
+    ) {
+      formData.append(`userId`, fileControllerUploadFilesBody.userId);
     }
-  
-const fileControllerGetDownloadUrl = (
-    key: string,
- ) => {
-      return customInstanceMutator<null>(
-      {url: `/file/download/${key}`, method: 'GET'
-    },
-      );
+    if (
+      fileControllerUploadFilesBody.tenancyId !== undefined &&
+      fileControllerUploadFilesBody.tenancyId !== null
+    ) {
+      formData.append(`tenancyId`, fileControllerUploadFilesBody.tenancyId);
     }
-  
-const fileControllerListFiles = (
-    params: FileControllerListFilesParams,
- ) => {
-      return customInstanceMutator<null>(
-      {url: `/file/list`, method: 'GET',
-        params
-    },
-      );
+    if (
+      fileControllerUploadFilesBody.paymentId !== undefined &&
+      fileControllerUploadFilesBody.paymentId !== null
+    ) {
+      formData.append(`paymentId`, fileControllerUploadFilesBody.paymentId);
     }
-  
-const fileControllerDeleteFile = (
-    key: string,
- ) => {
-      return customInstanceMutator<null>(
-      {url: `/file/delete/${key}`, method: 'DELETE'
-    },
-      );
+    if (
+      fileControllerUploadFilesBody.fileName !== undefined &&
+      fileControllerUploadFilesBody.fileName !== null
+    ) {
+      formData.append(`fileName`, fileControllerUploadFilesBody.fileName);
     }
-  
-return {authControllerGetUsers,authControllerLogin,authControllerSignup,authControllerGetProfile,authControllerGetUserId,propertyControllerCreate,propertyControllerUpdateProperty,propertyControllerGet,propertyControllerGetByOwner,propertyControllerGetOwnerStats,fileControllerUploadFile,fileControllerGenerateUploadUrl,fileControllerGetDownloadUrl,fileControllerListFiles,fileControllerDeleteFile}};
-export type AuthControllerGetUsersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUsers']>>>
-export type AuthControllerLoginResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerLogin']>>>
-export type AuthControllerSignupResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerSignup']>>>
-export type AuthControllerGetProfileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetProfile']>>>
-export type AuthControllerGetUserIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUserId']>>>
-export type PropertyControllerCreateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerCreate']>>>
-export type PropertyControllerUpdatePropertyResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerUpdateProperty']>>>
-export type PropertyControllerGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGet']>>>
-export type PropertyControllerGetByOwnerResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGetByOwner']>>>
-export type PropertyControllerGetOwnerStatsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGetOwnerStats']>>>
-export type FileControllerUploadFileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerUploadFile']>>>
-export type FileControllerGenerateUploadUrlResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerGenerateUploadUrl']>>>
-export type FileControllerGetDownloadUrlResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerGetDownloadUrl']>>>
-export type FileControllerListFilesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerListFiles']>>>
-export type FileControllerDeleteFileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerDeleteFile']>>>
+    if (
+      fileControllerUploadFilesBody.contentType !== undefined &&
+      fileControllerUploadFilesBody.contentType !== null
+    ) {
+      formData.append(`contentType`, fileControllerUploadFilesBody.contentType);
+    }
+
+    return customInstanceMutator<null>({
+      url: `/file/upload-files`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+    });
+  };
+
+  const fileControllerUploadFile = (
+    fileControllerUploadFileBody: FileControllerUploadFileBody,
+  ) => {
+    const formData = new FormData();
+    formData.append(`file`, fileControllerUploadFileBody.file);
+    formData.append(`folder`, fileControllerUploadFileBody.folder);
+    formData.append(`sub`, fileControllerUploadFileBody.sub);
+    formData.append(`tenantId`, fileControllerUploadFileBody.tenantId);
+    if (
+      fileControllerUploadFileBody.propertyId !== undefined &&
+      fileControllerUploadFileBody.propertyId !== null
+    ) {
+      formData.append(`propertyId`, fileControllerUploadFileBody.propertyId);
+    }
+    if (
+      fileControllerUploadFileBody.userId !== undefined &&
+      fileControllerUploadFileBody.userId !== null
+    ) {
+      formData.append(`userId`, fileControllerUploadFileBody.userId);
+    }
+    if (
+      fileControllerUploadFileBody.tenancyId !== undefined &&
+      fileControllerUploadFileBody.tenancyId !== null
+    ) {
+      formData.append(`tenancyId`, fileControllerUploadFileBody.tenancyId);
+    }
+    if (
+      fileControllerUploadFileBody.paymentId !== undefined &&
+      fileControllerUploadFileBody.paymentId !== null
+    ) {
+      formData.append(`paymentId`, fileControllerUploadFileBody.paymentId);
+    }
+    if (
+      fileControllerUploadFileBody.fileName !== undefined &&
+      fileControllerUploadFileBody.fileName !== null
+    ) {
+      formData.append(`fileName`, fileControllerUploadFileBody.fileName);
+    }
+    if (
+      fileControllerUploadFileBody.contentType !== undefined &&
+      fileControllerUploadFileBody.contentType !== null
+    ) {
+      formData.append(`contentType`, fileControllerUploadFileBody.contentType);
+    }
+
+    return customInstanceMutator<null>({
+      url: `/file/upload`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+    });
+  };
+
+  const fileControllerGenerateUploadUrl = (uploadFileDto: UploadFileDto) => {
+    return customInstanceMutator<null>({
+      url: `/file/upload-url`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: uploadFileDto,
+    });
+  };
+
+  const fileControllerGetDownloadUrl = (key: string) => {
+    return customInstanceMutator<null>({
+      url: `/file/download/${key}`,
+      method: 'GET',
+    });
+  };
+
+  const fileControllerListFiles = (params: FileControllerListFilesParams) => {
+    return customInstanceMutator<null>({
+      url: `/file/list`,
+      method: 'GET',
+      params,
+    });
+  };
+
+  const fileControllerDeleteFile = (key: string) => {
+    return customInstanceMutator<null>({
+      url: `/file/delete/${key}`,
+      method: 'DELETE',
+    });
+  };
+
+  return {
+    authControllerGetUsers,
+    authControllerLogin,
+    authControllerSignup,
+    authControllerGetProfile,
+    authControllerGetUserId,
+    propertyControllerCreate,
+    propertyControllerUpdateProperty,
+    propertyControllerGet,
+    propertyControllerGetByOwner,
+    propertyControllerGetOwnerStats,
+    fileControllerUploadFiles,
+    fileControllerUploadFile,
+    fileControllerGenerateUploadUrl,
+    fileControllerGetDownloadUrl,
+    fileControllerListFiles,
+    fileControllerDeleteFile,
+  };
+};
+export type AuthControllerGetUsersResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUsers']>>
+>;
+export type AuthControllerLoginResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerLogin']>>
+>;
+export type AuthControllerSignupResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerSignup']>>
+>;
+export type AuthControllerGetProfileResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetProfile']>>
+>;
+export type AuthControllerGetUserIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['authControllerGetUserId']>>
+>;
+export type PropertyControllerCreateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerCreate']>>
+>;
+export type PropertyControllerUpdatePropertyResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getDomio>['propertyControllerUpdateProperty']>
+  >
+>;
+export type PropertyControllerGetResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['propertyControllerGet']>>
+>;
+export type PropertyControllerGetByOwnerResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getDomio>['propertyControllerGetByOwner']>
+  >
+>;
+export type PropertyControllerGetOwnerStatsResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getDomio>['propertyControllerGetOwnerStats']>
+  >
+>;
+export type FileControllerUploadFilesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerUploadFiles']>>
+>;
+export type FileControllerUploadFileResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerUploadFile']>>
+>;
+export type FileControllerGenerateUploadUrlResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getDomio>['fileControllerGenerateUploadUrl']>
+  >
+>;
+export type FileControllerGetDownloadUrlResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getDomio>['fileControllerGetDownloadUrl']>
+  >
+>;
+export type FileControllerListFilesResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerListFiles']>>
+>;
+export type FileControllerDeleteFileResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getDomio>['fileControllerDeleteFile']>>
+>;

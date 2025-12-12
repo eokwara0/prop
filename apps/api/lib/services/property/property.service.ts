@@ -71,10 +71,14 @@ export class PropertyService {
 
   /** ✅ Update property */
   async update(data: IPropertyUpdateDto): Promise<IProperty> {
-    return await this.knexService.instance.transaction(async (trx) => {
+    const result = await this.knexService.instance.transaction(async (trx) => {
       const updated = await this.propertyModel
         .query(trx)
-        .patch({ ...data, updatedAt: new Date(Date.now()).toISOString() })
+        .patch({
+          ...data,
+          squareFeet: Number(data.squareFeet),
+          updatedAt: new Date(Date.now()).toISOString(),
+        })
         .where('id', data.id)
         .returning('*');
 
@@ -82,6 +86,7 @@ export class PropertyService {
 
       return updated[0].toJSON() as IProperty;
     });
+    return result;
   }
 
   /** ✅ Delete property */

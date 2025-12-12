@@ -21,8 +21,8 @@ import { MailService } from './mailservice.service';
         });
       },
     },
-    MailService
+    MailService,
   ],
-  exports:[MailService]
+  exports: [MailService],
 })
 export class MailModule {}
